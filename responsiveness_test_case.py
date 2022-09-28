@@ -2,9 +2,12 @@ from time import sleep
 
 from runittest.reporting_unittest import ReportingTestCase
 
+from page_elements.advantage_online_elements import mainPageWideElementIDs
+from page_elements.advantage_online_elements import mainPageWaitIDs
 from advantage_pages import MainPage
 from advantage_pages import RegisterPage
 from advantage_pages import AccountSummaryPage
+
 
 class ResponsivenessTestCase(ReportingTestCase):
 
@@ -58,7 +61,7 @@ class ResponsivenessTestCase(ReportingTestCase):
         # Get a page object
         mainPage = MainPage(loggedIn=False)
 
-        # TODO Check that elements are sized to match
+        # Check that elements are sized to match
         for ID in mainPageWaitIDs.keys():
             element = self.driverObj.find_element(mainPageIDs[ID])
             testStatus = element.size()['width'] == self._mobileDims['width'] 
@@ -70,6 +73,8 @@ class ResponsivenessTestCase(ReportingTestCase):
                 testStatus,
                 element=element
             )
+        
+        # TODO Check that offer is not displayed
 
         # Check that mobile elements are displayed
         self._mobileElementsDisplayedCheck()
