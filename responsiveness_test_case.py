@@ -46,17 +46,17 @@ class ResponsivenessTestCase(ReportingTestCase):
         self.driverObj.get("http://www.advantageonlineshopping.com/#/")
         mainPage = MainPage(loggedIn=False)
         self._testMainPageResponsiveLayout()
-        mainPage.goToUserRegistration()
 
-        # Go to register page
-        registerPage = RegisterPage()
-        self._testRegisterPageResponsiveLayout()
-        # Fill out new user info
+        # # Go to register page
+        # mainPage.goToUserRegistration()
+        # registerPage = RegisterPage()
+        # self._testRegisterPageResponsiveLayout()
+        # # Fill out new user info
 
-        # Go to account summary page
-        mainPage = MainPage(loggedIn=True)
-        mainPage.goToUserProfile()
-        self._testAccountPageResponsiveLayout()
+        # # Go to account summary page
+        # mainPage = MainPage(loggedIn=True)
+        # mainPage.goToUserProfile()
+        # self._testAccountPageResponsiveLayout()
 
     def tearDown(self):
         pass
@@ -113,9 +113,10 @@ class ResponsivenessTestCase(ReportingTestCase):
         headphonesWidth = self.driverObj.find_element(mainPageWaitIDs["headphones_image"])
         windowWidth = self.driverObj.size()['width'] 
 
-        # Check that top row and headphones sum to window width
+        # Get row width sums
         topRowWidth = speakersWidth + tabletsWidth + headphonesWidth
         bottomRowWidth = laptopsWidth + miceWidth + headphonesWidth
+        # Check that top row and headphones sum to window width
         testStatus = abs(topRowWidth - windowWidth) < 2.0
         self.reportStep(
             "Top images row width check",
@@ -142,7 +143,7 @@ class ResponsivenessTestCase(ReportingTestCase):
                 ]
         ]:
             ratio = other / headphones
-            testStatus = abs(ratio) - 1.0625 < 0.2
+            testStatus = abs(ratio) - 1.0625 < 0.05
             self.reportStep(
                 "Images width ratio check",
                 f"Ratio {ratio} between other image {other} and headphones image {headphones} is ~1.0625",
