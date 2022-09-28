@@ -11,9 +11,11 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 from page_elements.advantage_online_elements import accountSummaryElementIDs
 from page_elements.advantage_online_elements import commonElementIDs
+from page_elements.advantage_online_elements import commonMobileElementIDs
 from page_elements.advantage_online_elements import loggedOutCommonElementIDs
 from page_elements.advantage_online_elements import loggedInCommonElementIDs
 from page_elements.advantage_online_elements import mainPageWaitIDs
+from page_elements.advantage_online_elements import mainPageWideElementIDs
 from page_elements.advantage_online_elements import userRegisterElementIDs
 from runittest.reporting_unittest import SingletonWebDriver
 
