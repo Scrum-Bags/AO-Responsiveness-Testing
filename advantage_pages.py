@@ -184,9 +184,9 @@ class AdvantagePage(Page):
             logOutElement = self.elements["menu_items_container"].find_elements(By.TAG_NAME, "label")[2]
             logOutElement.click()
     
-    def checkResponsiveElements(self) -> bool:
+    def mobileElementsDisplayed(self) -> bool:
         # Place holder
-        return True
+        return False
 
 
 class MainPage(AdvantagePage):
