@@ -14,14 +14,7 @@ commonElementIDs = {
     }
 }
 
-mainPageElementIDs = {
-    "offer_button": {
-        "by": By.ID,
-        "value": "see_offer_btn"
-    }
-}
-
-mainPageMobileElementIDs = {
+commonMobileElementIDs = {
     "mobile_sidebar_button": {
         "by": By.ID,
         "value": "mobile-btn"
@@ -37,7 +30,23 @@ mainPageMobileElementIDs = {
     "mobile_user": {
         "by": By.ID,
         "value": "mobileUser"
+    }
+}
+# Note: mobile UI kicks in when pagewidth < 464px
+
+mainPageWideElementIDs = {
+    "jump_links": {
+        "by": By.CLASS_NAME,
+        "value": "nav-li-links"
     },
+    "search_icon": {
+        "by": By.ID,
+        "value": "menuSearch"
+    },
+    "offer_button": {
+        "by": By.ID,
+        "value": "see_offer_btn"
+    }
 }
 
 mainPageWaitIDs = {
