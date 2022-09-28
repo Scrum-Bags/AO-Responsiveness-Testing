@@ -61,12 +61,12 @@ class ResponsivenessTestCase(ReportingTestCase):
         # TODO Check that elements are sized to match
         for ID in mainPageWaitIDs.keys():
             element = self.driverObj.find_element(mainPageIDs[ID])
-            testStatus = element.size()['width'] != self._mobileDims['width'] 
+            testStatus = element.size()['width'] == self._mobileDims['width'] 
             targetWidth = self._mobileDims["width"]
             self.reportStep(
                 f"'{ID}' element width check",
                 f"'{ID}' element is {targetWidth}px wide",
-                f"'{ID}' element is not {targetWidth}px wide",
+                f"Failure! '{ID}' element is {targetWidth}px wide",
                 testStatus,
                 element=element
             )
@@ -80,7 +80,50 @@ class ResponsivenessTestCase(ReportingTestCase):
         # Get a page object
         mainPage = MainPage(loggedIn=False)
 
-        # TODO Check that elements are sized to match
+        # Check that elements are sized to match
+        speakersWidth = self.driverObj.find_element(mainPageWaitIDs["speakers_image"])
+        tabletsWidth = self.driverObj.find_element(mainPageWaitIDs["tablets_image"])
+        laptopsWidth = self.driverObj.find_element(mainPageWaitIDs["laptops_image"])
+        miceWidth = self.driverObj.find_element(mainPageWaitIDs["mice_image"])
+        headphonesWidth = self.driverObj.find_element(mainPageWaitIDs["headphones_image"])
+        windowWidth = self.driverObj.size()['width'] 
+
+        # Check that top row and headphones sum to window width
+        topRowWidth = speakersWidth + tabletsWidth + headphonesWidth
+        bottomRowWidth = laptopsWidth + miceWidth + headphonesWidth
+        testStatus = abs(topRowWidth - windowWidth) < 2.0
+        self.reportStep(
+            "Top images row width check",
+            f"Sum of row widths {topRowWidth} is the same as the window width: {windowWidth}",
+            f"Sum of row widths {topRowWidth} is not quite the same as the window width: {windowWidth}",
+            testStatus
+        )
+        # Check that bottom row and headphone sum to window width
+        testStatus = abs(bottomRowWidth - windowWidth) < 2.0
+        self.reportStep(
+            "Bottom images row width check",
+            f"Sum of row widths {bottomRowWidth} is the same as the window width: {windowWidth}",
+            f"Sum of row widths {bottomRowWidth} is not quite the same as the window width: {windowWidth}",
+            testStatus
+        )
+        # Check that ratio between others and headphones is ~ 1.0625
+        for other, headphones in [
+            (float(w), float(headphonesWidth)) 
+            for w in [
+                speakersWidth, 
+                tabletsWidth, 
+                laptopsWidth, 
+                headphonesWidth
+                ]
+        ]:
+            ratio = other / headphones
+            testStatus = abs(ratio) - 1.0625 < 0.2
+            self.reportStep(
+                "Images width ratio check",
+                f"Ratio {ratio} between other image {other} and headphones image {headphones} is ~1.0625",
+                f"Ratio {ratio} between other image {other} and headphones image {headphones} is not ~1.0625",
+                testStatus
+            )
 
         # Check that mobile elements are not displayed
         self._mobileElementsNotDisplayedCheck()
