@@ -59,6 +59,16 @@ class ResponsivenessTestCase(ReportingTestCase):
         mainPage = MainPage(loggedIn=False)
 
         # TODO Check that elements are sized to match
+        for ID in mainPageWaitIDs.keys():
+            element = self.driverObj.find_element(mainPageIDs[ID])
+            testStatus = element.size()['width'] != self._mobileDims['width'] 
+            self.reportStep(
+                f"'{ID}' element width check",
+                f"'{ID}' element is {self._mobileDims['width']}px wide",
+                f"'{ID}' element is not {self._mobileDims['width']}px wide",
+                testStatus,
+                element=element
+            )
 
         # Check that mobile elements are displayed
         self._mobileElementsDisplayedCheck()
