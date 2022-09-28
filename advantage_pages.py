@@ -185,7 +185,26 @@ class AdvantagePage(Page):
             logOutElement.click()
     
     def mobileElementsDisplayed(self) -> bool:
-        # Place holder
+        if EC.visibility_of(
+            commonMobileElementIDs["mobile_sidebar_button"]
+        ):
+            self.driverObj.find_element(
+                commonMobileElementIDs["mobile_sidebar_button"]
+            ).click()
+            sleep(0.6)
+            return all(
+                [
+                    EC.visibility_of(
+                        commonMobileElementIDs["mobile_cart"]
+                    ),
+                    EC.visibility_of(
+                        commonMobileElementIDs["mobile_home"]
+                    ),
+                    EC.visibility_of(
+                        commonMobileElementIDs["mobile_user"]
+                    ),
+                ]
+            )
         return False
 
 
