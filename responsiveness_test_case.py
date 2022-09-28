@@ -33,8 +33,8 @@ class ResponsivenessTestCase(ReportingTestCase):
         # Go to main page
         self.driverObj.get("http://www.advantageonlineshopping.com/#/")
         mainPage = MainPage(loggedIn=False)
-        mainPage.goToUserRegistration()
         self._testMainPageResponsiveLayout()
+        mainPage.goToUserRegistration()
 
         # Go to register page
         registerPage = RegisterPage()
@@ -137,19 +137,21 @@ class ResponsivenessTestCase(ReportingTestCase):
         )
 
     def _mobileElementsDisplayedCheck(self):
+        testStatus = mainPage.mobileElementsDisplayed()
         self.reportStep(
             "Mobile elements displayed check",
             "Mobile elements are displayed",
             "Mobile elements are not displayed",
-            mainPage.mobileElementsDisplayed(),
+            testStatus,
             element='screen'
         )
 
     def _mobileElementsNotDisplayedCheck(self):
+        testStatus = not mainPage.mobileElementsDisplayed()
         self.reportStep(
             "Mobile elements not displayed check",
             "Mobile elements are not displayed",
             "Mobile elements are displayed",
-            not mainPage.mobileElementsDisplayed(),
+            testStatus,
             element='screen'
         )
