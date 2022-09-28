@@ -62,10 +62,11 @@ class ResponsivenessTestCase(ReportingTestCase):
         for ID in mainPageWaitIDs.keys():
             element = self.driverObj.find_element(mainPageIDs[ID])
             testStatus = element.size()['width'] != self._mobileDims['width'] 
+            targetWidth = self._mobileDims["width"]
             self.reportStep(
                 f"'{ID}' element width check",
-                f"'{ID}' element is {self._mobileDims['width']}px wide",
-                f"'{ID}' element is not {self._mobileDims['width']}px wide",
+                f"'{ID}' element is {targetWidth}px wide",
+                f"'{ID}' element is not {targetWidth}px wide",
                 testStatus,
                 element=element
             )
