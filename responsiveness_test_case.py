@@ -11,8 +11,18 @@ from advantage_pages import AccountSummaryPage
 
 class ResponsivenessTestCase(ReportingTestCase):
 
-    _mobileDims = {
+    _mainPageMobileDims = {
         "width": 463,
+        "height": 720
+    }
+
+    _registerPageMobileDims = {
+        "width": 751,
+        "height": 720
+    }
+
+    _accountPageMobileDims = {
+        "width": 460,
         "height": 720
     }
 
@@ -64,8 +74,8 @@ class ResponsivenessTestCase(ReportingTestCase):
         # Check that elements are sized to match
         for ID in mainPageWaitIDs.keys():
             element = self.driverObj.find_element(mainPageIDs[ID])
-            testStatus = element.size()['width'] == self._mobileDims['width'] 
-            targetWidth = self._mobileDims["width"]
+            testStatus = element.size()['width'] == self._mainPageMobileDims['width'] 
+            targetWidth = self._mainPageMobileDims["width"]
             self.reportStep(
                 f"'{ID}' element width check",
                 f"'{ID}' element is {targetWidth}px wide",
@@ -202,11 +212,11 @@ class ResponsivenessTestCase(ReportingTestCase):
         self._mobileElementsNotDisplayedCheck()
 
     def _setWindowMobileDimensions(self):
-        self.driverObj.set_window_size(**self._mobileDims)
+        self.driverObj.set_window_size(**self._mainPageMobileDims)
         self.reportEvent(
             "Window sized to mobile dimensions",
             element='screen',
-            data='\n'.join([f"{k}: {v}" for k, v in self._mobileDims.items()])
+            data='\n'.join([f"{k}: {v}" for k, v in self._mainPageMobileDims.items()])
         )
 
     def _setWindowMaxDimensions(self):
