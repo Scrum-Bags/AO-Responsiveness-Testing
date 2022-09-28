@@ -244,9 +244,7 @@ class MainPage(AdvantagePage):
             self.driverObj,
             10
         ).until(
-            EC.invisibility_of_element(
                 commonElementIDs["loader"].values()
-            )
         )
         if loggedIn:
             sleep(5.0)
