@@ -74,7 +74,17 @@ class ResponsivenessTestCase(ReportingTestCase):
                 element=element
             )
         
-        # TODO Check that offer is not displayed
+        # Check that offer is not displayed
+        offerElement = self.driverObj.find_element(
+            **mainPageWideElementIDs["offer_button"]
+        )
+        self.reportStep(
+            "Offer not displayed check", 
+            "Offer is not displayed", 
+            "Offer is displayed", 
+            not offerElement.is_displayed(),
+            element=offerElement
+        )
 
         # Check that mobile elements are displayed
         self._mobileElementsDisplayedCheck()
@@ -132,6 +142,18 @@ class ResponsivenessTestCase(ReportingTestCase):
 
         # Check that mobile elements are not displayed
         self._mobileElementsNotDisplayedCheck()
+        
+        # Check that offer is displayed
+        offerElement = self.driverObj.find_element(
+            **mainPageWideElementIDs["offer_button"]
+        )
+        self.reportStep(
+            "Offer displayed check", 
+            "Offer is displayed", 
+            "Offer is not displayed", 
+            offerElement.is_displayed(),
+            element=offerElement
+        )
 
     def _testRegisterPageResponsiveLayout(self):
         # Set window size to mobile size (<464px?)
