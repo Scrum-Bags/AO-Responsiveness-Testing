@@ -140,7 +140,7 @@ class ResponsivenessTestCase(ReportingTestCase):
                 speakersWidth, 
                 tabletsWidth, 
                 laptopsWidth, 
-                headphonesWidth
+                miceWidth
                 ]
         ]:
             ratio = other / headphones
