@@ -55,7 +55,316 @@ class ResponsivenessTestCase(ReportingTestCase):
         # # Go to register page
         mainPage.goToUserRegistration()
         self._testRegisterPageResponsiveLayout()
+
         # Fill out new user info
+        # Get the page object
+        registerPage = RegisterPage()
+
+        # Report that page loaded
+        self.reportEvent(
+            "User Registration Page Loaded",
+            element="screen"
+        )
+
+        # Put data into fields
+        # Input Username
+        if self.data["expectedErrorField"] in ["", "username", "termsAndConditionsOptIn"]:
+            registerPage.fillUsername(self.data["username"])
+            self.reportEvent(
+                "Username field filled",
+                data=["username"],
+                element=registerPage.elements["username"],
+                imageEmbed=True
+            )
+            # Check for input errors
+            if self.data["expectedErrorField"] == "username":
+                sleep(0.3)
+                testStatus = registerPage.testUsernameError(self.data["expectedError"])
+                self.reportStep(
+                    "Username input field check",
+                    f"Error message '{self.data['expectedError']}' is displayed",
+                    f"Error message not displayed",
+                    testStatus,
+                    imageEmbed=True,
+                    element=registerPage.elements["username_error"]
+                )
+                return
+            
+        # Input Email
+        if self.data["expectedErrorField"] in ["", "email", "termsAndConditionsOptIn"]:
+            registerPage.fillEmail(self.data["email"])
+            self.reportEvent(
+                "Email field filled",
+                data=["email"],
+                element=registerPage.elements["email"],
+                imageEmbed=True
+            )
+            # Check for input errors
+            if self.data["expectedErrorField"] == "email":
+                sleep(0.3)
+                testStatus = registerPage.testEmailError(self.data["expectedError"])
+                self.reportStep(
+                    "Email input field check",
+                    f"Error message '{self.data['expectedError']}' is displayed",
+                    f"Error message not displayed",
+                    testStatus,
+                    imageEmbed=True,
+                    element=registerPage.elements["email_error"]
+                )
+                return
+
+        # Input Password
+        if self.data["expectedErrorField"] in ["", "password", "passwordConfirm", "termsAndConditionsOptIn"]:
+            registerPage.fillPassword(self.data["password"])
+            self.reportEvent(
+                "Pasword field filled",
+                data=["password"],
+                element=registerPage.elements["password"],
+                imageEmbed=True
+            )
+            # Check for input errors
+            if self.data["expectedErrorField"] == "password":
+                sleep(0.3)
+                testStatus = registerPage.testPasswordError(self.data["expectedError"])
+                self.reportStep(
+                    "Password input field check",
+                    f"Error message '{self.data['expectedError']}' is displayed",
+                    f"Error message not displayed",
+                    testStatus,
+                    imageEmbed=True,
+                    element=registerPage.elements["password_error"]
+                )
+                return
+
+        # Input Password Confirmation
+        if self.data["expectedErrorField"] in ["", "passwordConfirm", "termsAndConditionsOptIn"]:
+            registerPage.fillPasswordConfirm(self.data["passwordConfirm"])
+            self.reportEvent(
+                "Confirm Password field filled",
+                data=["passwordConfirm"],
+                element=registerPage.elements["password_confirm"],
+                imageEmbed=True
+            )
+            # Check for input errors
+            if self.data["expectedErrorField"] == "passwordConfirm":
+                sleep(0.3)
+                testStatus = registerPage.testPasswordConfirmError(self.data["expectedError"])
+                self.reportStep(
+                    "Confirm Password input field check",
+                    f"Error message '{self.data['expectedError']}' is displayed",
+                    f"Error message not displayed",
+                    testStatus,
+                    imageEmbed=True,
+                    element=registerPage.elements["password_confirm_error"]
+                )
+                return
+
+        # Input First Name
+        if self.data["expectedErrorField"] in ["", "firstName"]:
+            registerPage.fillFirstName(self.data["firstName"])
+            self.reportEvent(
+                "First Name field filled",
+                data=["firstName"],
+                element=registerPage.elements["first_name"],
+                imageEmbed=True
+            )
+            # Check for input errors
+            if self.data["expectedErrorField"] == "firstName":
+                sleep(0.3)
+                testStatus = registerPage.testFirstNameError(self.data["expectedError"])
+                self.reportStep(
+                    "First Name input field check",
+                    f"Error message '{self.data['expectedError']}' is displayed",
+                    f"Error message not displayed",
+                    testStatus,
+                    imageEmbed=True,
+                    element=registerPage.elements["first_name_error"]
+                )
+                return
+
+        # Input Last Name
+        if self.data["expectedErrorField"] in ["", "lastName"]:
+            registerPage.fillLastName(self.data["lastName"])
+            self.reportEvent(
+                "Last Name field filled",
+                data=["lastName"],
+                element=registerPage.elements["last_name"],
+                imageEmbed=True
+            )
+            # Check for input errors
+            if self.data["expectedErrorField"] == "lastName":
+                sleep(0.3)
+                testStatus = registerPage.testLastNameError(self.data["expectedError"])
+                self.reportStep(
+                    "Last Name input field check",
+                    f"Error message '{self.data['expectedError']}' is displayed",
+                    f"Error message not displayed",
+                    testStatus,
+                    imageEmbed=True,
+                    element=registerPage.elements["last_name_error"]
+                )
+                return
+
+        # Input Phone Number
+        if self.data["expectedErrorField"] in ["", "phoneNumber"]:
+            registerPage.fillPhoneNumber(self.data["phoneNumber"])
+            self.reportEvent(
+                "Phone Number field filled",
+                data=["phoneNumber"],
+                element=registerPage.elements["phone_number"],
+                imageEmbed=True
+            )
+            # Check for input errors
+            if self.data["expectedErrorField"] == 'phoneNumber':
+                sleep(0.3)
+                testStatus = registerPage.testPhoneNumberError(self.data["expectedError"])
+                self.reportStep(
+                    "PhoneNumber input field check",
+                    f"Error message '{self.data['expectedError']}' is displayed",
+                    f"Error message not displayed",
+                    testStatus,
+                    imageEmbed=True,
+                    element=registerPage.elements["phone_number_error"]
+                )
+                return
+
+        # Input Address Country
+        if self.data["expectedErrorField"] == '':
+            registerPage.fillAddressCountry(self.data["addressCountry"])
+            self.reportEvent(
+                "Address Country field filled",
+                data=["addressCountry"],
+                element=registerPage.elements["address_country"],
+                imageEmbed=True
+            )
+
+        # Input Address City
+        if self.data["expectedErrorField"] in ["", "addressCity"]:
+            registerPage.fillAddressCity(self.data["addressCity"])
+            self.reportEvent(
+                "Address City field filled",
+                data=["addressCity"],
+                element=registerPage.elements["address_city"],
+                imageEmbed=True
+            )
+            # Check for input errors
+            if self.data["expectedErrorField"] == "addressCity":
+                sleep(0.3)
+                testStatus = registerPage.testAddressCityError(self.data["expectedError"])
+                self.reportStep(
+                    "Address City input field check",
+                    f"Error message '{self.data['expectedError']}' is displayed",
+                    f"Error message not displayed",
+                    testStatus,
+                    imageEmbed=True,
+                    element=registerPage.elements["address_city_error"]
+                )
+                return
+
+        # Input Address Street
+        if self.data["expectedErrorField"] in ["", "addressStreet"]:
+            registerPage.fillAddressStreet(self.data["addressStreet"])
+            self.reportEvent(
+                "Address Street field filled",
+                data=["addressStreet"],
+                element=registerPage.elements["address_street"],
+                imageEmbed=True
+            )
+            # Check for input errors
+            if self.data["expectedErrorField"] == "addressStreet":
+                sleep(0.3)
+                testStatus = registerPage.testAddressStreetError(self.data["expectedError"])
+                self.reportStep(
+                    "Address Street input field check",
+                    f"Error message '{self.data['expectedError']}' is displayed",
+                    f"Error message not displayed",
+                    testStatus,
+                    imageEmbed=True,
+                    element=registerPage.elements["address_street_error"]
+                )
+                return
+
+        # Input Address Region
+        if self.data["expectedErrorField"] in ["", "addressRegion"]:
+            registerPage.fillAddressRegion(self.data["addressRegion"])
+            self.reportEvent(
+                "Address Region field filled",
+                data=["addressRegion"],
+                element=registerPage.elements["address_region"],
+                imageEmbed=True
+            )
+            # Check for input errors
+            if self.data["expectedErrorField"] == "addressRegion":
+                sleep(0.3)
+                testStatus = registerPage.testAddressRegionError(self.data["expectedError"])
+                self.reportStep(
+                    "Address Region input field check",
+                    f"Error message '{self.data['expectedError']}' is displayed",
+                    f"Error message not displayed",
+                    testStatus,
+                    imageEmbed=True,
+                    element=registerPage.elements["address_region_error"]
+                )
+                return
+
+        # Input Address Postal Code
+        if self.data["expectedErrorField"] in ["", "addressPostalCode"]:
+            registerPage.fillAddressPostalCode(self.data["addressPostalCode"])
+            self.reportEvent(
+                "Address Postal Code field filled",
+                data=["addressPostalCode"],
+                element=registerPage.elements["address_postal_code"],
+                imageEmbed=True
+            )
+            # Check for input errors
+            if self.data["expectedErrorField"] == "addressPostalCode":
+                sleep(0.3)
+                testStatus = registerPage.testAddressPostalCodeError(self.data["expectedError"])
+                self.reportStep(
+                    "Address Postal Code input field check",
+                    f"Error message '{self.data['expectedError']}' is displayed",
+                    f"Error message not displayed",
+                    testStatus,
+                    imageEmbed=True,
+                    element=registerPage.elements["address_postal_code_error"]
+                )
+                return
+
+        # Input Offers Opt In selection
+        if self.data["expectedErrorField"] == '':
+            registerPage.setOfferOptin(self.data["offersOptIn"])
+            self.reportEvent(
+                "Offers Opt In selected",
+                data=["offersOptIn"],
+                element=registerPage.elements["offers_opt_in"],
+                imageEmbed=True
+            )
+
+        # Input Terms And Conditions selection
+        if self.data["expectedErrorField"] in ["", "termsAndConditionsOptIn"]:
+            registerPage.setTermsAndConditionsOptIn(self.data["termsAndConditionsOptIn"])
+            self.reportEvent(
+                "Terms And Conditions Opt In selected",
+                data=["termsAndConditionsOptIn"],
+                element=registerPage.elements["terms_and_conditions_opt_in"],
+                imageEmbed=True
+            )
+            # Check for register button being active
+            if self.data["expectedErrorField"] == "termsAndConditionsOptIn":
+                sleep(0.3)
+                testStatus = registerPage.testTermsAndConditionsOptInError()
+                self.reportStep(
+                    "Terms And Conditions Opt In check box check",
+                    f"Register button is not active",
+                    f"Register button is active",
+                    testStatus,
+                    element=registerPage.elements["register_button"],
+                    imageEmbed=True
+                )
+                return
+
+        # Click register button
+        registerPage.submitInfo()  # Waits for the main page to load
 
         # Go to account summary page
         mainPage = MainPage(loggedIn=True)
