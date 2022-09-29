@@ -11,7 +11,11 @@ commonElementIDs = {
     "loader": {
         "by": By.CLASS_NAME,
         "value": "loader"
-    }
+    },
+    "body": {
+        "by": By.TAG_NAME,
+        "value": "body"
+    },
 }
 
 commonMobileElementIDs = {
