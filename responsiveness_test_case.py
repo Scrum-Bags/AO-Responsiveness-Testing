@@ -49,9 +49,9 @@ class ResponsivenessTestCase(ReportingTestCase):
         self._testMainPageResponsiveLayout()
 
         # # Go to register page
-        # mainPage.goToUserRegistration()
-        # registerPage = RegisterPage()
-        # self._testRegisterPageResponsiveLayout()
+        mainPage.goToUserRegistration()
+        registerPage = RegisterPage()
+        self._testRegisterPageResponsiveLayout()
         # # Fill out new user info
 
         # # Go to account summary page
