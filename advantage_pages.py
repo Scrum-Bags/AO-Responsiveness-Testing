@@ -186,10 +186,10 @@ class AdvantagePage(Page):
     
     def mobileElementsDisplayed(self) -> bool:
         if EC.visibility_of(
-            commonMobileElementIDs["mobile_sidebar_button"]
+            commonMobileElementIDs["mobile_sidebar_button"].values()
         ):
             self.driverObj.find_element(
-                commonMobileElementIDs["mobile_sidebar_button"]
+                **commonMobileElementIDs["mobile_sidebar_button"]
             ).click()
             sleep(0.6)
             return all(
