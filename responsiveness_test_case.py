@@ -107,12 +107,12 @@ class ResponsivenessTestCase(ReportingTestCase):
         mainPage = MainPage(loggedIn=False)
 
         # Check that elements are sized to match
-        speakersWidth = self.driverObj.find_element(mainPageWaitIDs["speakers_image"])
-        tabletsWidth = self.driverObj.find_element(mainPageWaitIDs["tablets_image"])
-        laptopsWidth = self.driverObj.find_element(mainPageWaitIDs["laptops_image"])
-        miceWidth = self.driverObj.find_element(mainPageWaitIDs["mice_image"])
-        headphonesWidth = self.driverObj.find_element(mainPageWaitIDs["headphones_image"])
-        windowWidth = self.driverObj.size()['width'] 
+        speakersWidth = self.driverObj.find_element(**mainPageWaitIDs["speakers_image"]).size['width']
+        tabletsWidth = self.driverObj.find_element(**mainPageWaitIDs["tablets_image"]).size['width']
+        laptopsWidth = self.driverObj.find_element(**mainPageWaitIDs["laptops_image"]).size['width']
+        miceWidth = self.driverObj.find_element(**mainPageWaitIDs["mice_image"]).size['width']
+        headphonesWidth = self.driverObj.find_element(**mainPageWaitIDs["headphones_image"]).size['width']
+        windowWidth = self.driverObj.get_window_size()['width'] 
 
         # Get row width sums
         topRowWidth = speakersWidth + tabletsWidth + headphonesWidth
