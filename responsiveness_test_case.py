@@ -5,9 +5,10 @@ from runittest.reporting_unittest import ReportingTestCase
 from page_elements.advantage_online_elements import commonElementIDs
 from page_elements.advantage_online_elements import mainPageWideElementIDs
 from page_elements.advantage_online_elements import mainPageWaitIDs
+from advantage_pages import AccountSummaryPage
+from advantage_pages import AdvantagePage
 from advantage_pages import MainPage
 from advantage_pages import RegisterPage
-from advantage_pages import AccountSummaryPage
 
 
 class ResponsivenessTestCase(ReportingTestCase):
@@ -233,8 +234,8 @@ class ResponsivenessTestCase(ReportingTestCase):
         )
 
     def _mobileElementsDisplayedCheck(self):
-        mainPage = MainPage(loggedIn=False)
-        testStatus = mainPage.mobileElementsDisplayed()
+        page = AdvantagePage(loggedIn=False)
+        testStatus = page.mobileElementsDisplayed()
         self.reportStep(
             "Mobile elements displayed check",
             "Mobile elements are displayed",
@@ -244,8 +245,8 @@ class ResponsivenessTestCase(ReportingTestCase):
         )
 
     def _mobileElementsNotDisplayedCheck(self):
-        mainPage = MainPage(loggedIn=False)
-        testStatus = not mainPage.mobileElementsDisplayed()
+        page = AdvantagePage(loggedIn=False)
+        testStatus = not page.mobileElementsDisplayed()
         self.reportStep(
             "Mobile elements not displayed check",
             "Mobile elements are not displayed",
