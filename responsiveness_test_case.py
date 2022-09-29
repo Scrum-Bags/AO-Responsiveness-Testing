@@ -1,3 +1,4 @@
+from itertools import chain
 from time import sleep
 
 from runittest.reporting_unittest import ReportingTestCase
@@ -205,8 +206,8 @@ class ResponsivenessTestCase(ReportingTestCase):
             testStatus = fieldVerticalPositions[a] < fieldVerticalPositions[b]  # NB top of page y = 0, so smaller is higher
             self.reportStep(
                 "Relative field position check", 
-                f"{orderedFields[a]} field is higher than {orderedFields[b]} field", 
-                f"{orderedFields[a]} field is not higher than {orderedFields[b]} field", 
+                f"{orderedFields[a]} field is higher ({fieldVerticalPositions[a]}) than {orderedFields[b]} field ({fieldVerticalPositions[b]})", 
+                f"{orderedFields[a]} field is not higher ({fieldVerticalPositions[a]}) than {orderedFields[b]} field ({fieldVerticalPositions[b]})", 
                 testStatus
             )
 
@@ -218,6 +219,27 @@ class ResponsivenessTestCase(ReportingTestCase):
 
         # Get page object
         registerPage = RegisterPage()
+
+        # TODO: check that vertical positions are now similar for pairs
+        fieldParallels = [
+            ('username', 'email'),
+            ('password', 'password_confirm'),
+            ('first_name', 'last_name'),
+            ('address_country', 'address_city'),
+            ('address_street', 'address_region')
+        ]
+        fieldVerticalPositions = {
+            n: self.driverObj.find_element(**userRegisterElementIDs[n]).location['y']
+            for n in chain(orderedFields)
+        }
+        for a, b in fieldParallels:
+            testStatus = fieldVerticalPositions[a] == fieldVerticalPositions[b]
+            self.reportStep(
+                "Parallel field position check", 
+                f"{a} field is higher ({fieldVerticalPositions[a]}) than {b} field ({fieldVerticalPositions[b]})", 
+                f"{a} field is not higher ({fieldVerticalPositions[a]}) than {b} field ({fieldVerticalPositions[b]})", 
+                testStatus
+            )
 
         # Check that mobile elements are not displayed
         self._mobileElementsNotDisplayedCheck()
