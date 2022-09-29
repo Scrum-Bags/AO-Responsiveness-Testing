@@ -73,8 +73,8 @@ class ResponsivenessTestCase(ReportingTestCase):
 
         # Check that elements are sized to match
         for ID in mainPageWaitIDs.keys():
-            element = self.driverObj.find_element(mainPageIDs[ID])
-            testStatus = element.size()['width'] == self._mainPageMobileDims['width'] 
+            element = self.driverObj.find_element(**mainPageWaitIDs[ID])
+            testStatus = element.size['width'] == self._mainPageMobileDims['width'] 
             targetWidth = self._mainPageMobileDims["width"]
             self.reportStep(
                 f"'{ID}' element width check",
@@ -85,15 +85,16 @@ class ResponsivenessTestCase(ReportingTestCase):
             )
         
         # Check that offer is not displayed
+        offerElementIDs = mainPageWideElementIDs["offer_button"]
         offerElement = self.driverObj.find_element(
-            **mainPageWideElementIDs["offer_button"]
+            **offerElementIDs
         )
         self.reportStep(
             "Offer not displayed check", 
             "Offer is not displayed", 
             "Offer is displayed", 
             not offerElement.is_displayed(),
-            element=offerElement
+            element='screen'
         )
 
         # Check that mobile elements are displayed
@@ -163,7 +164,7 @@ class ResponsivenessTestCase(ReportingTestCase):
             "Offer is displayed", 
             "Offer is not displayed", 
             offerElement.is_displayed(),
-            element=offerElement
+            element='screen'
         )
 
     def _testRegisterPageResponsiveLayout(self):
@@ -229,6 +230,7 @@ class ResponsivenessTestCase(ReportingTestCase):
         )
 
     def _mobileElementsDisplayedCheck(self):
+        mainPage = MainPage(loggedIn=False)
         testStatus = mainPage.mobileElementsDisplayed()
         self.reportStep(
             "Mobile elements displayed check",
@@ -239,6 +241,7 @@ class ResponsivenessTestCase(ReportingTestCase):
         )
 
     def _mobileElementsNotDisplayedCheck(self):
+        mainPage = MainPage(loggedIn=False)
         testStatus = not mainPage.mobileElementsDisplayed()
         self.reportStep(
             "Mobile elements not displayed check",
