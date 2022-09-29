@@ -220,7 +220,7 @@ class MainPage(AdvantagePage):
         )
         WebDriverWait(
             self.driverObj,
-            10
+            20
         ).until(
             EC.all_of(
                 EC.visibility_of_element_located(
