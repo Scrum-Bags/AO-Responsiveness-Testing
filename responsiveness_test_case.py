@@ -174,6 +174,7 @@ class ResponsivenessTestCase(ReportingTestCase):
         registerPage = RegisterPage()
 
         # TODO Check that elements are reordered
+        # Check that vertical positions are distinct
 
         # Check that mobile elements are displayed
         self._mobileElementsDisplayedCheck()
@@ -184,7 +185,7 @@ class ResponsivenessTestCase(ReportingTestCase):
         # Get page object
         registerPage = RegisterPage()
 
-        # TODO Check that elements are sized to match
+        # TODO Check that elements are sized to match?
 
         # Check that mobile elements are not displayed
         self._mobileElementsNotDisplayedCheck()
