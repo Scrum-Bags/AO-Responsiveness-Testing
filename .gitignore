@@ -133,3 +133,4 @@ excel/
 runittest/
 *.html
 .screenshots/
+*.xlsm
