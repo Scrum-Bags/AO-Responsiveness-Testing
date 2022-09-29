@@ -1,7 +1,7 @@
 from os import path
 
 from excel.excelreader import excelReader
-from register_user_test_case import RegisterUserTestCase
+from responsiveness_test_case import ResponsivenessTestCase
 from runittest.reporting_unittest import ReportingTestCase
 from runittest.reporting_unittest import ReportingTestResult
 from runittest.reporting_unittest import ReportingTestSuite
@@ -18,7 +18,7 @@ reportPath = path.join(
     "Desktop",
     "Selenium Sprints",
     "9-27",
-    "AO Responsiveness Testing"
+    "AO-Responsiveness-Testing"
 )
 
 AO_Suite = ReportingTestSuite(
@@ -29,19 +29,21 @@ AO_Suite = ReportingTestSuite(
 )
 
 # Get the test data from the spreadsheet
-# dataPath = path.join(
-    # reportPath,
-    # "AdvantageData.xlsm"
-# )
+dataPath = path.join(
+    reportPath,
+    "AdvantageData.xlsm"
+)
 
 # Add the test cases from the test data
 testList = []
-# for dataRow in excelReader(
-    # dataPath,
-    # 0,
-    # varModFunc=lambda a: a[3:]
-# ):
-    # pass
+for dataRow in excelReader(
+    dataPath,
+    0,
+    varModFunc=lambda a: a[3:]
+):
+    testList.append(
+        ResponsivenessTestCase(**dataRow)
+    )
 
 AO_Suite.addTests(testList)
 
