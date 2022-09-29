@@ -463,7 +463,10 @@ class RegisterPage(AdvantagePage):
         value: str
     ):
         selector = Select(self.elements["address_country"])
-        selector.select_by_visible_text(value)
+        try:
+            selector.select_by_visible_text(value)
+        except NoSuchElementException as nsee:
+            pass
 
     def readAddressCountry(
         self
@@ -623,7 +626,7 @@ class RegisterPage(AdvantagePage):
             10
         ).until(
             EC.element_to_be_clickable(
-                mainPageElementIDs["offer_button"].values()
+                mainPageWideElementIDs["offer_button"].values()
             )
         )
 
