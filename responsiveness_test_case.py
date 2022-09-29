@@ -236,8 +236,8 @@ class ResponsivenessTestCase(ReportingTestCase):
             testStatus = fieldVerticalPositions[a] == fieldVerticalPositions[b]
             self.reportStep(
                 "Parallel field position check", 
-                f"{a} field is higher ({fieldVerticalPositions[a]}) than {b} field ({fieldVerticalPositions[b]})", 
-                f"{a} field is not higher ({fieldVerticalPositions[a]}) than {b} field ({fieldVerticalPositions[b]})", 
+                f"{a} field ({fieldVerticalPositions[a]}) is parallel to field {b} ({fieldVerticalPositions[b]})", 
+                f"{a} field ({fieldVerticalPositions[a]}) is not parallel to field {b} ({fieldVerticalPositions[b]})", 
                 testStatus
             )
 
