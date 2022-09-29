@@ -45,6 +45,7 @@ class ResponsivenessTestCase(ReportingTestCase):
     def testUserRegisterResponsiveLayout(self):
         # Go to main page
         self.driverObj.get("http://www.advantageonlineshopping.com/#/")
+        mainPage = MainPage(loggedIn=False)
         self._testMainPageResponsiveLayout()
 
         # # Go to register page
