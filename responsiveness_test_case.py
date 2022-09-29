@@ -1,8 +1,9 @@
 from itertools import chain
 from time import sleep
 
-from runittest.reporting_unittest import ReportingTestCase
+from selenium.webdriver.common.action_chains import ActionChains
 
+from runittest.reporting_unittest import ReportingTestCase
 from page_elements.advantage_online_elements import commonElementIDs
 from page_elements.advantage_online_elements import mainPageWideElementIDs
 from page_elements.advantage_online_elements import mainPageWaitIDs
@@ -204,11 +205,15 @@ class ResponsivenessTestCase(ReportingTestCase):
             range(1, len(orderedFields))
         ):
             testStatus = fieldVerticalPositions[a] < fieldVerticalPositions[b]  # NB top of page y = 0, so smaller is higher
+            action = actionChains(self.driverObj)
+            element = self.driverObj.find_element(**userRegisterElementIDs[a])
+            actions.move_to_element(element).perform()
             self.reportStep(
                 "Relative field position check", 
                 f"{orderedFields[a]} field is higher ({fieldVerticalPositions[a]}) than {orderedFields[b]} field ({fieldVerticalPositions[b]})", 
                 f"{orderedFields[a]} field is not higher ({fieldVerticalPositions[a]}) than {orderedFields[b]} field ({fieldVerticalPositions[b]})", 
-                testStatus
+                testStatus,
+                element='screen'
             )
 
         # Check that mobile elements are displayed
@@ -234,11 +239,14 @@ class ResponsivenessTestCase(ReportingTestCase):
         }
         for a, b in fieldParallels:
             testStatus = fieldVerticalPositions[a] == fieldVerticalPositions[b]
+            element = self.driverObj.find_element(**userRegisterElementIDs[a])
+            actions.move_to_element(element).perform()
             self.reportStep(
                 "Parallel field position check", 
                 f"{a} field ({fieldVerticalPositions[a]}) is parallel to field {b} ({fieldVerticalPositions[b]})", 
                 f"{a} field ({fieldVerticalPositions[a]}) is not parallel to field {b} ({fieldVerticalPositions[b]})", 
-                testStatus
+                testStatus,
+                element='screen'
             )
 
         # Check that mobile elements are not displayed
