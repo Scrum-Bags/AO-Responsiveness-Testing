@@ -18,7 +18,8 @@ reportPath = path.join(
     "Desktop",
     "Selenium Sprints",
     "9-27",
-    "AO-Responsiveness-Testing"
+    "AO-Responsiveness-Testing",
+    "Doug"
 )
 
 AO_Suite = ReportingTestSuite(
