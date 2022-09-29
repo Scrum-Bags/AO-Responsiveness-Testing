@@ -1,4 +1,3 @@
-from select import select
 from selenium import webdriver
 from selenium.webdriver.support.ui import Select, WebDriverWait
 from selenium.webdriver.common.by import By
@@ -6,8 +5,8 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
 import time, random, traceback, logging
 
-import sys
-sys.path.append("D:\Documents\Selenium\Shared")
+#import sys
+#sys.path.append("D:\Documents\Selenium\Shared")
 
 from AO_Locators import *
 from TestSuiteReporter import TestSuiteReporter

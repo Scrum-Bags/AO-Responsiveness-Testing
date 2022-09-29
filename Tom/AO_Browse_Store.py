@@ -4,8 +4,8 @@ from selenium.webdriver.edge.options import Options
 from selenium.webdriver.common.action_chains import ActionChains
 import time, random, unittest, logging
 
-import sys
-sys.path.append("D:\Documents\Selenium\Shared")
+#import sys
+#sys.path.append("D:\Documents\Selenium\Shared")
 
 from TestSuiteReporter import TestSuiteReporter
 from ExcelReader import excelReader
