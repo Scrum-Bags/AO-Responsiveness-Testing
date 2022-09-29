@@ -55,12 +55,12 @@ class ResponsivenessTestCase(ReportingTestCase):
         # # Go to register page
         mainPage.goToUserRegistration()
         self._testRegisterPageResponsiveLayout()
-        # # Fill out new user info
+        # Fill out new user info
 
-        # # Go to account summary page
-        # mainPage = MainPage(loggedIn=True)
-        # mainPage.goToUserProfile()
-        # self._testAccountPageResponsiveLayout()
+        # Go to account summary page
+        mainPage = MainPage(loggedIn=True)
+        mainPage.goToUserProfile()
+        self._testAccountPageResponsiveLayout()
 
     def tearDown(self):
         pass
@@ -205,12 +205,12 @@ class ResponsivenessTestCase(ReportingTestCase):
             range(1, len(orderedFields))
         ):
             testStatus = fieldVerticalPositions[a] < fieldVerticalPositions[b]  # NB top of page y = 0, so smaller is higher
-            element = self.driverObj.find_element(**userRegisterElementIDs[orderedFields[a]])
+            element = self.driverObj.find_element(**userRegisterElementIDs[orderedFields[b]])
             self.driverObj.execute_script('arguments[0].scrollIntoView(false);', element)
             self.reportStep(
                 "Relative field position check", 
-                f"{orderedFields[a]} field is higher ({fieldVerticalPositions[a]}) than {orderedFields[b]} field ({fieldVerticalPositions[b]})", 
-                f"{orderedFields[a]} field is not higher ({fieldVerticalPositions[a]}) than {orderedFields[b]} field ({fieldVerticalPositions[b]})", 
+                f"{orderedFields[a]} field is higher (y={fieldVerticalPositions[a]}) than {orderedFields[b]} field (y={fieldVerticalPositions[b]})", 
+                f"{orderedFields[a]} field is not higher (y={fieldVerticalPositions[a]}) than {orderedFields[b]} field (y={fieldVerticalPositions[b]})", 
                 testStatus,
                 element='screen'
             )
@@ -242,8 +242,8 @@ class ResponsivenessTestCase(ReportingTestCase):
             self.driverObj.execute_script('arguments[0].scrollIntoView(false);', element)
             self.reportStep(
                 "Parallel field position check", 
-                f"{a} field ({fieldVerticalPositions[a]}) is parallel to field {b} ({fieldVerticalPositions[b]})", 
-                f"{a} field ({fieldVerticalPositions[a]}) is not parallel to field {b} ({fieldVerticalPositions[b]})", 
+                f"{a} field (y={fieldVerticalPositions[a]}) is parallel to field {b} (y={fieldVerticalPositions[b]})", 
+                f"{a} field (y={fieldVerticalPositions[a]}) is not parallel to field {b} (y={fieldVerticalPositions[b]})", 
                 testStatus,
                 element='screen'
             )
