@@ -95,7 +95,6 @@ class ResponsivenessTestCase(ReportingTestCase):
             "Offer is not displayed", 
             "Offer is displayed", 
             not offerElement.is_displayed(),
-            element='screen'
         )
 
         # Check that mobile elements are displayed
@@ -113,25 +112,25 @@ class ResponsivenessTestCase(ReportingTestCase):
         laptopsWidth = self.driverObj.find_element(**mainPageWaitIDs["laptops_image"]).size['width']
         miceWidth = self.driverObj.find_element(**mainPageWaitIDs["mice_image"]).size['width']
         headphonesWidth = self.driverObj.find_element(**mainPageWaitIDs["headphones_image"]).size['width']
-        windowWidth = self.driverObj.get_window_size()['width'] 
+        bodyWidth = self.driverObj.find_element(**commonElementIDs['body']).size['width']
 
         # Get row width sums
         topRowWidth = speakersWidth + tabletsWidth + headphonesWidth
         bottomRowWidth = laptopsWidth + miceWidth + headphonesWidth
         # Check that top row and headphones sum to window width
-        testStatus = abs(topRowWidth - windowWidth) < 2.0
+        testStatus = abs(topRowWidth - bodyWidth) < 2.0
         self.reportStep(
             "Top images row width check",
-            f"Sum of row widths {topRowWidth} is the same as the window width: {windowWidth}",
-            f"Sum of row widths {topRowWidth} is not quite the same as the window width: {windowWidth}",
+            f"Sum of row widths {topRowWidth} is the same as the window width: {bodyWidth}",
+            f"Sum of row widths {topRowWidth} is not quite the same as the window width: {bodyWidth}",
             testStatus
         )
         # Check that bottom row and headphone sum to window width
-        testStatus = abs(bottomRowWidth - windowWidth) < 2.0
+        testStatus = abs(bottomRowWidth - bodyWidth) < 2.0
         self.reportStep(
             "Bottom images row width check",
-            f"Sum of row widths {bottomRowWidth} is the same as the window width: {windowWidth}",
-            f"Sum of row widths {bottomRowWidth} is not quite the same as the window width: {windowWidth}",
+            f"Sum of row widths {bottomRowWidth} is the same as the window width: {bodyWidth}",
+            f"Sum of row widths {bottomRowWidth} is not quite the same as the window width: {bodyWidth}",
             testStatus
         )
         # Check that ratio between others and headphones is ~ 1.0625
