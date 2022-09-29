@@ -205,9 +205,8 @@ class ResponsivenessTestCase(ReportingTestCase):
             range(1, len(orderedFields))
         ):
             testStatus = fieldVerticalPositions[a] < fieldVerticalPositions[b]  # NB top of page y = 0, so smaller is higher
-            action = actionChains(self.driverObj)
-            element = self.driverObj.find_element(**userRegisterElementIDs[a])
-            actions.move_to_element(element).perform()
+            element = self.driverObj.find_element(**userRegisterElementIDs[orderedFields[a]])
+            self.driverObj.execute_script('arguments[0].scrollIntoView(false);', element)
             self.reportStep(
                 "Relative field position check", 
                 f"{orderedFields[a]} field is higher ({fieldVerticalPositions[a]}) than {orderedFields[b]} field ({fieldVerticalPositions[b]})", 
@@ -240,7 +239,7 @@ class ResponsivenessTestCase(ReportingTestCase):
         for a, b in fieldParallels:
             testStatus = fieldVerticalPositions[a] == fieldVerticalPositions[b]
             element = self.driverObj.find_element(**userRegisterElementIDs[a])
-            actions.move_to_element(element).perform()
+            self.driverObj.execute_script('arguments[0].scrollIntoView(false);', element)
             self.reportStep(
                 "Parallel field position check", 
                 f"{a} field ({fieldVerticalPositions[a]}) is parallel to field {b} ({fieldVerticalPositions[b]})", 
