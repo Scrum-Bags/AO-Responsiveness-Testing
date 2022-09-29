@@ -107,16 +107,20 @@ class ResponsivenessTestCase(ReportingTestCase):
         mainPage = MainPage(loggedIn=False)
 
         # Check that elements are sized to match
-        speakersWidth = self.driverObj.find_element(**mainPageWaitIDs["speakers_image"]).size['width']
-        tabletsWidth = self.driverObj.find_element(**mainPageWaitIDs["tablets_image"]).size['width']
-        laptopsWidth = self.driverObj.find_element(**mainPageWaitIDs["laptops_image"]).size['width']
-        miceWidth = self.driverObj.find_element(**mainPageWaitIDs["mice_image"]).size['width']
-        headphonesWidth = self.driverObj.find_element(**mainPageWaitIDs["headphones_image"]).size['width']
+        imageWidths = {
+            n: self.driverObj.find_element(**mainPageWaitIDs[n]).size['width'] for n in [
+                'speakers_image',
+                'tablets_image',
+                'laptops_image',
+                'mice_image',
+                'headphones_image'
+            ]
+        }
         bodyWidth = self.driverObj.find_element(**commonElementIDs['body']).size['width']
 
         # Get row width sums
-        topRowWidth = speakersWidth + tabletsWidth + headphonesWidth
-        bottomRowWidth = laptopsWidth + miceWidth + headphonesWidth
+        topRowWidth = imageWidths['speakers_image'] + imageWidths['tablets_image'] + imageWidths['headphones_image']
+        bottomRowWidth = imageWidths['laptops_image'] + imageWidths['mice_image'] + imageWidths['headphones_image']
         # Check that top row and headphones sum to window width
         testStatus = abs(topRowWidth - bodyWidth) < 2.0
         self.reportStep(
@@ -134,21 +138,21 @@ class ResponsivenessTestCase(ReportingTestCase):
             testStatus
         )
         # Check that ratio between others and headphones is ~ 1.0625
-        for other, headphones in [
-            (float(w), float(headphonesWidth)) 
+        for otherName, other, headphones in [
+            (w, float(imageWidths[w]), float(imageWidths['headphones_image'])) 
             for w in [
-                speakersWidth, 
-                tabletsWidth, 
-                laptopsWidth, 
-                miceWidth
-                ]
+                'speakers_image', 
+                'tablets_image',
+                'laptops_image',
+                'mice_image'
+            ]
         ]:
             ratio = other / headphones
             testStatus = abs(ratio) - 1.0625 < 0.05
             self.reportStep(
                 "Images width ratio check",
-                f"Ratio {ratio} between other image {other} and headphones image {headphones} is ~1.0625",
-                f"Ratio {ratio} between other image {other} and headphones image {headphones} is not ~1.0625",
+                f"Ratio {ratio} between {otherName} ({other}px) and headphones image ({headphones}px) is ~1.0625",
+                f"Ratio {ratio} between {otherName} ({other}px) and headphones image ({headphones}px) is not ~1.0625",
                 testStatus
             )
 
