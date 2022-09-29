@@ -2,6 +2,7 @@ from time import sleep
 
 from runittest.reporting_unittest import ReportingTestCase
 
+from page_elements.advantage_online_elements import commonElementIDs
 from page_elements.advantage_online_elements import mainPageWideElementIDs
 from page_elements.advantage_online_elements import mainPageWaitIDs
 from advantage_pages import MainPage
@@ -74,12 +75,12 @@ class ResponsivenessTestCase(ReportingTestCase):
         # Check that elements are sized to match
         for ID in mainPageWaitIDs.keys():
             element = self.driverObj.find_element(**mainPageWaitIDs[ID])
-            testStatus = element.size['width'] == self._mainPageMobileDims['width'] 
-            targetWidth = self._mainPageMobileDims["width"]
+            targetWidth = self.driverObj.find_element(**commonElementIDs['body']).size['width']
+            testStatus = element.size['width'] == targetWidth
             self.reportStep(
-                f"'{ID}' element width check",
-                f"'{ID}' element is {targetWidth}px wide",
-                f"Failure! '{ID}' element is {targetWidth}px wide",
+                f"'{ID}' element width check, page is {targetWidth}px wide",
+                f"'{ID}' element is {element.size['width']}px wide",
+                f"Failure! '{ID}' element is {element.size['width']}px wide",
                 testStatus,
                 element=element
             )
