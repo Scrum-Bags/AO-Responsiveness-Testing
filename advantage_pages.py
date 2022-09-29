@@ -216,7 +216,7 @@ class MainPage(AdvantagePage):
     ):
         super().__init__(
             loggedIn=loggedIn, 
-            extraDict=mainPageElementIDs
+            extraDict=mainPageWaitIDs
         )
         WebDriverWait(
             self.driverObj,
@@ -244,7 +244,9 @@ class MainPage(AdvantagePage):
             self.driverObj,
             10
         ).until(
+            EC.invisibility_of_element(
                 commonElementIDs["loader"].values()
+            )
         )
         if loggedIn:
             sleep(5.0)
