@@ -131,3 +131,5 @@ dmypy.json
 # Custom
 excel/
 runittest/
+*.html
+.screenshots/
