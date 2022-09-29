@@ -5,6 +5,7 @@ from runittest.reporting_unittest import ReportingTestCase
 from page_elements.advantage_online_elements import commonElementIDs
 from page_elements.advantage_online_elements import mainPageWideElementIDs
 from page_elements.advantage_online_elements import mainPageWaitIDs
+from page_elements.advantage_online_elements import userRegisterElementIDs
 from advantage_pages import AccountSummaryPage
 from advantage_pages import AdvantagePage
 from advantage_pages import MainPage
@@ -178,8 +179,36 @@ class ResponsivenessTestCase(ReportingTestCase):
         # Get page object
         registerPage = RegisterPage()
 
-        # TODO Check that elements are reordered
-        # Check that vertical positions are distinct
+        # Check that vertical positions are distinct and in expected order
+        orderedFields = [
+            'username',
+            'email',
+            'password',
+            'password_confirm',
+            'first_name',
+            'last_name',
+            'phone_number',
+            'address_country',
+            'address_city',
+            'address_street',
+            'address_region',
+            'address_postal_code'
+        ]
+        fieldVerticalPositions = {
+            i: self.driverObj.find_element(**userRegisterElementIDs[n]).location['y']
+            for i, n in enumerate(orderedFields)
+        }
+        for a, b in zip(
+            range(0, len(orderedFields) - 1),
+            range(1, len(orderedFields))
+        ):
+            testStatus = fieldVerticalPositions[a] < fieldVerticalPositions[b]  # NB top of page y = 0, so smaller is higher
+            self.reportStep(
+                "Relative field position check", 
+                f"{orderedFields[a]} field is higher than {orderedFields[b]} field", 
+                f"{orderedFields[a]} field is not higher than {orderedFields[b]} field", 
+                testStatus
+            )
 
         # Check that mobile elements are displayed
         self._mobileElementsDisplayedCheck()
@@ -189,8 +218,6 @@ class ResponsivenessTestCase(ReportingTestCase):
 
         # Get page object
         registerPage = RegisterPage()
-
-        # TODO Check that elements are sized to match?
 
         # Check that mobile elements are not displayed
         self._mobileElementsNotDisplayedCheck()
