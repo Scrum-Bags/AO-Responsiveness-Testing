@@ -12,7 +12,7 @@ class TestCases(unittest.TestCase):
         browser = webdriver.Chrome()
         browser.get('http://automationpractice.com/index.php')
 
-        reporter = TestSuiteReporter("AutomationPractice", "C:/Users/OWNER/OneDrive/Documents/UFTOne/reports/", "Kimberly Modeste")
+        reporter = TestSuiteReporter("AutomationPractice", "C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/Reports/", "Kimberly Modeste")
         reporter.addTestCase("Browse Store Reg", "TC001", "User will be browsing the AutomationPractice Website")
        
         if browser.find_element(by=By.CLASS_NAME, value="login"):
@@ -28,7 +28,7 @@ class TestCases(unittest.TestCase):
         browser = webdriver.Chrome()
         browser.get('http://automationpractice.com/index.php')
 
-        reporter = TestSuiteReporter("AutomationPractice", "C:/Users/OWNER/OneDrive/Documents/UFTOne/reports/", "Kimberly Modeste")
+        reporter = TestSuiteReporter("AutomationPractice", "C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/Reports/", "Kimberly Modeste")
         reporter.addTestCase("Browse Store All", "TC002", "User will be browsing the AutomationPractice Website clicking everything")
        
         if browser.find_element(by=By.CLASS_NAME, value="login"):

@@ -1,5 +1,7 @@
 import random
 import openpyxl
+from sys import path
+path.append("C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/Test/")
 from Kimberly import TestSuiteReporter
 from datetime import datetime
 from selenium import webdriver
@@ -44,7 +46,7 @@ def login(
     reporter[TCRN].reportStep(stepDescription="User should be logged in by one of the permitted username and passwword to login", 
     expectedBehavior="Pass", actualBehavior=ActualBehavior, testStatus=TestStatus, dataString=f"Username: {username}; Password: {password}", 
     screenshotCallback=browser.find_element(by=By.TAG_NAME, value='body').screenshot, 
-    imagePath=f"C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/Test/.screenshots/{TCRN}/img{mytime()}", imageEmbed=False)
+    imagePath=f"C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{mytime()}", imageEmbed=False)
 
 def loginHeadless(
     browser: webdriver, 
@@ -82,7 +84,7 @@ def loginHeadless(
     reporter[TCRN].reportStep(stepDescription="User should be logged in by one of the permitted username and passwword to login", 
     expectedBehavior="Pass", actualBehavior=ActualBehavior, testStatus=TestStatus, dataString=f"Username: {username}; Password: {password}", 
     screenshotCallback=browser.find_element(by=By.TAG_NAME, value='body').screenshot, 
-    imagePath=f"C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/Test/.screenshots/{TCRN}/img{mytime()}", imageEmbed=False)
+    imagePath=f"C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{mytime()}", imageEmbed=False)
 
 
 
