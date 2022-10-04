@@ -18,6 +18,8 @@ class HomePageLocators(object):
     By_password_field = (By.NAME, 'password')
     By_signin_btn = (By.ID, 'sign_in_btnundefined')
 
+    By_loader = (By.XPATH, '/html/body/div[2]')
+
 class StorePageLocators(object):
     By_item_area = (By.XPATH, '/html/body/div[3]/section/article/div[3]/div/div/div[2]/ul/li')
     By_clear_selection = (By.XPATH, '//*[@id="mobileSlide"]/label/label')
