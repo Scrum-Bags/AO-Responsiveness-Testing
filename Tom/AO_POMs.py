@@ -10,6 +10,7 @@ import time, random, traceback, logging
 
 from AO_Locators import *
 from TestSuiteReporter import TestSuiteReporter
+from Utilities import log_wrapper
 
 class BasePage:
     def __init__(self, driver):
@@ -59,47 +60,47 @@ class HomePage(BasePage):
         self.mice_link = driver.find_element(*HomePageLocators.By_mice_link)
         self.headphones_link = driver.find_element(*HomePageLocators.By_headphones_link)
         self.user_btn = driver.find_element(*HomePageLocators.By_user_btn)
-        logging.getLogger(self.driver.loggingID).info("Loaded HomePage")
+        log_wrapper(self.driver, "Loaded HomePage")
 
     def wait_for_page_load(self):
         timer = 0
-        logging.getLogger(self.driver.loggingID).info("Waiting for home page to load...")
+        log_wrapper(self.driver, "Waiting for home page to load...")
         while len(self.driver.find_elements(*HomePageLocators.By_headphones_link)) == 0 and timer < 10:
-            logging.getLogger(self.driver.loggingID).info("Still waiting, refresh in " + str(10 - timer) + "s")
+            log_wrapper(self.driver, "Still waiting, refresh in " + str(10 - timer) + "s")
             time.sleep(1)
             timer += 1
         if len(self.driver.find_elements(*HomePageLocators.By_headphones_link)) == 0:
-            logging.getLogger(self.driver.loggingID).info("Refreshing page")
+            log_wrapper(self.driver, "Refreshing page")
             self.driver.refresh()
             self = HomePage(self.driver)
 
     def click_speakers(self):
         self.speakers_link.click()
         self.wait_for_element(self, SpeakersPageLocators.By_price_expander)
-        logging.getLogger(self.driver.loggingID).info("Clicked speakers link")
+        log_wrapper(self.driver, "Clicked speakers link")
 
     def click_laptops(self):
         self.laptops_link.click()
         self.wait_for_element(self, SpeakersPageLocators.By_price_expander)
-        logging.getLogger(self.driver.loggingID).info("Clicked laptops link")
+        log_wrapper(self.driver, "Clicked laptops link")
 
     def click_tablets(self):
         self.tablets_link.click()
         self.wait_for_element(self, SpeakersPageLocators.By_price_expander)
-        logging.getLogger(self.driver.loggingID).info("Clicked tablets link")
+        log_wrapper(self.driver, "Clicked tablets link")
 
     def click_mice(self):
         self.mice_link.click()
         self.wait_for_element(self, SpeakersPageLocators.By_price_expander)
-        logging.getLogger(self.driver.loggingID).info("Clicked mice link")
+        log_wrapper(self.driver, "Clicked mice link")
 
     def click_headphones(self):
         self.headphones_link.click()
         self.wait_for_element(self, SpeakersPageLocators.By_price_expander)
-        logging.getLogger(self.driver.loggingID).info("Clicked mice link")
+        log_wrapper(self.driver, "Clicked mice link")
 
     def click_category_excel(self, value):
-        logging.getLogger(self.driver.loggingID).info("Clicking category page from excel")
+        log_wrapper(self.driver, "Clicking category page from excel")
         value = value.upper()
         match value:
             case "SPEAKERS":
@@ -126,9 +127,9 @@ class HomePage(BasePage):
             self.driver.find_element(*HomePageLocators.By_password_field).send_keys(password)
             self.driver.find_element(*HomePageLocators.By_signin_btn).click()
             self.wait_for_element_disappear(self, HomePageLocators.By_signin_btn)
-            logging.getLogger(self.driver.loggingID).info("Logging in")
+            log_wrapper(self.driver, "Logging in")
         else:
-            logging.getLogger(self.driver.loggingID).info("Attempted to login but was already logged in")
+            log_wrapper(self.driver, "Attempted to login but was already logged in")
 
 
 class StorePage(BasePage):
@@ -142,13 +143,13 @@ class StorePage(BasePage):
         if "arrowUp" not in element.get_attribute("class"):
             element.click()
             time.sleep(0.3)
-            logging.getLogger(self.driver.loggingID).info("Expanded expander with label " + element.text)
+            log_wrapper(self.driver, "Expanded expander with label " + element.text)
 
     def close_expander(self, element):
         if "arrowUp" in element.get_attribute('class'):
             element.click()
             time.sleep(0.3)
-            logging.getLogger(self.driver.loggingID).info("Closed expander with label " + element.text)
+            log_wrapper(self.driver, "Closed expander with label " + element.text)
 
     def get_left_price(self) -> int:
         left_price = self.driver.find_element(*StorePageLocators.By_price_left_val).get_attribute('textContent')
@@ -165,7 +166,7 @@ class StorePage(BasePage):
         converted_val = (value - self.get_left_price()) * (pixel_length/((self.get_right_price() - self.get_left_price()))) 
         action = ActionChains(self.driver)
         action.drag_and_drop_by_offset(self.price_left_handle, converted_val, 0).perform()
-        logging.getLogger(self.driver.loggingID).info("Set left price slider to value " + str(value))
+        log_wrapper(self.driver, "Set left price slider to value " + str(value))
 
     def set_right_price(self, value):
         if self.get_right_price() - value < 2:
@@ -175,7 +176,7 @@ class StorePage(BasePage):
             converted_val = (value - self.get_left_price()) * (pixel_length/((self.get_right_price() - self.get_left_price()))) 
             action = ActionChains(self.driver)
             action.drag_and_drop_by_offset(self.price_right_handle, converted_val - pixel_length, 0).perform()
-        logging.getLogger(self.driver.loggingID).info("Set right price slider to value " + str(value))
+        log_wrapper(self.driver, "Set right price slider to value " + str(value))
 
     def set_price(self, value):
         if value - 5 > self.get_left_price():
@@ -191,7 +192,7 @@ class StorePage(BasePage):
         try:
             self.driver.find_element(By.XPATH, xpath).click()
             self.wait_for_element(self, ItemPageLocators.By_add_to_cart_btn)
-            logging.getLogger(self.driver.loggingID).info("Clicked item #" + str(value))
+            log_wrapper(self.driver, "Clicked item #" + str(value))
         except:
             print("click_ith_item() - Element does not exist")
 
@@ -199,7 +200,7 @@ class StorePage(BasePage):
         self.driver.execute_script("window.scrollTo(0,0)")
         self.driver.find_element(*StorePageLocators.By_clear_selection).click()
         time.sleep(0.5)
-        logging.getLogger(self.driver.loggingID).info("Cleared all filter options")
+        log_wrapper(self.driver, "Cleared all filter options")
 
     def get_prod_name(self, value) -> str:
         xpath = StorePageLocators.By_item_area[1] + '[' + str(value) + ']/p[1]/a'
@@ -221,7 +222,7 @@ class StorePage(BasePage):
         if 'display: block;' not in self.driver.find_element(*StorePageLocators.By_mobile_slider).get_attribute('style'):
             self.driver.find_element(*StorePageLocators.By_responsive_filter).click()
             time.sleep(0.3)
-            logging.getLogger(self.driver.loggingID).info("Opened responsive filter")
+            log_wrapper(self.driver, "Opened responsive filter")
 
 class SpeakersPage(StorePage):
     def __init__(self, driver):
@@ -234,7 +235,7 @@ class SpeakersPage(StorePage):
         self.weight_expander = driver.find_element(*SpeakersPageLocators.By_weight_expander)
         self.wireless_expander = driver.find_element(*SpeakersPageLocators.By_wireless_expander)
         self.color_expander = driver.find_element(*SpeakersPageLocators.By_color_expander)
-        logging.getLogger(self.driver.loggingID).info("Loaded Speakers Page")
+        log_wrapper(self.driver, "Loaded Speakers Page")
 
     def expand_all(self):
         self.price_expander.click()
@@ -250,7 +251,7 @@ class SpeakersPage(StorePage):
                 self.driver.find_element(*SpeakersPageLocators.By_compat_0).click()
             case "1":
                 self.driver.find_element(*SpeakersPageLocators.By_compat_1).click()
-        logging.getLogger(self.driver.loggingID).info("Set compatability option to " + str(value))
+        log_wrapper(self.driver, "Set compatability option to " + str(value))
 
     def set_manufacturer(self, value):
         match value:
@@ -260,7 +261,7 @@ class SpeakersPage(StorePage):
                 self.driver.find_element(*SpeakersPageLocators.By_manufacturer_1).click()
             case "Logitech":
                 self.driver.find_element(*SpeakersPageLocators.By_manufacturer_2).click()
-        logging.getLogger(self.driver.loggingID).info("Set manufacturer option to " + str(value))
+        log_wrapper(self.driver, "Set manufacturer option to " + str(value))
 
     def set_weight(self, value):
         match value:
@@ -278,7 +279,7 @@ class SpeakersPage(StorePage):
                 self.driver.find_element(*SpeakersPageLocators.By_weight_5).click()
             case "3.03 lb":
                 self.driver.find_element(*SpeakersPageLocators.By_weight_6).click()
-        logging.getLogger(self.driver.loggingID).info("Set weight option to " + str(value))
+        log_wrapper(self.driver, "Set weight option to " + str(value))
 
     def set_wireless(self, value):
         match value:
@@ -286,7 +287,7 @@ class SpeakersPage(StorePage):
                 self.driver.find_element(*SpeakersPageLocators.By_wireless_0).click()
             case "1": 
                 self.driver.find_element(*SpeakersPageLocators.By_wireless_1).click()
-        logging.getLogger(self.driver.loggingID).info("Set wireless option to " + str(value))
+        log_wrapper(self.driver, "Set wireless option to " + str(value))
                 
     def set_color(self, value):
         match value:
@@ -306,7 +307,7 @@ class SpeakersPage(StorePage):
                 self.driver.find_element(*SpeakersPageLocators.By_color_WHITE).click()
             case "YELLOW":
                 self.driver.find_element(*SpeakersPageLocators.By_color_YELLOW).click()
-        logging.getLogger(self.driver.loggingID).info("Set color option to " + str(value))
+        log_wrapper(self.driver, "Set color option to " + str(value))
 
 class LaptopsPage(StorePage):
     def __init__(self, driver):
@@ -319,7 +320,7 @@ class LaptopsPage(StorePage):
         self.processor_expander = driver.find_element(*LaptopsPageLocators.By_processor_expander)
         self.weight_expander = driver.find_element(*LaptopsPageLocators.By_weight_expander)
         self.color_expander = driver.find_element(*LaptopsPageLocators.By_color_expander)
-        logging.getLogger(self.driver.loggingID).info("Loaded Laptops Page")
+        log_wrapper(self.driver, "Loaded Laptops Page")
 
     def set_display(self, value):
         match value:
@@ -345,7 +346,7 @@ class LaptopsPage(StorePage):
                 self.driver.find_element(*LaptopsPageLocators.By_display_9).click()
             case "10":
                 self.driver.find_element(*LaptopsPageLocators.By_display_10).click()
-        logging.getLogger(self.driver.loggingID).info("Set display option to " + str(value))
+        log_wrapper(self.driver, "Set display option to " + str(value))
 
     def set_os(self, value):
         match value:
@@ -357,7 +358,7 @@ class LaptopsPage(StorePage):
                 self.driver.find_element(*LaptopsPageLocators.By_os_2).click()
             case "Windows 8.1":
                 self.driver.find_element(*LaptopsPageLocators.By_os_3).click()
-        logging.getLogger(self.driver.loggingID).info("Set operating system option to " + str(value))
+        log_wrapper(self.driver, "Set operating system option to " + str(value))
 
     def set_processor(self, value):
         match value:
@@ -381,7 +382,7 @@ class LaptopsPage(StorePage):
                 self.driver.find_element(*LaptopsPageLocators.By_processor_8).click()
             case "9":
                 self.driver.find_element(*LaptopsPageLocators.By_processor_9).click()
-        logging.getLogger(self.driver.loggingID).info("Set processor option to " + str(value))
+        log_wrapper(self.driver, "Set processor option to " + str(value))
 
     def set_weight(self, value):
         match value:
@@ -407,7 +408,7 @@ class LaptopsPage(StorePage):
                 self.driver.find_element(*LaptopsPageLocators.By_weight_9).click()
             case "7.42 lb":
                 self.driver.find_element(*LaptopsPageLocators.By_weight_10).click()
-        logging.getLogger(self.driver.loggingID).info("Set weight option to " + str(value))
+        log_wrapper(self.driver, "Set weight option to " + str(value))
 
     def set_color(self, value):
         match value:
@@ -427,7 +428,7 @@ class LaptopsPage(StorePage):
                 self.driver.find_element(*LaptopsPageLocators.By_color_WHITE).click()
             case "YELLOW":
                 self.driver.find_element(*LaptopsPageLocators.By_color_YELLOW).click()
-        logging.getLogger(self.driver.loggingID).info("Set weight option to " + str(value))
+        log_wrapper(self.driver, "Set weight option to " + str(value))
 
 class TabletsPage(StorePage):
     def __init__(self, driver):
@@ -438,7 +439,7 @@ class TabletsPage(StorePage):
         self.display_expander = driver.find_element(*TabletsPageLocators.By_display_expander)
         self.processor_expander = driver.find_element(*TabletsPageLocators.By_processor_expander)
         self.color_expander = driver.find_element(*TabletsPageLocators.By_color_expander)
-        logging.getLogger(self.driver.loggingID).info("Loaded Tablets Page")
+        log_wrapper(self.driver, "Loaded Tablets Page")
 
     def set_display(self, value):
         match value:
@@ -448,7 +449,7 @@ class TabletsPage(StorePage):
                 self.driver.find_element(*TabletsPageLocators.By_display_1).click()
             case "2":
                 self.driver.find_element(*TabletsPageLocators.By_display_2).click()
-        logging.getLogger(self.driver.loggingID).info("Set display option to " + str(value))
+        log_wrapper(self.driver, "Set display option to " + str(value))
 
     def set_processor(self, value):
         match value:
@@ -458,7 +459,7 @@ class TabletsPage(StorePage):
                 self.driver.find_element(*TabletsPageLocators.By_processor_1).click()
             case "2":
                 self.driver.find_element(*TabletsPageLocators.By_processor_2).click()
-        logging.getLogger(self.driver.loggingID).info("Set processor option to " + str(value))
+        log_wrapper(self.driver, "Set processor option to " + str(value))
 
     def set_color(self, value):
         match value:
@@ -466,7 +467,7 @@ class TabletsPage(StorePage):
                 self.driver.find_element(*TabletsPageLocators.By_color_BLACK).click()
             case "GRAY":
                 self.driver.find_element(*TabletsPageLocators.By_color_GRAY).click()
-        logging.getLogger(self.driver.loggingID).info("Set color option to " + str(value))
+        log_wrapper(self.driver, "Set color option to " + str(value))
     
 class MicePage(StorePage):
     def __init__(self, driver):
@@ -476,7 +477,7 @@ class MicePage(StorePage):
         self.price_right_handle = driver.find_element(*MicePageLocators.By_price_right_handle)
         self.scroller_expander = driver.find_element(*MicePageLocators.By_scroller_expander)
         self.color_expander = driver.find_element(*MicePageLocators.By_color_expander)
-        logging.getLogger(self.driver.loggingID).info("Loaded Mice Page")
+        log_wrapper(self.driver, "Loaded Mice Page")
 
     def set_scroller(self, value):
         match value:
@@ -490,7 +491,7 @@ class MicePage(StorePage):
                 self.driver.find_element(*MicePageLocators.By_scroller_3).click()
             case "4":
                 self.driver.find_element(*MicePageLocators.By_scroller_4).click()
-        logging.getLogger(self.driver.loggingID).info("Set scroller option to " + str(value))
+        log_wrapper(self.driver, "Set scroller option to " + str(value))
 
     def set_color(self, value):
         match value:
@@ -506,7 +507,7 @@ class MicePage(StorePage):
                 self.driver.find_element(*MicePageLocators.By_color_RED).click()
             case "WHITE":
                 self.driver.find_element(*MicePageLocators.By_color_WHITE).click()
-        logging.getLogger(self.driver.loggingID).info("Set color option to " + str(value))
+        log_wrapper(self.driver, "Set color option to " + str(value))
 
 class HeadphonesPage(StorePage):
     def __init__(self, driver):
@@ -518,7 +519,7 @@ class HeadphonesPage(StorePage):
         self.connector_expander = driver.find_element(*HeadphonesPageLocators.By_connector_expander)
         self.weight_expander = driver.find_element(*HeadphonesPageLocators.By_weight_expander)
         self.color_expander = driver.find_element(*HeadphonesPageLocators.By_color_expander)
-        logging.getLogger(self.driver.loggingID).info("Loaded Headphones Page")
+        log_wrapper(self.driver, "Loaded Headphones Page")
 
     def set_compat(self, value):
         match value:
@@ -528,7 +529,7 @@ class HeadphonesPage(StorePage):
                 self.driver.find_element(*HeadphonesPageLocators.By_compat_1).click()
             case "2":
                 self.driver.find_element(*HeadphonesPageLocators.By_compat_2).click()
-        logging.getLogger(self.driver.loggingID).info("Set compatability option to " + str(value))
+        log_wrapper(self.driver, "Set compatability option to " + str(value))
 
     def set_connector(self, value):
         match value:
@@ -536,7 +537,7 @@ class HeadphonesPage(StorePage):
                 self.driver.find_element(*HeadphonesPageLocators.By_connector_0).click()
             case "1":
                 self.driver.find_element(*HeadphonesPageLocators.By_connector_1).click()
-        logging.getLogger(self.driver.loggingID).info("Set connector option to " + str(value))
+        log_wrapper(self.driver, "Set connector option to " + str(value))
 
     def set_weight(self, value):
         match value:
@@ -548,7 +549,7 @@ class HeadphonesPage(StorePage):
                 self.driver.find_element(*HeadphonesPageLocators.By_weight_2).click()
             case "0.57 lb":
                 self.driver.find_element(*HeadphonesPageLocators.By_weight_3).click()
-        logging.getLogger(self.driver.loggingID).info("Set weight option to " + str(value))
+        log_wrapper(self.driver, "Set weight option to " + str(value))
 
     def set_color(self, value):
         match value:
@@ -568,7 +569,7 @@ class HeadphonesPage(StorePage):
                 self.driver.find_element(*LaptopsPageLocators.By_color_WHITE).click()
             case "YELLOW":
                 self.driver.find_element(*LaptopsPageLocators.By_color_YELLOW).click()
-        logging.getLogger(self.driver.loggingID).info("Set color option to " + str(value))
+        log_wrapper(self.driver, "Set color option to " + str(value))
 
 class ItemPage(BasePage):
     def __init__(self, driver):
@@ -576,27 +577,27 @@ class ItemPage(BasePage):
         self.minus = self.driver.find_element(*ItemPageLocators.By_minus_btn)
         self.plus = self.driver.find_element(*ItemPageLocators.By_plus_btn)
         self.add_to_cart = self.driver.find_element(*ItemPageLocators.By_add_to_cart_btn)
-        logging.getLogger(self.driver.loggingID).info('Loaded individual item page')
+        log_wrapper(self.driver, 'Loaded individual item page')
 
     def set_quantity(self, value):
         if value == 1:
-            logging.getLogger(self.driver.loggingID).info('Set quantity to ' + str(value))
+            log_wrapper(self.driver, 'Set quantity to ' + str(value))
             return
         else:
             for i in range(1, value):
                 self.plus.click()
-            logging.getLogger(self.driver.loggingID).info('Set quantity to ' + str(value))
+            log_wrapper(self.driver, 'Set quantity to ' + str(value))
 
     def set_color(self, value):
         value = int(value)
         if value == 1:
-            logging.getLogger(self.driver.loggingID).info('Set color to ' + str(value))
+            log_wrapper(self.driver, 'Set color to ' + str(value))
             return
         else:
             try:
                 xpath = ItemPageLocators.By_color_select[1] + '[' + str(value) + ']'
                 self.driver.find_element(By.XPATH, xpath).click()
-                logging.getLogger(self.driver.loggingID).info('Set color to ' + str(value))
+                log_wrapper(self.driver, 'Set color to ' + str(value))
             except:
                 traceback.print_exc()
                 print("Color selection error - value probably out of range")
