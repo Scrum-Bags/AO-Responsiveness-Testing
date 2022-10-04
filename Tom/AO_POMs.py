@@ -50,6 +50,8 @@ class BasePage:
 
 class HomePage(BasePage):
     def __init__(self, driver):
+        self.driver = driver
+        self.wait_for_page_load()
         super().__init__(driver)
         self.speakers_link = driver.find_element(*HomePageLocators.By_speakers_link)
         self.laptops_link = driver.find_element(*HomePageLocators.By_laptops_link)
@@ -58,6 +60,18 @@ class HomePage(BasePage):
         self.headphones_link = driver.find_element(*HomePageLocators.By_headphones_link)
         self.user_btn = driver.find_element(*HomePageLocators.By_user_btn)
         logging.getLogger(self.driver.loggingID).info("Loaded HomePage")
+
+    def wait_for_page_load(self):
+        timer = 0
+        logging.getLogger(self.driver.loggingID).info("Waiting for home page to load...")
+        while len(self.driver.find_elements(*HomePageLocators.By_headphones_link)) == 0 and timer < 10:
+            logging.getLogger(self.driver.loggingID).info("Still waiting, refresh in " + str(10 - timer) + "s")
+            time.sleep(1)
+            timer += 1
+        if len(self.driver.find_elements(*HomePageLocators.By_headphones_link)) == 0:
+            logging.getLogger(self.driver.loggingID).info("Refreshing page")
+            self.driver.refresh()
+            self = HomePage(self.driver)
 
     def click_speakers(self):
         self.speakers_link.click()
