@@ -29,7 +29,7 @@ class AO_Browse_Store(unittest.TestCase):
     def setUpClass(cls):
         cls.edge_options = Options()
         cls.edge_options.add_experimental_option('excludeSwitches', ['enable-logging'])
-        cls.edge_options.headless = True
+        cls.edge_options.headless = False
         cls.driver = webdriver.Edge(options=cls.edge_options)
         cls.driver.loggingID = "AO_Browse_Store"
 
@@ -40,7 +40,7 @@ class AO_Browse_Store(unittest.TestCase):
     def setUp(self):
         self.driver.get("https://www.advantageonlineshopping.com/#/")
         logging.getLogger(self.driver.loggingID).info("Waiting for home page to load")
-        BasePage.wait_for_element(self, HomePageLocators.By_speakers_link, 30)
+        #BasePage.wait_for_element(self, HomePageLocators.By_speakers_link, 30)
 
     #test single items
     def test_TH_TC001(self):
