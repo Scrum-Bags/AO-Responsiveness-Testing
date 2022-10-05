@@ -30,9 +30,9 @@ def log_wrapper(driver, message):
         message
     ))
 
-def load_excel_sheet(driver, rowName):
-    wb = load_workbook(filename = 'AF_Register_Bank_Member.xlsm', data_only=True)
-    sheet = wb['RegisterBank']
+def load_excel_sheet(driver, rowName, file, sheetName):
+    wb = load_workbook(filename = file, data_only=True)
+    sheet = wb[sheetName]
     driver.data = {}
     for row in sheet.rows:
         if row[0].value == rowName:
