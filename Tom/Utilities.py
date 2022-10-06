@@ -38,7 +38,12 @@ def load_excel_sheet(driver, rowName, file, sheetName):
         if row[0].value == rowName:
             for i in range (2, 22):
                 driver.data[sheet.cell(column=i, row=1).value] = sheet.cell(column=i, row=row[0].row).value
-            log_wrapper(driver, "Loaded excel data")
+            report_event_and_log(driver, "Loaded excel data")
+
+def excel_get_rows(file, sheetName):
+    wb = load_workbook(filename = file, data_only=True)
+    sheet = wb[sheetName]
+    return sheet.max_row
 
 def check_for_responsive(driver):
     log_wrapper(driver, "Checking for responsive webpage")
