@@ -145,12 +145,47 @@
 # # "C:\Users\OWNER\OneDrive\Documents\UFTOne\tests\selenium\Test\Reports/.screenshots/TestingImg/TestScript20220928_191634.png"
 # browser.close()
 
-def s (w, h):
-    print(f"W: {w}, H:{h}")
+# def s (w, h):
+#     print(f"W: {w}, H:{h}")
 
-def k ():
-    return {9, 6}
+# def k ():
+#     return {9, 6}
 
-s(*k())
+# s(*k())
+
+# foo = {"bar", "car"}
+
+# f = foo.pop()
+# g = foo.pop()
+# print(f)
+
+# bar = ("Carry", "Me", "Home")
+# print(bar[0] )
+
+# from datetime import datetime
+# from typing import Type
 
 
+# s = 400,000,00
+
+# if type(s) == str:
+#     print("is string")
+# elif type(s) == datetime:
+#     print("is date")
+# elif type(s) == int:
+#     print("is int")
+
+
+import time
+
+print("Hi")
+time.sleep(5)
+print("Loading", end="")
+for x in range(5):
+    print(".", end= "")
+    time.sleep(1)
+print("")
+
+
+
+print("Hello")

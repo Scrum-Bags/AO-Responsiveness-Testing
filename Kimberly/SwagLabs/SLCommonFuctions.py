@@ -1,7 +1,7 @@
 import random
 import openpyxl
 from sys import path
-path.append("C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/Test/")
+path.append("C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/Test")
 from Kimberly import TestSuiteReporter
 from datetime import datetime
 from selenium import webdriver
