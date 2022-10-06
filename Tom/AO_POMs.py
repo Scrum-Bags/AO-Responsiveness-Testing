@@ -701,7 +701,11 @@ class OrderConfirmationPage(BasePage):
 class OrderHistoryPage(BasePage):
     def __init__(self, driver):
         super().__init__(driver)
-        self.wait_for_element(self, OrderHistoryPageLocators.By_order_num)
+        time.sleep(2)
+        if self.element_is_loaded(OrderHistoryPageLocators.By_no_orders):
+            self.no_orders = self.driver.find_element(*OrderHistoryPageLocators.By_no_orders)
+        else:
+            self.wait_for_element(self, OrderHistoryPageLocators.By_order_num)
         #self.most_recent_order_num = self.driver.find_element(*OrderHistoryPageLocators.By_order_num)
         #self.most_recent_total_price = self.driver.find_element(*OrderHistoryPageLocators.By_total_price)
 

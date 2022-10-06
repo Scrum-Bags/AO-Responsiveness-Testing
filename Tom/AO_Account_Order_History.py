@@ -27,7 +27,7 @@ class AO_Account_Order_History(unittest.TestCase):
     def setUpClass(cls):
         cls.edge_options = Options()
         cls.edge_options.add_experimental_option('excludeSwitches', ['enable-logging'])
-        cls.edge_options.headless = False
+        cls.edge_options.headless = True
         cls.driver = webdriver.Edge(options=cls.edge_options)
         cls.driver.loggingID = "AO_Account_Order_History"
 
@@ -47,20 +47,17 @@ class AO_Account_Order_History(unittest.TestCase):
     def test_TH_TC014(self):
         log_wrapper(self.driver, "***BEGINNING TH_TC014 [Non-Responsive]***")
         self.driver.testID = "TC014_" + str(random.getrandbits(64))
-        self.reporter.addTestCase(self.driver.testID, "TH_TC014", "TODO")
-        load_excel_sheet(self.driver, 'TH_TC014', 'AOOrderHistory.xlsx', 'Sheet1')
+        self.reporter.addTestCase(self.driver.testID, "TH_TC014", "Check orders against excel sheet values [Non-responsive]")
         self.TH_TC014()
 
     def test_TH_TC014_responsive(self):
         log_wrapper(self.driver, "***BEGINNING TH_TC014 [Responsive]***")
         self.driver.testID = "TC014_" + str(random.getrandbits(64))
-        self.reporter.addTestCase(self.driver.testID, "TH_TC014", "TODO")
+        self.reporter.addTestCase(self.driver.testID, "TH_TC014", "Check orders against excel sheet values [Responsive]")
         self.driver.set_window_size(500, 900)
-        load_excel_sheet(self.driver, 'TH_TC014_R', 'AOOrderHistory.xlsx', 'Sheet1')
         self.TH_TC014()
 
     def TH_TC014(self):
-        data = self.driver.data
         log_wrapper(self.driver, 'Entered TH_TC014 main test logic')
         if self.driver.get_window_size()['width'] < 550:
             report_event_and_log(self.driver, 'Detected responisve')
@@ -68,11 +65,199 @@ class AO_Account_Order_History(unittest.TestCase):
         else:
             report_event_and_log(self.driver, 'Responsive not detected')
             responsive = False
-
+        
+        load_excel_sheet(self.driver, f'TH_TC014_1', 'AOOrderHistory.xlsx', 'TH_TC014')
         page = HomePage(self.driver)
-        page.login(data['DT_email'], data['DT_password'])
+        page.login(self.driver.data['DT_email'], self.driver.data['DT_password'])
+        page.click_order_history()
+            
+        page = OrderHistoryPage(self.driver)
 
-        time.sleep(5)
+        for i in range(2, excel_get_rows('AOOrderHistory.xlsx', 'TH_TC014')):
+            load_excel_sheet(self.driver, f'TH_TC014_{i}', 'AOOrderHistory.xlsx', 'TH_TC014')
+            
+            data = self.driver.data
+
+            values = page.get_row_by_confirmation_num(self.driver.data['DT_order_number'])
+            if self.driver.data['DT_order_number'] == values['order_num']:
+                log_wrapper(self.driver, "Order numbers match: " + values['order_num'])
+                self.reporter[self.driver.testID].reportStep(
+                    "Check that order numbers match", 
+                    "Order numbers match",
+                    "Order numbers match: ",
+                    True, 
+                    f"Value is {values['order_num']}",
+                    screenshotCallback=self.driver.save_screenshot
+                    )
+            else:
+                log_wrapper(self.driver, "Order numbers don't match")
+                self.reporter[self.driver.testID].reportStep(
+                    "Check that order numbers match", 
+                    "Order numbers match",
+                    f"Order numbers don't match:  {values['order_num']}",
+                    False, 
+                    f"Found value: {data['DT_order_number']} Should be: {values['order_num']}",
+                    screenshotCallback=self.driver.save_screenshot
+                    )
+
+            if self.driver.data['DT_order_date'] == values['order_date']:
+                log_wrapper(self.driver, "Order dates match: " + values['order_date'])
+                self.reporter[self.driver.testID].reportStep(
+                    "Check that order dates match", 
+                    "Order dates match",
+                    "Order dates match: ",
+                    True, 
+                    f"Value is {values['order_date']}",
+                    screenshotCallback=self.driver.save_screenshot
+                    )
+            else:
+                log_wrapper(self.driver, "Order dates don't match")
+                self.reporter[self.driver.testID].reportStep(
+                    "Check that order dates match", 
+                    "Order dates match",
+                    "Order dates don't match: ",
+                    False, 
+                    f"Found value: {data['DT_order_date']} Should be: {values['order_date']}",
+                    screenshotCallback=self.driver.save_screenshot
+                    )
+    
+
+            if self.driver.data['DT_order_time'] == values['order_time']:
+                log_wrapper(self.driver, "Order times match: " + values['order_time'])
+                self.reporter[self.driver.testID].reportStep(
+                    "Check that order times match", 
+                    "Order times match",
+                    "Order times match: ",
+                    True, 
+                    f"Value is {values['order_time']}",
+                    screenshotCallback=self.driver.save_screenshot
+                    )
+            else:
+                log_wrapper(self.driver, "Order times don't match")
+                self.reporter[self.driver.testID].reportStep(
+                    "Check that order times match", 
+                    "Order times match",
+                    "Order times don't match: ",
+                    False, 
+                    f"Found value: {data['DT_order_time']} Should be: {values['order_time']}",
+                    screenshotCallback=self.driver.save_screenshot
+                    )
+    
+
+            if self.driver.data['DT_product_name'] == values['product_name']:
+                log_wrapper(self.driver, "Product names match: " + values['product_name'])
+                self.reporter[self.driver.testID].reportStep(
+                    "Check that product names match", 
+                    "Product names match",
+                    "Product names match: ",
+                    True, 
+                    f"Value is {values['product_name']}",
+                    screenshotCallback=self.driver.save_screenshot
+                    )
+            else:
+                log_wrapper(self.driver, "Product names don't match")
+                self.reporter[self.driver.testID].reportStep(
+                    "Check that product names match", 
+                    "Product names match",
+                    "Product names don't match: ",
+                    False, 
+                    f"Found value {data['DT_product_name']} Should be: {values['product_name']}",
+                    screenshotCallback=self.driver.save_screenshot
+                    )
+    
+
+            if self.driver.data['DT_quantity'] == values['quantity']:
+                log_wrapper(self.driver, "Quantities match: " + values['quantity'])
+                self.reporter[self.driver.testID].reportStep(
+                    "Check that item quantities match", 
+                    "Quantities match",
+                    "Quantities match: ",
+                    True, 
+                    f"Value is {values['quantity']}",
+                    screenshotCallback=self.driver.save_screenshot
+                    )
+            else:
+                log_wrapper(self.driver, "Quantities don't match")
+                self.reporter[self.driver.testID].reportStep(
+                    "Check that item quantities match", 
+                    "Quantities match",
+                    "Quantities don't match: ",
+                    False, 
+                    f"Found value {data['DT_quantity']} Should be: {values['quantity']}",
+                    screenshotCallback=self.driver.save_screenshot
+                    )
+    
+
+            if self.driver.data['DT_total_price'] == values['total_price']:
+                log_wrapper(self.driver, "Total prices match: " + values['total_price'])
+                self.reporter[self.driver.testID].reportStep(
+                    "Check that total prices match", 
+                    "Prices match",
+                    "Prices match: ",
+                    True, 
+                    f"Value is {values['total_price']}",
+                    screenshotCallback=self.driver.save_screenshot
+                    )
+            else:
+                log_wrapper(self.driver, "Total prices don't match")
+                self.reporter[self.driver.testID].reportStep(
+                    "Check that total prices match", 
+                    "Prices match",
+                    "Prices don't match: ",
+                    False, 
+                    f"Found value {data['DT_total_price']} Should be: {values['total_price']}",
+                    screenshotCallback=self.driver.save_screenshot
+                    )
+    
+
+        time.sleep(1)
+
+    def test_TH_TC015(self):
+        log_wrapper(self.driver, "***BEGINNING TH_TC015 [Non-Responsive]***")
+        self.driver.testID = "TC015_" + str(random.getrandbits(64))
+        self.reporter.addTestCase(self.driver.testID, "TH_TC015", "Test that 'No Orders' message appears on account with no orders [Non-responsive]")
+        self.TH_TC015()
+
+    def test_TH_TC015_responsive(self):
+        log_wrapper(self.driver, "***BEGINNING TH_TC015 [Responsive]***")
+        self.driver.testID = "TC015_" + str(random.getrandbits(64))
+        self.reporter.addTestCase(self.driver.testID, "TH_TC015", "Test that 'No Orders' message appears on account with no orders [Responsive]")
+        self.driver.set_window_size(500, 900)
+        self.TH_TC015()
+
+    def TH_TC015(self):
+        log_wrapper(self.driver, 'Entered TH_TC015 main test logic')
+        if self.driver.get_window_size()['width'] < 550:
+            report_event_and_log(self.driver, 'Detected responisve')
+            responsive = True
+        else:
+            report_event_and_log(self.driver, 'Responsive not detected')
+            responsive = False
+        
+        load_excel_sheet(self.driver, f'TH_TC015_1', 'AOOrderHistory.xlsx', 'TH_TC015')
+        page = HomePage(self.driver)
+        page.login(self.driver.data['DT_email'], self.driver.data['DT_password'])
+        page.click_order_history()
+            
+        page = OrderHistoryPage(self.driver)
+        if page.element_is_loaded(OrderHistoryPageLocators.By_no_orders):
+            self.driver.reporter[self.driver.testID].reportStep(
+                "Checking for 'No Orders' text", 
+                "Found 'No Orders' text", 
+                "Found 'No Orders' text",
+                True,
+                "",
+                screenshotCallback=self.driver.save_screenshot
+            )
+        else:
+            self.driver.reporter[self.driver.testID].reportStep(
+                "Checking for 'No Orders' text", 
+                "Found 'No Orders' text", 
+                "Didn't find 'No Orders' text",
+                False,
+                "",
+                screenshotCallback=self.driver.save_screenshot
+            )
 
 if __name__ == "__main__":
     unittest.main()
