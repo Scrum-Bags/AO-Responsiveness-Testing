@@ -240,5 +240,6 @@ class OrderHistoryPageLocators(object):
     By_total_price = (By.XPATH, '//*[@id="myAccountContainer"]/div/table/tbody/tr[2]/td[7]/label')
 
     #general orders
-    
+    By_no_orders = (By.XPATH, '/html/body/div[3]/section/article/div[3]/div/div/label')
+
 
