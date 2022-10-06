@@ -11,6 +11,8 @@ from TestSuiteReporter import TestSuiteReporter
 from ExcelReader import excelReader
 from AO_POMs import *
 
+from Utilities import log_wrapper
+
 class AO_Browse_Store(unittest.TestCase):
     def __init__(self, *args, **kwargs):
         super(AO_Browse_Store, self).__init__(*args, **kwargs)
@@ -21,7 +23,7 @@ class AO_Browse_Store(unittest.TestCase):
                                 logging.FileHandler("AO_Browse_Store" + self.timestr + ".log"),
                                 logging.StreamHandler()
                             ],
-                            format= '[%(asctime)s] {%(filename)s:%(lineno)d} %(levelname)s - %(message)s',
+                            format= '[%(asctime)s] %(levelname)s %(message)s',
                             datefmt='%H:%M:%S'
         )
 
@@ -29,7 +31,7 @@ class AO_Browse_Store(unittest.TestCase):
     def setUpClass(cls):
         cls.edge_options = Options()
         cls.edge_options.add_experimental_option('excludeSwitches', ['enable-logging'])
-        cls.edge_options.headless = True
+        cls.edge_options.headless = False
         cls.driver = webdriver.Edge(options=cls.edge_options)
         cls.driver.loggingID = "AO_Browse_Store"
 
@@ -39,18 +41,19 @@ class AO_Browse_Store(unittest.TestCase):
 
     def setUp(self):
         self.driver.get("https://www.advantageonlineshopping.com/#/")
-        logging.getLogger(self.driver.loggingID).info("Waiting for home page to load")
-        BasePage.wait_for_element(self, HomePageLocators.By_speakers_link, 30)
+        log_wrapper(self.driver, "Waiting for home page to load")
+        self.driver.set_window_size(945, 1012)
+        #BasePage.wait_for_element(self, HomePageLocators.By_speakers_link, 30)
 
     #test single items
     def test_TH_TC001(self):
-        logging.getLogger(self.driver.loggingID).info("***BEGINNING TH_TC001 [Non-responsive]***")
+        log_wrapper(self.driver, "***BEGINNING TH_TC001 [Non-responsive]***")
         self.testID = "TC001_" + str(random.getrandbits(64)) 
         self.reporter.addTestCase(self.testID, "TH_TC001", "Test speakers page options using excel data [Non-Responsive]")
         self.TH_TC001()
 
     def test_TH_TC001_responsive(self):
-        logging.getLogger(self.driver.loggingID).info('***BEGINNING TH_TC001 [Responsive]***')
+        log_wrapper(self.driver, '***BEGINNING TH_TC001 [Responsive]***')
         self.testID = "TC001_" + str(random.getrandbits(64))
         self.reporter.addTestCase(self.testID, "TH_TC001_R", "Test Speakers page options using excel data [Responsive]")
         self.driver.set_window_size(500, 900)
@@ -60,14 +63,14 @@ class AO_Browse_Store(unittest.TestCase):
         driver = self.driver
         reporter = self.reporter
         testID = self.testID
-        logging.getLogger(driver.loggingID).info('Entered TH_TC001 main test logic')
-        logging.getLogger(driver.loggingID).info('Checking for responsive webpage')
+        log_wrapper(self.driver, 'Entered TH_TC001 main test logic')
+        log_wrapper(self.driver, 'Checking for responsive webpage')
         if self.driver.get_window_size()['width'] < 550:
-            logging.getLogger(driver.loggingID).info('Responsive detected')
+            log_wrapper(self.driver, 'Responsive detected')
             reporter[testID].reportEvent("Detected responsive site", False, "")
             responsive = True
         else:
-            logging.getLogger(driver.loggingID).info('Responsive not detected')
+            log_wrapper(self.driver, 'Responsive not detected')
             responsive = False
         page = HomePage(driver)
         page.click_speakers()
@@ -91,7 +94,7 @@ class AO_Browse_Store(unittest.TestCase):
                 "<br>Weight option = " + DT_weight + \
                 "<br>Wireless option = " + DT_wireless + \
                 "<br>Color option = " + DT_color
-            logging.getLogger(self.driver.loggingID).info("Loaded test values from excel")
+            log_wrapper(self.driver, "Loaded test values from excel")
 
             reporter[testID].reportEvent("Load row #" + str(rowNum) + " values from datasheet", False, dataString)
 
@@ -113,20 +116,20 @@ class AO_Browse_Store(unittest.TestCase):
             reporter[testID].reportEvent("Entered selection options", False)
             if DT_expected_items == page.get_num_items():
                 reporter[testID].reportStep("Check that results return expected number of items", "Correct number of items shown", "Correct number of items shown", True, "Items found: " + str(DT_expected_items), screenshotCallback=driver.save_screenshot)
-                logging.getLogger(self.driver.loggingID).info("STEP SUCCESS")
+                log_wrapper(self.driver, "STEP SUCCESS")
             else:
                 reporter[testID].reportStep("Check that results return expected number of items", "Correct number of items shown", "Incorrect number of items shown", False, "Items found: " + str(page.get_num_items()),screenshotCallback=driver.save_screenshot)
-                logging.getLogger(self.driver.loggingID).info("STEP FAILURE")
+                log_wrapper(self.driver, "STEP FAILURE")
             page.clear_selection()
 
-    def atest_TH_TC002(self):
-        logging.getLogger(self.driver.loggingID).info("***BEGINNING TH_TC002 [Non-responsive]***")
+    def test_TH_TC002(self):
+        log_wrapper(self.driver, "***BEGINNING TH_TC002 [Non-responsive]***")
         self.testID = "TC002_" + str(random.getrandbits(64))
         self.reporter.addTestCase(self.testID, "TH_TC002", "Test Laptops page options using excel data [Non-responsive]")
         self.TH_TC002()
 
-    def atest_TH_TC002_responsive(self):
-        logging.getLogger(self.driver.loggingID).info("***BEGINNING TH_TC002 [Responsive]***")
+    def test_TH_TC002_responsive(self):
+        log_wrapper(self.driver, "***BEGINNING TH_TC002 [Responsive]***")
         self.testID = "TC002_" + str(random.getrandbits(64))
         self.reporter.addTestCase(self.testID, "TH_TC002_R", "Test Laptops page options using excel data [Responsive]")
         self.driver.set_window_size(500, 900)
@@ -136,14 +139,14 @@ class AO_Browse_Store(unittest.TestCase):
         driver = self.driver
         reporter = self.reporter
         testID = self.testID
-        logging.getLogger(driver.loggingID).info('Entered TH_TC002 main test logic')
-        logging.getLogger(driver.loggingID).info('Checking fo responsive webpage')
+        log_wrapper(self.driver, 'Entered TH_TC002 main test logic')
+        log_wrapper(self.driver, 'Checking fo responsive webpage')
         if self.driver.get_window_size()['width'] < 550:
-            logging.getLogger(driver.loggingID).info('Responsive detected')
+            log_wrapper(self.driver, 'Responsive detected')
             reporter[testID].reportEvent("Detected responsive site", False, "")
             responsive = True
         else:
-            logging.getLogger(driver.loggingID).info("Responsive not detected")
+            log_wrapper(self.driver, "Responsive not detected")
             responsive = False
 
         page = HomePage(driver)
@@ -167,7 +170,7 @@ class AO_Browse_Store(unittest.TestCase):
                 "<br>Processor option = " + DT_processor + \
                 "<br>Weight option = " + DT_weight + \
                 "<br>Color option = " + DT_color
-            logging.getLogger(self.driver.loggingID).info("Loaded test values from excel")
+            log_wrapper(self.driver, "Loaded test values from excel")
 
             reporter[testID].reportEvent("Load row #" + str(rowNum) + " values from datasheet", False, dataString)
 
@@ -189,20 +192,20 @@ class AO_Browse_Store(unittest.TestCase):
             reporter[testID].reportEvent("Entered selection options", False)
             if DT_expected_items == page.get_num_items():
                 reporter[testID].reportStep("Check that results return expected number of items", "Correct number of items shown", "Correct number of items shown", True, "Items found: " + str(DT_expected_items), screenshotCallback=driver.save_screenshot)
-                logging.getLogger(self.driver.loggingID).info('STEP SUCCESS')
+                log_wrapper(self.driver, 'STEP SUCCESS')
             else:
                 reporter[testID].reportStep("Check that results return expected number of items", "Correct number of items shown", "Incorrect number of items shown", False, "Items found: " + str(page.get_num_items()),screenshotCallback=driver.save_screenshot)
-                logging.getLogger(self.driver.loggingID).info('STEP FAILURE')
+                log_wrapper(self.driver, 'STEP FAILURE')
             page.clear_selection()
 
-    def atest_TH_TC003(self):
-        logging.getLogger(self.driver.loggingID).info("***BEGINNING TH_TC003 [Non-responsive]***")
+    def test_TH_TC003(self):
+        log_wrapper(self.driver, "***BEGINNING TH_TC003 [Non-responsive]***")
         self.testID = "TC003_" + str(random.getrandbits(64))
         self.reporter.addTestCase(self.testID, "TH_TC003", "Test Tablets page options using excel data [Non-responsive]")
         self.TH_TC003()
 
-    def atest_TH_TC003_responsive(self):
-        logging.getLogger(self.driver.loggingID).info("***BEGINNING TH_TC003 [Responsive]***")
+    def test_TH_TC003_responsive(self):
+        log_wrapper(self.driver, "***BEGINNING TH_TC003 [Responsive]***")
         self.testID = "TC003_" + str(random.getrandbits(64))
         self.reporter.addTestCase(self.testID, "TH_TC003_R", "Test Tablets page options using excel data [Responsive]")
         self.driver.set_window_size(500, 900)
@@ -212,14 +215,14 @@ class AO_Browse_Store(unittest.TestCase):
         driver = self.driver
         reporter = self.reporter
         testID = self.testID
-        logging.getLogger(driver.loggingID).info('Entered TH_TC003 main test logic')
-        logging.getLogger(driver.loggingID).info('Checking for responsive webpage')
+        log_wrapper(self.driver, 'Entered TH_TC003 main test logic')
+        log_wrapper(self.driver, 'Checking for responsive webpage')
         if self.driver.get_window_size()['width'] < 550:
-            logging.getLogger(driver.loggingID).info('Responsive detected')
+            log_wrapper(self.driver, 'Responsive detected')
             reporter[testID].reportEvent("Detected responsive site", False, "")
             responsive = True
         else:
-            logging.getLogger(driver.loggingID).info('Responsive not detected')
+            log_wrapper(self.driver, 'Responsive not detected')
             responsive = False
         page = HomePage(driver)
         page.click_tablets()
@@ -238,7 +241,7 @@ class AO_Browse_Store(unittest.TestCase):
                 "<br>Display option = " + DT_display + \
                 "<br>Manufacturer option = " + DT_processor + \
                 "<br>Color option = " + DT_color 
-            logging.getLogger(self.driver.loggingID).info("Loaded test values form excel sheet")
+            log_wrapper(self.driver, "Loaded test values form excel sheet")
             reporter[testID].reportEvent("Load row #" + str(rowNum) + " values from datasheet", False, dataString)
 
             if responsive:
@@ -255,20 +258,20 @@ class AO_Browse_Store(unittest.TestCase):
             reporter[testID].reportEvent("Entered selection options", False)
             if DT_expected_items == page.get_num_items():
                 reporter[testID].reportStep("Check that results return expected number of items", "Correct number of items shown", "Correct number of items shown", True, "Items found: " + str(DT_expected_items), screenshotCallback=driver.save_screenshot)
-                logging.getLogger(self.driver.loggingID).info("STEP SUCCESS")
+                log_wrapper(self.driver, "STEP SUCCESS")
             else:
                 reporter[testID].reportStep("Check that results return expected number of items", "Correct number of items shown", "Incorrect number of items shown", False, "Items found: " + str(page.get_num_items()),screenshotCallback=driver.save_screenshot)
-                logging.getLogger(self.driver.loggingID).info("STEP FAILURE")
+                log_wrapper(self.driver, "STEP FAILURE")
             page.clear_selection()
 
-    def atest_TH_TC004(self):
-        logging.getLogger(self.driver.loggingID).info("***BEGINNING TH_TC004 [Non-responsive]***")
+    def test_TH_TC004(self):
+        log_wrapper(self.driver, "***BEGINNING TH_TC004 [Non-responsive]***")
         self.testID = "TC004_" + str(random.getrandbits(64))
         self.reporter.addTestCase(self.testID, "TH_TC004", "Test Mice page options using excel data [Non-responsive]")
         self.TH_TC004()
 
-    def atest_TH_TC004_responsive(self):
-        logging.getLogger(self.driver.loggingID).info("***BEGINNING TH_TC004 [Responsive]***")
+    def test_TH_TC004_responsive(self):
+        log_wrapper(self.driver, "***BEGINNING TH_TC004 [Responsive]***")
         self.testID = "TC004_" + str(random.getrandbits(64))
         self.reporter.addTestCase(self.testID, "TH_TC004_R", "Test Mice page options using excel data [Responsive]")
         self.driver.set_window_size(500, 900)
@@ -278,14 +281,14 @@ class AO_Browse_Store(unittest.TestCase):
         driver = self.driver
         reporter = self.reporter
         testID = self.testID
-        logging.getLogger(driver.loggingID).info('Entered TH_TC004 main test logic')
-        logging.getLogger(driver.loggingID).info('Checking for responsive webpage')
+        log_wrapper(self.driver, 'Entered TH_TC004 main test logic')
+        log_wrapper(self.driver, 'Checking for responsive webpage')
         if self.driver.get_window_size()['width'] < 550:
-            logging.getLogger(driver.loggingID).info('Responsive detected')
+            log_wrapper(self.driver, 'Responsive detected')
             reporter[testID].reportEvent("Detected responsive site", False, "")
             responsive = True
         else:
-            logging.getLogger(driver.loggingID).info('Responsive not detected')
+            log_wrapper(self.driver, 'Responsive not detected')
             responsive = False
         page = HomePage(driver)
         page.click_mice()
@@ -303,7 +306,7 @@ class AO_Browse_Store(unittest.TestCase):
                 "<br>Scroller option = " + DT_scroller + \
                 "<br>Color option = " + DT_color 
 
-            logging.getLogger(self.driver.loggingID).info("Loaded test values from excel")
+            log_wrapper(self.driver, "Loaded test values from excel")
             reporter[testID].reportEvent("Load row #" + str(rowNum) + " values from datasheet", False, dataString)
 
             if responsive:
@@ -318,20 +321,20 @@ class AO_Browse_Store(unittest.TestCase):
             reporter[testID].reportEvent("Entered selection options", False)
             if DT_expected_items == page.get_num_items():
                 reporter[testID].reportStep("Check that results return expected number of items", "Correct number of items shown", "Correct number of items shown", True, "Items found: " + str(DT_expected_items), screenshotCallback=driver.save_screenshot)
-                logging.getLogger(self.driver.loggingID).info("STEP SUCCESS")
+                log_wrapper(self.driver, "STEP SUCCESS")
             else:
                 reporter[testID].reportStep("Check that results return expected number of items", "Correct number of items shown", "Incorrect number of items shown", False, "Items found: " + str(page.get_num_items()),screenshotCallback=driver.save_screenshot)
-                logging.getLogger(self.driver.loggingID).info("STEP FAILURE")
+                log_wrapper(self.driver, "STEP FAILURE")
             page.clear_selection()
 
-    def atest_TH_TC005(self):
-        logging.getLogger(self.driver.loggingID).info("***BEGINNING TH_TC005 [Non-responsive]***")
+    def test_TH_TC005(self):
+        log_wrapper(self.driver, "***BEGINNING TH_TC005 [Non-responsive]***")
         self.testID = "TC005_" + str(random.getrandbits(64))
         self.reporter.addTestCase(self.testID, "TH_TC005", "Test Headphones page options using excel data [Non-responsive]")
         self.TH_TC005()
 
-    def atest_TH_TC005_responsive(self):
-        logging.getLogger(self.driver.loggingID).info("***BEGINNING TH_TC005 [Responsive]***")
+    def test_TH_TC005_responsive(self):
+        log_wrapper(self.driver, "***BEGINNING TH_TC005 [Responsive]***")
         self.testID = "TC005_" + str(random.getrandbits(64))
         self.reporter.addTestCase(self.testID, "TH_TC005_R", "Test Headphones page options using excel data [Responsive]")
         self.driver.set_window_size(500, 900)
@@ -341,14 +344,14 @@ class AO_Browse_Store(unittest.TestCase):
         driver = self.driver
         reporter = self.reporter
         testID = self.testID
-        logging.getLogger(driver.loggingID).info('Entered TH_TC005 main test logic')
-        logging.getLogger(driver.loggingID).info('Checking for responsive webpage')
+        log_wrapper(self.driver, 'Entered TH_TC005 main test logic')
+        log_wrapper(self.driver, 'Checking for responsive webpage')
         if self.driver.get_window_size()['width'] < 550:
-            logging.getLogger(driver.loggingID).info('Responsive detected')
+            log_wrapper(self.driver, 'Responsive detected')
             reporter[testID].reportEvent("Detected responsive site", False, "")
             responsive = True
         else:
-            logging.getLogger(driver.loggingID).info('Responsive not detected')
+            log_wrapper(self.driver, 'Responsive not detected')
             responsive = False
         page = HomePage(driver)
         page.click_headphones()
@@ -370,7 +373,7 @@ class AO_Browse_Store(unittest.TestCase):
                 "<br>Conector option = " + DT_connector + \
                 "<br>Weight option = " + DT_weight + \
                 "<br>Color option = " + DT_color
-            logging.getLogger(self.driver.loggingID).info("Loaded test values from excel")
+            log_wrapper(self.driver, "Loaded test values from excel")
             
             reporter[testID].reportEvent("Load row #" + str(rowNum) + " values from datasheet", False, dataString)
 
@@ -390,21 +393,21 @@ class AO_Browse_Store(unittest.TestCase):
             reporter[testID].reportEvent("Entered selection options", False)
             if DT_expected_items == page.get_num_items():
                 reporter[testID].reportStep("Check that results return expected number of items", "Correct number of items shown", "Correct number of items shown", True, "Items found: " + str(DT_expected_items), screenshotCallback=driver.save_screenshot)
-                logging.getLogger(self.driver.loggingID).info("STEP SUCCESS")
+                log_wrapper(self.driver, "STEP SUCCESS")
             else:
                 reporter[testID].reportStep("Check that results return expected number of items", "Correct number of items shown", "Incorrect number of items shown", False, "Items found: " + str(page.get_num_items()),screenshotCallback=driver.save_screenshot)
-                logging.getLogger(self.driver.loggingID).info("STEP FAILURE")
+                log_wrapper(self.driver, "STEP FAILURE")
             page.clear_selection()
 
     #test multiple items
-    def atest_TH_TC006(self):
-        logging.getLogger(self.driver.loggingID).info("***BEGINNING TH_TC006 [Non-responsive]***")
+    def test_TH_TC006(self):
+        log_wrapper(self.driver, "***BEGINNING TH_TC006 [Non-responsive]***")
         self.testID = "TC006_" + str(random.getrandbits(64))
         self.reporter.addTestCase(self.testID, "TH_TC006", "Test Speakers page options using excel data with multiple selections [Non-responsive]")
         self.TH_TC006()
 
-    def atest_TH_TC006_responsive(self):
-        logging.getLogger(self.driver.loggingID).info("***BEGINNING TH_TC006 [Responsive]***")
+    def test_TH_TC006_responsive(self):
+        log_wrapper(self.driver, "***BEGINNING TH_TC006 [Responsive]***")
         self.testID = "TC006_" + str(random.getrandbits(64))
         self.reporter.addTestCase(self.testID, "TH_TC006_R", "Test Speakers page options using excel data with multiple selections [Responsive]")
         self.driver.set_window_size(500, 900)
@@ -414,14 +417,14 @@ class AO_Browse_Store(unittest.TestCase):
         driver = self.driver
         reporter = self.reporter
         testID = self.testID
-        logging.getLogger(driver.loggingID).info('Entered TH_TC006 main test logic')
-        logging.getLogger(driver.loggingID).info('Checking for responsive webpage')
+        log_wrapper(self.driver, 'Entered TH_TC006 main test logic')
+        log_wrapper(self.driver, 'Checking for responsive webpage')
         if self.driver.get_window_size()['width'] < 550:
-            logging.getLogger(driver.loggingID).info('Responsive detected')
+            log_wrapper(self.driver, 'Responsive detected')
             reporter[testID].reportEvent("Detected responsive site", False, "")
             responsive = True
         else:
-            logging.getLogger(driver.loggingID).info('Responsive not detected')
+            log_wrapper(self.driver, 'Responsive not detected')
             responsive = False
             
         page = HomePage(driver)
@@ -446,7 +449,7 @@ class AO_Browse_Store(unittest.TestCase):
                 "<br>Wireless option = " + DT_wireless + \
                 "<br>Color option = " + DT_color
 
-            logging.getLogger(driver.loggingID).info('Loaded test values from excel')
+            log_wrapper(self.driver, 'Loaded test values from excel')
             reporter[testID].reportEvent("Load row #" + str(rowNum) + " values from datasheet", False, dataString)
 
             if responsive:
@@ -475,19 +478,19 @@ class AO_Browse_Store(unittest.TestCase):
             reporter[testID].reportEvent("Entered selection options", False)
         if expected_items == page.get_num_items():
             reporter[testID].reportStep("Check that results return expected number of items", "Correct number of items shown", "Correct number of items shown", True, "Items found: " + str(expected_items), screenshotCallback=driver.save_screenshot)
-            logging.getLogger(self.driver.loggingID).info("STEP SUCCESS")
+            log_wrapper(self.driver, "STEP SUCCESS")
         else:
             reporter[testID].reportStep("Check that results return expected number of items", "Correct number of items shown", "Incorrect number of items shown", False, "Items found: " + str(page.get_num_items()),screenshotCallback=driver.save_screenshot)
-            logging.getLogger(self.driver.loggingID).info("STEP FAILURE")
+            log_wrapper(self.driver, "STEP FAILURE")
 
-    def atest_TH_TC007(self):
-        logging.getLogger(self.driver.loggingID).info("***BEGINNING TH_TC007 [Non-responsive]***")
+    def test_TH_TC007(self):
+        log_wrapper(self.driver, "***BEGINNING TH_TC007 [Non-responsive]***")
         self.testID = "TC007_" + str(random.getrandbits(64))
         self.reporter.addTestCase(self.testID, "TH_TC007", "Test Laptops page options using excel data with multiple selections [Non-responsive]")
         self.TH_TC007()
 
-    def atest_TH_TC007_responsive(self):
-        logging.getLogger(self.driver.loggingID).info("***BEGINNING TH_TC007 [Responsive]***")
+    def test_TH_TC007_responsive(self):
+        log_wrapper(self.driver, "***BEGINNING TH_TC007 [Responsive]***")
         self.testID = "TC007_" + str(random.getrandbits(64))
         self.reporter.addTestCase(self.testID, "TH_TC007_R", "Test Laptops page options using excel data with multiple selections [Responsive]")
         self.driver.set_window_size(500, 900)
@@ -497,14 +500,14 @@ class AO_Browse_Store(unittest.TestCase):
         driver = self.driver
         reporter = self.reporter
         testID = self.testID
-        logging.getLogger(driver.loggingID).info('Entered TH_TC007 main test logic')
-        logging.getLogger(driver.loggingID).info('Checking for responsive webpage')
+        log_wrapper(self.driver, 'Entered TH_TC007 main test logic')
+        log_wrapper(self.driver, 'Checking for responsive webpage')
         if self.driver.get_window_size()['width'] < 550:
-            logging.getLogger(driver.loggingID).info('Responsive detected')
+            log_wrapper(self.driver, 'Responsive detected')
             reporter[testID].reportEvent("Detected responsive site", False, "")
             responsive = True
         else:
-            logging.getLogger(driver.loggingID).info('Responsive not detected')
+            log_wrapper(self.driver, 'Responsive not detected')
             responsive = False
 
         page = HomePage(driver)
@@ -528,7 +531,7 @@ class AO_Browse_Store(unittest.TestCase):
                 "<br>Weight option = " + DT_weight + \
                 "<br>Color option = " + DT_color
 
-            logging.getLogger(driver.loggingID).info('Loaded test values from excel')
+            log_wrapper(self.driver, 'Loaded test values from excel')
             reporter[testID].reportEvent("Load row #" + str(rowNum) + " values from datasheet", False, dataString)
 
             if responsive:
@@ -556,19 +559,19 @@ class AO_Browse_Store(unittest.TestCase):
             reporter[testID].reportEvent("Entered selection options", False)
         if expected_items == page.get_num_items():
             reporter[testID].reportStep("Check that results return expected number of items", "Correct number of items shown", "Correct number of items shown", True, "Items found: " + str(expected_items), screenshotCallback=driver.save_screenshot)
-            logging.getLogger(driver.loggingID).info('STEP SUCCESS')
+            log_wrapper(self.driver, 'STEP SUCCESS')
         else:
             reporter[testID].reportStep("Check that results return expected number of items", "Correct number of items shown", "Incorrect number of items shown", False, "Items found: " + str(page.get_num_items()),screenshotCallback=driver.save_screenshot)
-            logging.getLogger(driver.loggingID).info('STEP FAILURE')
+            log_wrapper(self.driver, 'STEP FAILURE')
 
-    def atest_TH_TC008(self):
-        logging.getLogger(self.driver.loggingID).info("***BEGINNING TH_TC008 [Non-responsive]***")
+    def test_TH_TC008(self):
+        log_wrapper(self.driver, "***BEGINNING TH_TC008 [Non-responsive]***")
         self.testID = "TC008_" + str(random.getrandbits(64))
         self.reporter.addTestCase(self.testID, "TH_TC008", "Test Tablets page options using excel data with multiple selections [Non-responsive]")
         self.TH_TC008()
 
-    def atest_TH_TC008_responsive(self):
-        logging.getLogger(self.driver.loggingID).info("***BEGINNING TH_TC008 [Responsive]***")
+    def test_TH_TC008_responsive(self):
+        log_wrapper(self.driver, "***BEGINNING TH_TC008 [Responsive]***")
         self.testID = "TC008_" + str(random.getrandbits(64))
         self.reporter.addTestCase(self.testID, "TH_TC008_R", "Test Tablets page options using excel data with multiple selections [Responsive]")
         self.driver.set_window_size(500, 900)
@@ -578,14 +581,14 @@ class AO_Browse_Store(unittest.TestCase):
         driver = self.driver
         reporter = self.reporter
         testID = self.testID
-        logging.getLogger(driver.loggingID).info('Entered TH_TC008 main logic')
-        logging.getLogger(driver.loggingID).info('Checking for responsive webpage')
+        log_wrapper(self.driver, 'Entered TH_TC008 main logic')
+        log_wrapper(self.driver, 'Checking for responsive webpage')
         if self.driver.get_window_size()['width'] < 550:
-            logging.getLogger(driver.loggingID).info('Responsive detected')
+            log_wrapper(self.driver, 'Responsive detected')
             reporter[testID].reportEvent("Detected responsive site", False, "")
             responsive = True
         else:
-            logging.getLogger(driver.loggingID).info('Responsive not detected')
+            log_wrapper(self.driver, 'Responsive not detected')
             responsive = False
 
         page = HomePage(driver)
@@ -605,7 +608,7 @@ class AO_Browse_Store(unittest.TestCase):
                 "<br>Manufacturer option = " + DT_processor + \
                 "<br>Color option = " + DT_color 
             
-            logging.getLogger(driver.loggingID).info('Loaded test values from excel')
+            log_wrapper(self.driver, 'Loaded test values from excel')
             reporter[testID].reportEvent("Load row #" + str(rowNum) + " values from datasheet", False, dataString)
             if responsive:
                 page.open_responsive_filter()
@@ -624,19 +627,19 @@ class AO_Browse_Store(unittest.TestCase):
             reporter[testID].reportEvent("Entered selection options", False)
         if expected_items == page.get_num_items():
             reporter[testID].reportStep("Check that results return expected number of items", "Correct number of items shown", "Correct number of items shown", True, "Items found: " + str(expected_items), screenshotCallback=driver.save_screenshot)
-            logging.getLogger(self.driver.loggingID).info("STEP SUCCESS")
+            log_wrapper(self.driver, "STEP SUCCESS")
         else:
             reporter[testID].reportStep("Check that results return expected number of items", "Correct number of items shown", "Incorrect number of items shown", False, "Items found: " + str(page.get_num_items()),screenshotCallback=driver.save_screenshot)
-            logging.getLogger(self.driver.loggingID).info("STEP FAILURE")
+            log_wrapper(self.driver, "STEP FAILURE")
 
-    def atest_TH_TC009(self):
-        logging.getLogger(self.driver.loggingID).info("***BEGINNING TH_TC009 [Non-responsive]***")
+    def test_TH_TC009(self):
+        log_wrapper(self.driver, "***BEGINNING TH_TC009 [Non-responsive]***")
         self.testID = "TC009_" + str(random.getrandbits(64))
         self.reporter.addTestCase(self.testID, "TH_TC009", "Test Mice page options using excel data with multiple selections [Non-responsive]")
         self.TH_TC009()
 
-    def atest_TH_TC009_responsive(self):
-        logging.getLogger(self.driver.loggingID).info("***BEGINNING TH_TC009 [Responsive]***")
+    def test_TH_TC009_responsive(self):
+        log_wrapper(self.driver, "***BEGINNING TH_TC009 [Responsive]***")
         self.testID = "TC009_" + str(random.getrandbits(64))
         self.reporter.addTestCase(self.testID, "TH_TC009_R", "Test Mice page options using excel data with multiple selections [Responsive]")
         self.driver.set_window_size(500, 900)
@@ -646,14 +649,14 @@ class AO_Browse_Store(unittest.TestCase):
         driver = self.driver
         reporter = self.reporter
         testID = self.testID
-        logging.getLogger(driver.loggingID).info('Entered TH_TC009 main test logic')
-        logging.getLogger(driver.loggingID).info('Checking for responsive webpage')
+        log_wrapper(self.driver, 'Entered TH_TC009 main test logic')
+        log_wrapper(self.driver, 'Checking for responsive webpage')
         if self.driver.get_window_size()['width'] < 550:
-            logging.getLogger(driver.loggingID).info('Responsive detected')
+            log_wrapper(self.driver, 'Responsive detected')
             reporter[testID].reportEvent("Detected responsive site", False, "")
             responsive = True
         else:
-            logging.getLogger(driver.loggingID).info('Responsive not detected')
+            log_wrapper(self.driver, 'Responsive not detected')
             responsive = False
 
         page = HomePage(driver)
@@ -671,7 +674,7 @@ class AO_Browse_Store(unittest.TestCase):
             dataString = "Scroller option = " + DT_scroller + \
                 "<br>Color option = " + DT_color 
             reporter[testID].reportEvent("Load row #" + str(rowNum) + " values from datasheet", False, dataString)
-            logging.getLogger(driver.loggingID).info('Loaded test values from excel')
+            log_wrapper(self.driver, 'Loaded test values from excel')
 
             if responsive:
                 page.open_responsive_filter()
@@ -687,19 +690,19 @@ class AO_Browse_Store(unittest.TestCase):
             reporter[testID].reportEvent("Entered selection options", False)
         if expected_items == page.get_num_items():
             reporter[testID].reportStep("Check that results return expected number of items", "Correct number of items shown", "Correct number of items shown", True, "Items found: " + str(expected_items), screenshotCallback=driver.save_screenshot)
-            logging.getLogger(driver.loggingID).info("STEP SUCCESS")
+            log_wrapper(self.driver, "STEP SUCCESS")
         else:
             reporter[testID].reportStep("Check that results return expected number of items", "Correct number of items shown", "Incorrect number of items shown", False, "Items found: " + str(page.get_num_items()),screenshotCallback=driver.save_screenshot)
             logging.getLogger(driver.logginID).info("STEP FAILURE")
 
-    def atest_TH_TC010(self):
-        logging.getLogger(self.driver.loggingID).info("***BEGINNING TH_TC010 [Non-responsive]***")
+    def test_TH_TC010(self):
+        log_wrapper(self.driver, "***BEGINNING TH_TC010 [Non-responsive]***")
         self.testID = "TC010_" + str(random.getrandbits(64))
         self.reporter.addTestCase(self.testID, "TH_TC010", "Test Headphones page options using excel data with multiple selections [Non-responsive]")
         self.TH_TC010()
 
-    def atest_TH_TC010_responsive(self):
-        logging.getLogger(self.driver.loggingID).info("***BEGINNING TH_TC010 [Responsive]***")
+    def test_TH_TC010_responsive(self):
+        log_wrapper(self.driver, "***BEGINNING TH_TC010 [Responsive]***")
         self.testID = "TC010_" + str(random.getrandbits(64))
         self.reporter.addTestCase(self.testID, "TH_TC010_R", "Test Headphones page options using excel data with multiple selections [Responsive]")
         self.driver.set_window_size(500, 900)
@@ -709,14 +712,14 @@ class AO_Browse_Store(unittest.TestCase):
         driver = self.driver
         reporter = self.reporter
         testID = self.testID
-        logging.getLogger(driver.loggingID).info('Entered TH_TC010 main test logic')
-        logging.getLogger(driver.loggingID).info('Checking or responsive webpage')
+        log_wrapper(self.driver, 'Entered TH_TC010 main test logic')
+        log_wrapper(self.driver, 'Checking or responsive webpage')
         if self.driver.get_window_size()['width'] < 550:
-            logging.getLogger(driver.loggingID).info('Responsive detected')
+            log_wrapper(self.driver, 'Responsive detected')
             reporter[testID].reportEvent("Detected responsive site", False, "")
             responsive = True
         else:
-            logging.getLogger(driver.loggingID).info('Responsive not detected')
+            log_wrapper(self.driver, 'Responsive not detected')
             responsive = False
 
         page = HomePage(driver)
@@ -737,7 +740,7 @@ class AO_Browse_Store(unittest.TestCase):
                 "<br>Conector option = " + DT_connector + \
                 "<br>Weight option = " + DT_weight + \
                 "<br>Color option = " + DT_color
-            logging.getLogger(driver.loggingID).info('Loaded test values from excel')
+            log_wrapper(self.driver, 'Loaded test values from excel')
             reporter[testID].reportEvent("Load row #" + str(rowNum) + " values from datasheet", False, dataString)
 
             if responsive:
@@ -762,20 +765,20 @@ class AO_Browse_Store(unittest.TestCase):
             reporter[testID].reportEvent("Entered selection options", False)
         if expected_items == page.get_num_items():
             reporter[testID].reportStep("Check that results return expected number of items", "Correct number of items shown", "Correct number of items shown", True, "Items found: " + str(expected_items), screenshotCallback=driver.save_screenshot)
-            logging.getLogger(driver.loggingID).info('STEP SUCCESS')
+            log_wrapper(self.driver, 'STEP SUCCESS')
         else:
             reporter[testID].reportStep("Check that results return expected number of items", "Correct number of items shown", "Incorrect number of items shown", False, "Items found: " + str(page.get_num_items()),screenshotCallback=driver.save_screenshot)
-            logging.getLogger(driver.loggingID).info('STEP FAILURE')
+            log_wrapper(self.driver, 'STEP FAILURE')
 
     #test item pages
-    def atest_TH_TC011(self):
-        logging.getLogger(self.driver.loggingID).info("***BEGINNING TH_TC011 [Non-responsive]***")
+    def test_TH_TC011(self):
+        log_wrapper(self.driver, "***BEGINNING TH_TC011 [Non-responsive]***")
         self.testID = "TC011_" + str(random.getrandbits(64))
         self.reporter.addTestCase(self.testID, "TH_TC011", "Test viewing items based on excel input [Non-responsive]")
         self.TH_TC011()
 
-    def atest_TH_TC011_responsive(self):
-        logging.getLogger(self.driver.loggingID).info("***BEGINNING TH_TC011 [Non-responsive]***")
+    def test_TH_TC011_responsive(self):
+        log_wrapper(self.driver, "***BEGINNING TH_TC011 [Non-responsive]***")
         self.testID = "TC011_" + str(random.getrandbits(64))
         self.reporter.addTestCase(self.testID, "TH_TC011_R", "Test viewing items based on excel input [Responsive]")
         self.driver.set_window_size(500, 900)
@@ -785,14 +788,14 @@ class AO_Browse_Store(unittest.TestCase):
         driver = self.driver
         reporter = self.reporter
         testID = self.testID
-        logging.getLogger(driver.loggingID).info('Entered TH_TC011 main test logic')
-        logging.getLogger(driver.loggingID).info('Checking for responsive webpage')
+        log_wrapper(self.driver, 'Entered TH_TC011 main test logic')
+        log_wrapper(self.driver, 'Checking for responsive webpage')
         if self.driver.get_window_size()['width'] < 550:
-            logging.getLogger(driver.loggingID).info('Responsive Detected')
+            log_wrapper(self.driver, 'Responsive Detected')
             reporter[testID].reportEvent("Detected responsive site", False, "")
             responsive = True
         else:
-            logging.getLogger(driver.loggingID).info('Responsive not detected')
+            log_wrapper(self.driver, 'Responsive not detected')
             responsive = False
             
         page = HomePage(driver)
@@ -806,7 +809,7 @@ class AO_Browse_Store(unittest.TestCase):
             dataString = "Category option = " + DT_category + \
                 "<br>Item option (#) = " + DT_item
 
-            logging.getLogger(driver.loggingID).info('Loaded values form excel')
+            log_wrapper(self.driver, 'Loaded values form excel')
             reporter[testID].reportEvent("Loaded row #" + str(rowNum) + " values from datasheet", False, dataString)
             page = page.click_category_excel(DT_category)
             itemName = page.get_prod_name(DT_item)
@@ -820,20 +823,20 @@ class AO_Browse_Store(unittest.TestCase):
 
             if itemName == page.get_prod_name():
                 reporter[testID].reportStep("Check that item page descriptin matches store page description", "Description matches", "Description matches", True, "", screenshotCallback=driver.save_screenshot)
-                logging.getLogger(driver.loggingID).info('STEP SUCCESS')
+                log_wrapper(self.driver, 'STEP SUCCESS')
             else:
                 dataString = "Store page description = " + itemName + \
                     "<br>Item page description = " + page.get_prod_name() 
                 reporter[testID].reportStep("Check that item page description matches store page description", "Description matches", "Description doesn't match", False, dataString, screenshotCallback=driver.save_screenshot)
-                logging.getLogger(driver.loggingID).info('STEP FAILURE')
+                log_wrapper(self.driver, 'STEP FAILURE')
             if itemPrice == page.get_prod_price():
                 reporter[testID].reportStep("Check that item page price matches store page price", "Price matches", "Price matches", True, "", screenshotCallback=driver.save_screenshot)
-                logging.getLogger(driver.loggingID).info('STEP SUCCESS')
+                log_wrapper(self.driver, 'STEP SUCCESS')
             else:
                 dataString = "Store page price = " + itemPrice + \
                     "<br>Item page description = " + page.get_prod_price()
                 reporter[testID].reportStep("Check that item page price matches store page price", "Price matches", "Price doesn't match", False, dataString, screenshotCallback=driver.save_screenshot)
-                logging.getLogger(driver.loggingID).info('STEP FAILURE')
+                log_wrapper(self.driver, 'STEP FAILURE')
             driver.get('https://www.advantageonlineshopping.com/#/')
             page = HomePage(driver)
 
