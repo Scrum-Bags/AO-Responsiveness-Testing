@@ -31,7 +31,7 @@ class AO_Browse_Store(unittest.TestCase):
     def setUpClass(cls):
         cls.edge_options = Options()
         cls.edge_options.add_experimental_option('excludeSwitches', ['enable-logging'])
-        cls.edge_options.headless = False
+        cls.edge_options.headless = True
         cls.driver = webdriver.Edge(options=cls.edge_options)
         cls.driver.loggingID = "AO_Browse_Store"
 
@@ -42,27 +42,31 @@ class AO_Browse_Store(unittest.TestCase):
     def setUp(self):
         self.driver.get("https://www.advantageonlineshopping.com/#/")
         log_wrapper(self.driver, "Waiting for home page to load")
+        self.driver.reporter = self.reporter
         self.driver.set_window_size(945, 1012)
         #BasePage.wait_for_element(self, HomePageLocators.By_speakers_link, 30)
+
+    def tearDown(self):
+        self.driver.reporter = None
 
     #test single items
     def test_TH_TC001(self):
         log_wrapper(self.driver, "***BEGINNING TH_TC001 [Non-responsive]***")
-        self.testID = "TC001_" + str(random.getrandbits(64)) 
-        self.reporter.addTestCase(self.testID, "TH_TC001", "Test speakers page options using excel data [Non-Responsive]")
+        self.driver.testID = "TC001_" + str(random.getrandbits(64)) 
+        self.reporter.addTestCase(self.driver.testID, "TH_TC001", "Test speakers page options using excel data [Non-Responsive]")
         self.TH_TC001()
 
     def test_TH_TC001_responsive(self):
         log_wrapper(self.driver, '***BEGINNING TH_TC001 [Responsive]***')
-        self.testID = "TC001_" + str(random.getrandbits(64))
-        self.reporter.addTestCase(self.testID, "TH_TC001_R", "Test Speakers page options using excel data [Responsive]")
+        self.driver.testID = "TC001_" + str(random.getrandbits(64))
+        self.reporter.addTestCase(self.driver.testID, "TH_TC001_R", "Test Speakers page options using excel data [Responsive]")
         self.driver.set_window_size(500, 900)
         self.TH_TC001()
 
     def TH_TC001(self):
         driver = self.driver
         reporter = self.reporter
-        testID = self.testID
+        testID = self.driver.testID
         log_wrapper(self.driver, 'Entered TH_TC001 main test logic')
         log_wrapper(self.driver, 'Checking for responsive webpage')
         if self.driver.get_window_size()['width'] < 550:
@@ -124,21 +128,21 @@ class AO_Browse_Store(unittest.TestCase):
 
     def test_TH_TC002(self):
         log_wrapper(self.driver, "***BEGINNING TH_TC002 [Non-responsive]***")
-        self.testID = "TC002_" + str(random.getrandbits(64))
-        self.reporter.addTestCase(self.testID, "TH_TC002", "Test Laptops page options using excel data [Non-responsive]")
+        self.driver.testID = "TC002_" + str(random.getrandbits(64))
+        self.reporter.addTestCase(self.driver.testID, "TH_TC002", "Test Laptops page options using excel data [Non-responsive]")
         self.TH_TC002()
 
     def test_TH_TC002_responsive(self):
         log_wrapper(self.driver, "***BEGINNING TH_TC002 [Responsive]***")
-        self.testID = "TC002_" + str(random.getrandbits(64))
-        self.reporter.addTestCase(self.testID, "TH_TC002_R", "Test Laptops page options using excel data [Responsive]")
+        self.driver.testID = "TC002_" + str(random.getrandbits(64))
+        self.reporter.addTestCase(self.driver.testID, "TH_TC002_R", "Test Laptops page options using excel data [Responsive]")
         self.driver.set_window_size(500, 900)
         self.TH_TC002()
 
     def TH_TC002(self):
         driver = self.driver
         reporter = self.reporter
-        testID = self.testID
+        testID = self.driver.testID
         log_wrapper(self.driver, 'Entered TH_TC002 main test logic')
         log_wrapper(self.driver, 'Checking fo responsive webpage')
         if self.driver.get_window_size()['width'] < 550:
@@ -200,21 +204,21 @@ class AO_Browse_Store(unittest.TestCase):
 
     def test_TH_TC003(self):
         log_wrapper(self.driver, "***BEGINNING TH_TC003 [Non-responsive]***")
-        self.testID = "TC003_" + str(random.getrandbits(64))
-        self.reporter.addTestCase(self.testID, "TH_TC003", "Test Tablets page options using excel data [Non-responsive]")
+        self.driver.testID = "TC003_" + str(random.getrandbits(64))
+        self.reporter.addTestCase(self.driver.testID, "TH_TC003", "Test Tablets page options using excel data [Non-responsive]")
         self.TH_TC003()
 
     def test_TH_TC003_responsive(self):
         log_wrapper(self.driver, "***BEGINNING TH_TC003 [Responsive]***")
-        self.testID = "TC003_" + str(random.getrandbits(64))
-        self.reporter.addTestCase(self.testID, "TH_TC003_R", "Test Tablets page options using excel data [Responsive]")
+        self.driver.testID = "TC003_" + str(random.getrandbits(64))
+        self.reporter.addTestCase(self.driver.testID, "TH_TC003_R", "Test Tablets page options using excel data [Responsive]")
         self.driver.set_window_size(500, 900)
         self.TH_TC003()
 
     def TH_TC003(self):
         driver = self.driver
         reporter = self.reporter
-        testID = self.testID
+        testID = self.driver.testID
         log_wrapper(self.driver, 'Entered TH_TC003 main test logic')
         log_wrapper(self.driver, 'Checking for responsive webpage')
         if self.driver.get_window_size()['width'] < 550:
@@ -266,21 +270,21 @@ class AO_Browse_Store(unittest.TestCase):
 
     def test_TH_TC004(self):
         log_wrapper(self.driver, "***BEGINNING TH_TC004 [Non-responsive]***")
-        self.testID = "TC004_" + str(random.getrandbits(64))
-        self.reporter.addTestCase(self.testID, "TH_TC004", "Test Mice page options using excel data [Non-responsive]")
+        self.driver.testID = "TC004_" + str(random.getrandbits(64))
+        self.reporter.addTestCase(self.driver.testID, "TH_TC004", "Test Mice page options using excel data [Non-responsive]")
         self.TH_TC004()
 
     def test_TH_TC004_responsive(self):
         log_wrapper(self.driver, "***BEGINNING TH_TC004 [Responsive]***")
-        self.testID = "TC004_" + str(random.getrandbits(64))
-        self.reporter.addTestCase(self.testID, "TH_TC004_R", "Test Mice page options using excel data [Responsive]")
+        self.driver.testID = "TC004_" + str(random.getrandbits(64))
+        self.reporter.addTestCase(self.driver.testID, "TH_TC004_R", "Test Mice page options using excel data [Responsive]")
         self.driver.set_window_size(500, 900)
         self.TH_TC004()
 
     def TH_TC004(self):
         driver = self.driver
         reporter = self.reporter
-        testID = self.testID
+        testID = self.driver.testID
         log_wrapper(self.driver, 'Entered TH_TC004 main test logic')
         log_wrapper(self.driver, 'Checking for responsive webpage')
         if self.driver.get_window_size()['width'] < 550:
@@ -329,21 +333,21 @@ class AO_Browse_Store(unittest.TestCase):
 
     def test_TH_TC005(self):
         log_wrapper(self.driver, "***BEGINNING TH_TC005 [Non-responsive]***")
-        self.testID = "TC005_" + str(random.getrandbits(64))
-        self.reporter.addTestCase(self.testID, "TH_TC005", "Test Headphones page options using excel data [Non-responsive]")
+        self.driver.testID = "TC005_" + str(random.getrandbits(64))
+        self.reporter.addTestCase(self.driver.testID, "TH_TC005", "Test Headphones page options using excel data [Non-responsive]")
         self.TH_TC005()
 
     def test_TH_TC005_responsive(self):
         log_wrapper(self.driver, "***BEGINNING TH_TC005 [Responsive]***")
-        self.testID = "TC005_" + str(random.getrandbits(64))
-        self.reporter.addTestCase(self.testID, "TH_TC005_R", "Test Headphones page options using excel data [Responsive]")
+        self.driver.testID = "TC005_" + str(random.getrandbits(64))
+        self.reporter.addTestCase(self.driver.testID, "TH_TC005_R", "Test Headphones page options using excel data [Responsive]")
         self.driver.set_window_size(500, 900)
         self.TH_TC005()
 
     def TH_TC005(self):
         driver = self.driver
         reporter = self.reporter
-        testID = self.testID
+        testID = self.driver.testID
         log_wrapper(self.driver, 'Entered TH_TC005 main test logic')
         log_wrapper(self.driver, 'Checking for responsive webpage')
         if self.driver.get_window_size()['width'] < 550:
@@ -402,21 +406,21 @@ class AO_Browse_Store(unittest.TestCase):
     #test multiple items
     def test_TH_TC006(self):
         log_wrapper(self.driver, "***BEGINNING TH_TC006 [Non-responsive]***")
-        self.testID = "TC006_" + str(random.getrandbits(64))
-        self.reporter.addTestCase(self.testID, "TH_TC006", "Test Speakers page options using excel data with multiple selections [Non-responsive]")
+        self.driver.testID = "TC006_" + str(random.getrandbits(64))
+        self.reporter.addTestCase(self.driver.testID, "TH_TC006", "Test Speakers page options using excel data with multiple selections [Non-responsive]")
         self.TH_TC006()
 
     def test_TH_TC006_responsive(self):
         log_wrapper(self.driver, "***BEGINNING TH_TC006 [Responsive]***")
-        self.testID = "TC006_" + str(random.getrandbits(64))
-        self.reporter.addTestCase(self.testID, "TH_TC006_R", "Test Speakers page options using excel data with multiple selections [Responsive]")
+        self.driver.testID = "TC006_" + str(random.getrandbits(64))
+        self.reporter.addTestCase(self.driver.testID, "TH_TC006_R", "Test Speakers page options using excel data with multiple selections [Responsive]")
         self.driver.set_window_size(500, 900)
         self.TH_TC006()
 
     def TH_TC006(self):
         driver = self.driver
         reporter = self.reporter
-        testID = self.testID
+        testID = self.driver.testID
         log_wrapper(self.driver, 'Entered TH_TC006 main test logic')
         log_wrapper(self.driver, 'Checking for responsive webpage')
         if self.driver.get_window_size()['width'] < 550:
@@ -485,21 +489,21 @@ class AO_Browse_Store(unittest.TestCase):
 
     def test_TH_TC007(self):
         log_wrapper(self.driver, "***BEGINNING TH_TC007 [Non-responsive]***")
-        self.testID = "TC007_" + str(random.getrandbits(64))
-        self.reporter.addTestCase(self.testID, "TH_TC007", "Test Laptops page options using excel data with multiple selections [Non-responsive]")
+        self.driver.testID = "TC007_" + str(random.getrandbits(64))
+        self.reporter.addTestCase(self.driver.testID, "TH_TC007", "Test Laptops page options using excel data with multiple selections [Non-responsive]")
         self.TH_TC007()
 
     def test_TH_TC007_responsive(self):
         log_wrapper(self.driver, "***BEGINNING TH_TC007 [Responsive]***")
-        self.testID = "TC007_" + str(random.getrandbits(64))
-        self.reporter.addTestCase(self.testID, "TH_TC007_R", "Test Laptops page options using excel data with multiple selections [Responsive]")
+        self.driver.testID = "TC007_" + str(random.getrandbits(64))
+        self.reporter.addTestCase(self.driver.testID, "TH_TC007_R", "Test Laptops page options using excel data with multiple selections [Responsive]")
         self.driver.set_window_size(500, 900)
         self.TH_TC007()
   
     def TH_TC007(self):
         driver = self.driver
         reporter = self.reporter
-        testID = self.testID
+        testID = self.driver.testID
         log_wrapper(self.driver, 'Entered TH_TC007 main test logic')
         log_wrapper(self.driver, 'Checking for responsive webpage')
         if self.driver.get_window_size()['width'] < 550:
@@ -566,21 +570,21 @@ class AO_Browse_Store(unittest.TestCase):
 
     def test_TH_TC008(self):
         log_wrapper(self.driver, "***BEGINNING TH_TC008 [Non-responsive]***")
-        self.testID = "TC008_" + str(random.getrandbits(64))
-        self.reporter.addTestCase(self.testID, "TH_TC008", "Test Tablets page options using excel data with multiple selections [Non-responsive]")
+        self.driver.testID = "TC008_" + str(random.getrandbits(64))
+        self.reporter.addTestCase(self.driver.testID, "TH_TC008", "Test Tablets page options using excel data with multiple selections [Non-responsive]")
         self.TH_TC008()
 
     def test_TH_TC008_responsive(self):
         log_wrapper(self.driver, "***BEGINNING TH_TC008 [Responsive]***")
-        self.testID = "TC008_" + str(random.getrandbits(64))
-        self.reporter.addTestCase(self.testID, "TH_TC008_R", "Test Tablets page options using excel data with multiple selections [Responsive]")
+        self.driver.testID = "TC008_" + str(random.getrandbits(64))
+        self.reporter.addTestCase(self.driver.testID, "TH_TC008_R", "Test Tablets page options using excel data with multiple selections [Responsive]")
         self.driver.set_window_size(500, 900)
         self.TH_TC008()
 
     def TH_TC008(self):
         driver = self.driver
         reporter = self.reporter
-        testID = self.testID
+        testID = self.driver.testID
         log_wrapper(self.driver, 'Entered TH_TC008 main logic')
         log_wrapper(self.driver, 'Checking for responsive webpage')
         if self.driver.get_window_size()['width'] < 550:
@@ -634,21 +638,21 @@ class AO_Browse_Store(unittest.TestCase):
 
     def test_TH_TC009(self):
         log_wrapper(self.driver, "***BEGINNING TH_TC009 [Non-responsive]***")
-        self.testID = "TC009_" + str(random.getrandbits(64))
-        self.reporter.addTestCase(self.testID, "TH_TC009", "Test Mice page options using excel data with multiple selections [Non-responsive]")
+        self.driver.testID = "TC009_" + str(random.getrandbits(64))
+        self.reporter.addTestCase(self.driver.testID, "TH_TC009", "Test Mice page options using excel data with multiple selections [Non-responsive]")
         self.TH_TC009()
 
     def test_TH_TC009_responsive(self):
         log_wrapper(self.driver, "***BEGINNING TH_TC009 [Responsive]***")
-        self.testID = "TC009_" + str(random.getrandbits(64))
-        self.reporter.addTestCase(self.testID, "TH_TC009_R", "Test Mice page options using excel data with multiple selections [Responsive]")
+        self.driver.testID = "TC009_" + str(random.getrandbits(64))
+        self.reporter.addTestCase(self.driver.testID, "TH_TC009_R", "Test Mice page options using excel data with multiple selections [Responsive]")
         self.driver.set_window_size(500, 900)
         self.TH_TC009()
     
     def TH_TC009(self):
         driver = self.driver
         reporter = self.reporter
-        testID = self.testID
+        testID = self.driver.testID
         log_wrapper(self.driver, 'Entered TH_TC009 main test logic')
         log_wrapper(self.driver, 'Checking for responsive webpage')
         if self.driver.get_window_size()['width'] < 550:
@@ -697,21 +701,21 @@ class AO_Browse_Store(unittest.TestCase):
 
     def test_TH_TC010(self):
         log_wrapper(self.driver, "***BEGINNING TH_TC010 [Non-responsive]***")
-        self.testID = "TC010_" + str(random.getrandbits(64))
-        self.reporter.addTestCase(self.testID, "TH_TC010", "Test Headphones page options using excel data with multiple selections [Non-responsive]")
+        self.driver.testID = "TC010_" + str(random.getrandbits(64))
+        self.reporter.addTestCase(self.driver.testID, "TH_TC010", "Test Headphones page options using excel data with multiple selections [Non-responsive]")
         self.TH_TC010()
 
     def test_TH_TC010_responsive(self):
         log_wrapper(self.driver, "***BEGINNING TH_TC010 [Responsive]***")
-        self.testID = "TC010_" + str(random.getrandbits(64))
-        self.reporter.addTestCase(self.testID, "TH_TC010_R", "Test Headphones page options using excel data with multiple selections [Responsive]")
+        self.driver.testID = "TC010_" + str(random.getrandbits(64))
+        self.reporter.addTestCase(self.driver.testID, "TH_TC010_R", "Test Headphones page options using excel data with multiple selections [Responsive]")
         self.driver.set_window_size(500, 900)
         self.TH_TC010()
 
     def TH_TC010(self):
         driver = self.driver
         reporter = self.reporter
-        testID = self.testID
+        testID = self.driver.testID
         log_wrapper(self.driver, 'Entered TH_TC010 main test logic')
         log_wrapper(self.driver, 'Checking or responsive webpage')
         if self.driver.get_window_size()['width'] < 550:
@@ -773,21 +777,21 @@ class AO_Browse_Store(unittest.TestCase):
     #test item pages
     def test_TH_TC011(self):
         log_wrapper(self.driver, "***BEGINNING TH_TC011 [Non-responsive]***")
-        self.testID = "TC011_" + str(random.getrandbits(64))
-        self.reporter.addTestCase(self.testID, "TH_TC011", "Test viewing items based on excel input [Non-responsive]")
+        self.driver.testID = "TC011_" + str(random.getrandbits(64))
+        self.reporter.addTestCase(self.driver.testID, "TH_TC011", "Test viewing items based on excel input [Non-responsive]")
         self.TH_TC011()
 
     def test_TH_TC011_responsive(self):
         log_wrapper(self.driver, "***BEGINNING TH_TC011 [Non-responsive]***")
-        self.testID = "TC011_" + str(random.getrandbits(64))
-        self.reporter.addTestCase(self.testID, "TH_TC011_R", "Test viewing items based on excel input [Responsive]")
+        self.driver.testID = "TC011_" + str(random.getrandbits(64))
+        self.reporter.addTestCase(self.driver.testID, "TH_TC011_R", "Test viewing items based on excel input [Responsive]")
         self.driver.set_window_size(500, 900)
         self.TH_TC011()
 
     def TH_TC011(self):
         driver = self.driver
         reporter = self.reporter
-        testID = self.testID
+        testID = self.driver.testID
         log_wrapper(self.driver, 'Entered TH_TC011 main test logic')
         log_wrapper(self.driver, 'Checking for responsive webpage')
         if self.driver.get_window_size()['width'] < 550:
