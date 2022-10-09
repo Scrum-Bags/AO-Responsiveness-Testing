@@ -43,7 +43,7 @@ class AO_Browse_Store(unittest.TestCase):
         self.driver.get("https://www.advantageonlineshopping.com/#/")
         log_wrapper(self.driver, "Waiting for home page to load")
         self.driver.reporter = self.reporter
-        self.driver.set_window_size(945, 1012)
+        self.driver.set_window_size(1920, 1012)
         #BasePage.wait_for_element(self, HomePageLocators.By_speakers_link, 30)
 
     def tearDown(self):
@@ -56,11 +56,18 @@ class AO_Browse_Store(unittest.TestCase):
         self.reporter.addTestCase(self.driver.testID, "TH_TC001", "Test speakers page options using excel data [Non-Responsive]")
         self.TH_TC001()
 
-    def test_TH_TC001_responsive(self):
-        log_wrapper(self.driver, '***BEGINNING TH_TC001 [Responsive]***')
+    def test_TH_TC001_responsive_mobile(self):
+        log_wrapper(self.driver, '***BEGINNING TH_TC001 [Responsive-mobile]***')
         self.driver.testID = "TC001_" + str(random.getrandbits(64))
-        self.reporter.addTestCase(self.driver.testID, "TH_TC001_R", "Test Speakers page options using excel data [Responsive]")
-        self.driver.set_window_size(500, 900)
+        self.reporter.addTestCase(self.driver.testID, "TH_TC001_RM", "Test Speakers page options using excel data [Responsive-mobile]")
+        self.driver.set_window_size(360, 900)
+        self.TH_TC001()
+
+    def test_TH_TC001_responsive_tablet(self):
+        log_wrapper(self.driver, "***BEGINNING TH_TC001 [Responsive-tablet]***")
+        self.driver.testID = "TC001_" + str(random.getrandbits(64))
+        self.reporter.addTestCase(self.driver.testID, "TH_TC001_RT", "Test Speakers page options using excel data [Responsive-tablet]")
+        self.driver.set_window_size(768, 900)
         self.TH_TC001()
 
     def TH_TC001(self):
@@ -69,17 +76,13 @@ class AO_Browse_Store(unittest.TestCase):
         testID = self.driver.testID
         log_wrapper(self.driver, 'Entered TH_TC001 main test logic')
         log_wrapper(self.driver, 'Checking for responsive webpage')
-        if self.driver.get_window_size()['width'] < 550:
-            log_wrapper(self.driver, 'Responsive detected')
-            reporter[testID].reportEvent("Detected responsive site", False, "")
-            responsive = True
-        else:
-            log_wrapper(self.driver, 'Responsive not detected')
-            responsive = False
+
         page = HomePage(driver)
+        page.check_responsive()
+
         page.click_speakers()
         page = SpeakersPage(driver)
-        objExcel = excelReader("D:\Documents\Selenium\Tom\AdvantageOnline\AOBrowseStore.xlsx", 0)
+        objExcel = excelReader("D:\Documents\ScrumbagsRepos\AO-Responsiveness-Testing\Tom\AOBrowseStore.xlsx", 0)
         rowNum = 1 #for keeping track of datarow for reporting
 
         for dataRow in objExcel:
@@ -102,7 +105,7 @@ class AO_Browse_Store(unittest.TestCase):
 
             reporter[testID].reportEvent("Load row #" + str(rowNum) + " values from datasheet", False, dataString)
 
-            if responsive:
+            if self.driver.responsive_mobile:
                 page.open_responsive_filter()
 
             page.expand_expander(page.price_expander)
@@ -117,13 +120,14 @@ class AO_Browse_Store(unittest.TestCase):
             page.set_wireless(DT_wireless)
             page.expand_expander(page.color_expander)
             page.set_color(DT_color)
+            if self.driver.responsive_mobile:
+                page.scroll_to_bottom()
             reporter[testID].reportEvent("Entered selection options", False)
+            page.wait_for_item_display_update()
             if DT_expected_items == page.get_num_items():
                 reporter[testID].reportStep("Check that results return expected number of items", "Correct number of items shown", "Correct number of items shown", True, "Items found: " + str(DT_expected_items), screenshotCallback=driver.save_screenshot)
-                log_wrapper(self.driver, "STEP SUCCESS")
             else:
                 reporter[testID].reportStep("Check that results return expected number of items", "Correct number of items shown", "Incorrect number of items shown", False, "Items found: " + str(page.get_num_items()),screenshotCallback=driver.save_screenshot)
-                log_wrapper(self.driver, "STEP FAILURE")
             page.clear_selection()
 
     def test_TH_TC002(self):
@@ -132,11 +136,18 @@ class AO_Browse_Store(unittest.TestCase):
         self.reporter.addTestCase(self.driver.testID, "TH_TC002", "Test Laptops page options using excel data [Non-responsive]")
         self.TH_TC002()
 
-    def test_TH_TC002_responsive(self):
-        log_wrapper(self.driver, "***BEGINNING TH_TC002 [Responsive]***")
+    def test_TH_TC002_responsive_mobile(self):
+        log_wrapper(self.driver, "***BEGINNING TH_TC002 [Responsive-mobile]***")
         self.driver.testID = "TC002_" + str(random.getrandbits(64))
-        self.reporter.addTestCase(self.driver.testID, "TH_TC002_R", "Test Laptops page options using excel data [Responsive]")
-        self.driver.set_window_size(500, 900)
+        self.reporter.addTestCase(self.driver.testID, "TH_TC002_RM", "Test Laptops page options using excel data [Responsive-mobile]")
+        self.driver.set_window_size(360, 900)
+        self.TH_TC002()
+    
+    def test_TH_TC002_responsive_tablet(self):
+        log_wrapper(self.driver, "***BEGINNING TH_TC002 [Responsive-tablet]***")
+        self.driver.testID = "TC002_" + str(random.getrandbits(64))
+        self.reporter.addTestCase(self.driver.testID, "TH_TC002_RT", "Test Laptops page options using excel data [Responsive-tablet]")
+        self.driver.set_window_size(768, 900)
         self.TH_TC002()
 
     def TH_TC002(self):
@@ -144,19 +155,11 @@ class AO_Browse_Store(unittest.TestCase):
         reporter = self.reporter
         testID = self.driver.testID
         log_wrapper(self.driver, 'Entered TH_TC002 main test logic')
-        log_wrapper(self.driver, 'Checking fo responsive webpage')
-        if self.driver.get_window_size()['width'] < 550:
-            log_wrapper(self.driver, 'Responsive detected')
-            reporter[testID].reportEvent("Detected responsive site", False, "")
-            responsive = True
-        else:
-            log_wrapper(self.driver, "Responsive not detected")
-            responsive = False
-
         page = HomePage(driver)
+        page.check_responsive()
         page.click_laptops()
         page = LaptopsPage(driver)
-        objExcel = excelReader("D:\Documents\Selenium\Tom\AdvantageOnline\AOBrowseStore.xlsx", 1)
+        objExcel = excelReader("D:\Documents\ScrumbagsRepos\AO-Responsiveness-Testing\Tom\AOBrowseStore.xlsx", 1)
         rowNum = 1 #for keeping track of datarow for reporting
         for dataRow in objExcel:
             rowNum += 1
@@ -178,7 +181,7 @@ class AO_Browse_Store(unittest.TestCase):
 
             reporter[testID].reportEvent("Load row #" + str(rowNum) + " values from datasheet", False, dataString)
 
-            if responsive:
+            if self.driver.responsive_mobile:
                 page.open_responsive_filter()
 
             page.expand_expander(page.price_expander)
@@ -193,7 +196,10 @@ class AO_Browse_Store(unittest.TestCase):
             page.set_weight(DT_weight)
             page.expand_expander(page.color_expander)
             page.set_color(DT_color)
+            if self.driver.responsive_mobile:
+                page.scroll_to_bottom()
             reporter[testID].reportEvent("Entered selection options", False)
+            page.wait_for_item_display_update()
             if DT_expected_items == page.get_num_items():
                 reporter[testID].reportStep("Check that results return expected number of items", "Correct number of items shown", "Correct number of items shown", True, "Items found: " + str(DT_expected_items), screenshotCallback=driver.save_screenshot)
                 log_wrapper(self.driver, 'STEP SUCCESS')
@@ -208,11 +214,18 @@ class AO_Browse_Store(unittest.TestCase):
         self.reporter.addTestCase(self.driver.testID, "TH_TC003", "Test Tablets page options using excel data [Non-responsive]")
         self.TH_TC003()
 
-    def test_TH_TC003_responsive(self):
-        log_wrapper(self.driver, "***BEGINNING TH_TC003 [Responsive]***")
+    def test_TH_TC003_responsive_mobile(self):
+        log_wrapper(self.driver, "***BEGINNING TH_TC003 [Responsive-mobile]***")
         self.driver.testID = "TC003_" + str(random.getrandbits(64))
-        self.reporter.addTestCase(self.driver.testID, "TH_TC003_R", "Test Tablets page options using excel data [Responsive]")
-        self.driver.set_window_size(500, 900)
+        self.reporter.addTestCase(self.driver.testID, "TH_TC003_RM", "Test Tablets page options using excel data [Responsive-mobile]")
+        self.driver.set_window_size(360, 900)
+        self.TH_TC003()
+
+    def test_TH_TC003_responsive_tablet(self):
+        log_wrapper(self.driver, "***BEGINNING TH_TC003 [Responsive-tablet]***")
+        self.driver.testID = "TC003_" + str(random.getrandbits(64))
+        self.reporter.addTestCase(self.driver.testID, "TH_TC003_RT", "Test Tablets page options using excel data [Responsive-tablet]")
+        self.driver.set_window_size(768, 900)
         self.TH_TC003()
 
     def TH_TC003(self):
@@ -220,18 +233,12 @@ class AO_Browse_Store(unittest.TestCase):
         reporter = self.reporter
         testID = self.driver.testID
         log_wrapper(self.driver, 'Entered TH_TC003 main test logic')
-        log_wrapper(self.driver, 'Checking for responsive webpage')
-        if self.driver.get_window_size()['width'] < 550:
-            log_wrapper(self.driver, 'Responsive detected')
-            reporter[testID].reportEvent("Detected responsive site", False, "")
-            responsive = True
-        else:
-            log_wrapper(self.driver, 'Responsive not detected')
-            responsive = False
+
         page = HomePage(driver)
+        page.check_responsive()
         page.click_tablets()
         page = TabletsPage(driver)
-        objExcel = excelReader("D:\Documents\Selenium\Tom\AdvantageOnline\AOBrowseStore.xlsx", 2)
+        objExcel = excelReader("D:\Documents\ScrumbagsRepos\AO-Responsiveness-Testing\Tom\AOBrowseStore.xlsx", 2)
         rowNum = 1 #for keeping track of datarow for reporting
         for dataRow in objExcel:
             rowNum += 1
@@ -248,7 +255,7 @@ class AO_Browse_Store(unittest.TestCase):
             log_wrapper(self.driver, "Loaded test values form excel sheet")
             reporter[testID].reportEvent("Load row #" + str(rowNum) + " values from datasheet", False, dataString)
 
-            if responsive:
+            if self.driver.responsive_mobile:
                 page.open_responsive_filter()
 
             page.expand_expander(page.price_expander)
@@ -259,7 +266,10 @@ class AO_Browse_Store(unittest.TestCase):
             page.set_processor(DT_processor)
             page.expand_expander(page.color_expander)
             page.set_color(DT_color)
+            if self.driver.responsive_mobile:
+                page.scroll_to_bottom()
             reporter[testID].reportEvent("Entered selection options", False)
+            page.wait_for_item_display_update()
             if DT_expected_items == page.get_num_items():
                 reporter[testID].reportStep("Check that results return expected number of items", "Correct number of items shown", "Correct number of items shown", True, "Items found: " + str(DT_expected_items), screenshotCallback=driver.save_screenshot)
                 log_wrapper(self.driver, "STEP SUCCESS")
@@ -274,11 +284,18 @@ class AO_Browse_Store(unittest.TestCase):
         self.reporter.addTestCase(self.driver.testID, "TH_TC004", "Test Mice page options using excel data [Non-responsive]")
         self.TH_TC004()
 
-    def test_TH_TC004_responsive(self):
-        log_wrapper(self.driver, "***BEGINNING TH_TC004 [Responsive]***")
+    def test_TH_TC004_responsive_mobile(self):
+        log_wrapper(self.driver, "***BEGINNING TH_TC004 [Responsive-mobile]***")
         self.driver.testID = "TC004_" + str(random.getrandbits(64))
-        self.reporter.addTestCase(self.driver.testID, "TH_TC004_R", "Test Mice page options using excel data [Responsive]")
-        self.driver.set_window_size(500, 900)
+        self.reporter.addTestCase(self.driver.testID, "TH_TC004_RM", "Test Mice page options using excel data [Responsive-mobile]")
+        self.driver.set_window_size(360, 900)
+        self.TH_TC004()
+
+    def test_TH_TC004_responsive_tablet(self):
+        log_wrapper(self.driver, "***BEGINNING TH_TC004 [Responsive-tablet]***")
+        self.driver.testID = "TC004_" + str(random.getrandbits(64))
+        self.reporter.addTestCase(self.driver.testID, "TH_TC004_RT", "Test Mice page options using excel data [Responsive-tablet]")
+        self.driver.set_window_size(768, 900)
         self.TH_TC004()
 
     def TH_TC004(self):
@@ -286,18 +303,11 @@ class AO_Browse_Store(unittest.TestCase):
         reporter = self.reporter
         testID = self.driver.testID
         log_wrapper(self.driver, 'Entered TH_TC004 main test logic')
-        log_wrapper(self.driver, 'Checking for responsive webpage')
-        if self.driver.get_window_size()['width'] < 550:
-            log_wrapper(self.driver, 'Responsive detected')
-            reporter[testID].reportEvent("Detected responsive site", False, "")
-            responsive = True
-        else:
-            log_wrapper(self.driver, 'Responsive not detected')
-            responsive = False
         page = HomePage(driver)
+        page.check_responsive()
         page.click_mice()
         page = MicePage(driver)
-        objExcel = excelReader("D:\Documents\Selenium\Tom\AdvantageOnline\AOBrowseStore.xlsx", 3)
+        objExcel = excelReader("D:\Documents\ScrumbagsRepos\AO-Responsiveness-Testing\Tom\AOBrowseStore.xlsx", 3)
         rowNum = 1 #for keeping track of datarow for reporting
         for dataRow in objExcel:
             rowNum += 1
@@ -313,7 +323,7 @@ class AO_Browse_Store(unittest.TestCase):
             log_wrapper(self.driver, "Loaded test values from excel")
             reporter[testID].reportEvent("Load row #" + str(rowNum) + " values from datasheet", False, dataString)
 
-            if responsive:
+            if self.driver.responsive_mobile:
                 page.open_responsive_filter()
 
             page.expand_expander(page.price_expander)
@@ -322,7 +332,10 @@ class AO_Browse_Store(unittest.TestCase):
             page.set_scroller(DT_scroller)
             page.expand_expander(page.color_expander)
             page.set_color(DT_color)
+            if self.driver.responsive_mobile:
+                page.scroll_to_bottom()
             reporter[testID].reportEvent("Entered selection options", False)
+            page.wait_for_item_display_update()
             if DT_expected_items == page.get_num_items():
                 reporter[testID].reportStep("Check that results return expected number of items", "Correct number of items shown", "Correct number of items shown", True, "Items found: " + str(DT_expected_items), screenshotCallback=driver.save_screenshot)
                 log_wrapper(self.driver, "STEP SUCCESS")
@@ -337,11 +350,18 @@ class AO_Browse_Store(unittest.TestCase):
         self.reporter.addTestCase(self.driver.testID, "TH_TC005", "Test Headphones page options using excel data [Non-responsive]")
         self.TH_TC005()
 
-    def test_TH_TC005_responsive(self):
-        log_wrapper(self.driver, "***BEGINNING TH_TC005 [Responsive]***")
+    def test_TH_TC005_responsive_mobile(self):
+        log_wrapper(self.driver, "***BEGINNING TH_TC005 [Responsive-mobile]***")
         self.driver.testID = "TC005_" + str(random.getrandbits(64))
-        self.reporter.addTestCase(self.driver.testID, "TH_TC005_R", "Test Headphones page options using excel data [Responsive]")
-        self.driver.set_window_size(500, 900)
+        self.reporter.addTestCase(self.driver.testID, "TH_TC005_RM", "Test Headphones page options using excel data [Responsive-mobile]")
+        self.driver.set_window_size(360, 900)
+        self.TH_TC005()
+
+    def test_TH_TC005_responsive_tablet(self):
+        log_wrapper(self.driver, "***BEGINNING TH_TC005 [Responsive-tablet]***")
+        self.driver.testID = "TC005_" + str(random.getrandbits(64))
+        self.reporter.addTestCase(self.driver.testID, "TH_TC005_RT", "Test Headphones page options using excel data [Responsive-tablet]")
+        self.driver.set_window_size(768, 900)
         self.TH_TC005()
 
     def TH_TC005(self):
@@ -349,18 +369,11 @@ class AO_Browse_Store(unittest.TestCase):
         reporter = self.reporter
         testID = self.driver.testID
         log_wrapper(self.driver, 'Entered TH_TC005 main test logic')
-        log_wrapper(self.driver, 'Checking for responsive webpage')
-        if self.driver.get_window_size()['width'] < 550:
-            log_wrapper(self.driver, 'Responsive detected')
-            reporter[testID].reportEvent("Detected responsive site", False, "")
-            responsive = True
-        else:
-            log_wrapper(self.driver, 'Responsive not detected')
-            responsive = False
         page = HomePage(driver)
+        page.check_responsive()
         page.click_headphones()
         page = HeadphonesPage(driver)
-        objExcel = excelReader("D:\Documents\Selenium\Tom\AdvantageOnline\AOBrowseStore.xlsx", 4)
+        objExcel = excelReader("D:\Documents\ScrumbagsRepos\AO-Responsiveness-Testing\Tom\AOBrowseStore.xlsx", 4)
         rowNum = 1 #for keeping track of datarow for reporting
 
         for dataRow in objExcel:
@@ -382,7 +395,7 @@ class AO_Browse_Store(unittest.TestCase):
             reporter[testID].reportEvent("Load row #" + str(rowNum) + " values from datasheet", False, dataString)
 
 
-            if responsive:
+            if self.driver.responsive_mobile:
                 page.open_responsive_filter()
             page.expand_expander(page.price_expander)
             page.set_price(DT_price)
@@ -394,7 +407,10 @@ class AO_Browse_Store(unittest.TestCase):
             page.set_weight(DT_weight)
             page.expand_expander(page.color_expander)
             page.set_color(DT_color)
+            if self.driver.responsive_mobile:
+                page.scroll_to_bottom()
             reporter[testID].reportEvent("Entered selection options", False)
+            page.wait_for_item_display_update()
             if DT_expected_items == page.get_num_items():
                 reporter[testID].reportStep("Check that results return expected number of items", "Correct number of items shown", "Correct number of items shown", True, "Items found: " + str(DT_expected_items), screenshotCallback=driver.save_screenshot)
                 log_wrapper(self.driver, "STEP SUCCESS")
@@ -410,31 +426,32 @@ class AO_Browse_Store(unittest.TestCase):
         self.reporter.addTestCase(self.driver.testID, "TH_TC006", "Test Speakers page options using excel data with multiple selections [Non-responsive]")
         self.TH_TC006()
 
-    def test_TH_TC006_responsive(self):
-        log_wrapper(self.driver, "***BEGINNING TH_TC006 [Responsive]***")
+    def test_TH_TC006_responsive_mobile(self):
+        log_wrapper(self.driver, "***BEGINNING TH_TC006 [Responsive-mobile]***")
         self.driver.testID = "TC006_" + str(random.getrandbits(64))
-        self.reporter.addTestCase(self.driver.testID, "TH_TC006_R", "Test Speakers page options using excel data with multiple selections [Responsive]")
-        self.driver.set_window_size(500, 900)
+        self.reporter.addTestCase(self.driver.testID, "TH_TC006_RM", "Test Speakers page options using excel data with multiple selections [Responsive-mobile]")
+        self.driver.set_window_size(360, 900)
+        self.TH_TC006()
+
+    def test_TH_TC006_responsive_tablet(self):
+        log_wrapper(self.driver, "***BEGINNING TH_TC006 [Responsive-tablet]***")
+        self.driver.testID = "TC006_" + str(random.getrandbits(64))
+        self.reporter.addTestCase(self.driver.testID, "TH_TC006_RT", "Test Speakers page options using excel data with multiple selections [Responsive-tablet]")
+        self.driver.set_window_size(768, 900)
         self.TH_TC006()
 
     def TH_TC006(self):
         driver = self.driver
         reporter = self.reporter
         testID = self.driver.testID
+
         log_wrapper(self.driver, 'Entered TH_TC006 main test logic')
-        log_wrapper(self.driver, 'Checking for responsive webpage')
-        if self.driver.get_window_size()['width'] < 550:
-            log_wrapper(self.driver, 'Responsive detected')
-            reporter[testID].reportEvent("Detected responsive site", False, "")
-            responsive = True
-        else:
-            log_wrapper(self.driver, 'Responsive not detected')
-            responsive = False
-            
+           
         page = HomePage(driver)
+        page.check_responsive()
         page.click_speakers()
         page = SpeakersPage(driver)
-        objExcel = excelReader("D:\Documents\Selenium\Tom\AdvantageOnline\AOBrowseStore.xlsx", 5)
+        objExcel = excelReader("D:\Documents\ScrumbagsRepos\AO-Responsiveness-Testing\Tom\AOBrowseStore.xlsx", 5)
         rowNum = 1 #for keeping track of datarow for reporting
         expected_items = 0
 
@@ -456,7 +473,7 @@ class AO_Browse_Store(unittest.TestCase):
             log_wrapper(self.driver, 'Loaded test values from excel')
             reporter[testID].reportEvent("Load row #" + str(rowNum) + " values from datasheet", False, dataString)
 
-            if responsive:
+            if self.driver.responsive_mobile:
                 page.open_responsive_filter()
 
             page.expand_expander(page.compat_expander)
@@ -479,7 +496,11 @@ class AO_Browse_Store(unittest.TestCase):
             page.set_color(DT_color)
             page.close_expander(page.color_expander)
 
+            if self.driver.responsive_mobile:
+                page.scroll_to_bottom()
             reporter[testID].reportEvent("Entered selection options", False)
+            page.wait_for_item_display_update()
+            self.driver.execute_script("window.scrollTo(0,0)")
         if expected_items == page.get_num_items():
             reporter[testID].reportStep("Check that results return expected number of items", "Correct number of items shown", "Correct number of items shown", True, "Items found: " + str(expected_items), screenshotCallback=driver.save_screenshot)
             log_wrapper(self.driver, "STEP SUCCESS")
@@ -493,11 +514,18 @@ class AO_Browse_Store(unittest.TestCase):
         self.reporter.addTestCase(self.driver.testID, "TH_TC007", "Test Laptops page options using excel data with multiple selections [Non-responsive]")
         self.TH_TC007()
 
-    def test_TH_TC007_responsive(self):
-        log_wrapper(self.driver, "***BEGINNING TH_TC007 [Responsive]***")
+    def test_TH_TC007_responsive_mobile(self):
+        log_wrapper(self.driver, "***BEGINNING TH_TC007 [Responsive-mobile]***")
         self.driver.testID = "TC007_" + str(random.getrandbits(64))
-        self.reporter.addTestCase(self.driver.testID, "TH_TC007_R", "Test Laptops page options using excel data with multiple selections [Responsive]")
-        self.driver.set_window_size(500, 900)
+        self.reporter.addTestCase(self.driver.testID, "TH_TC007_RM", "Test Laptops page options using excel data with multiple selections [Responsive-mobile]")
+        self.driver.set_window_size(360, 900)
+        self.TH_TC007()
+
+    def test_TH_TC007_responsive_tablet(self):
+        log_wrapper(self.driver, "***BEGINNING TH_TC007 [Responsive-tablet]***")
+        self.driver.testID = "TC007_" + str(random.getrandbits(64))
+        self.reporter.addTestCase(self.driver.testID, "TH_TC007_RT", "Test Laptops page options using excel data with multiple selections [Responsive-tablet]")
+        self.driver.set_window_size(768, 900)
         self.TH_TC007()
   
     def TH_TC007(self):
@@ -505,19 +533,13 @@ class AO_Browse_Store(unittest.TestCase):
         reporter = self.reporter
         testID = self.driver.testID
         log_wrapper(self.driver, 'Entered TH_TC007 main test logic')
-        log_wrapper(self.driver, 'Checking for responsive webpage')
-        if self.driver.get_window_size()['width'] < 550:
-            log_wrapper(self.driver, 'Responsive detected')
-            reporter[testID].reportEvent("Detected responsive site", False, "")
-            responsive = True
-        else:
-            log_wrapper(self.driver, 'Responsive not detected')
-            responsive = False
-
         page = HomePage(driver)
+
+        page.check_responsive()
+
         page.click_laptops()
         page = LaptopsPage(driver)
-        objExcel = excelReader("D:\Documents\Selenium\Tom\AdvantageOnline\AOBrowseStore.xlsx", 6)
+        objExcel = excelReader("D:\Documents\ScrumbagsRepos\AO-Responsiveness-Testing\Tom\AOBrowseStore.xlsx", 6)
         rowNum = 1 #for keeping track of datarow for reporting
         expected_items = 0
         for dataRow in objExcel:
@@ -538,7 +560,7 @@ class AO_Browse_Store(unittest.TestCase):
             log_wrapper(self.driver, 'Loaded test values from excel')
             reporter[testID].reportEvent("Load row #" + str(rowNum) + " values from datasheet", False, dataString)
 
-            if responsive:
+            if self.driver.responsive_mobile:
                 page.open_responsive_filter()
                 
             page.expand_expander(page.display_expander)
@@ -560,7 +582,12 @@ class AO_Browse_Store(unittest.TestCase):
             page.expand_expander(page.color_expander)
             page.set_color(DT_color)
             page.close_expander(page.color_expander)
+
+            if self.driver.responsive_mobile:
+                page.scroll_to_bottom()
             reporter[testID].reportEvent("Entered selection options", False)
+            page.wait_for_item_display_update()
+            self.driver.execute_script("window.scrollTo(0,0)")
         if expected_items == page.get_num_items():
             reporter[testID].reportStep("Check that results return expected number of items", "Correct number of items shown", "Correct number of items shown", True, "Items found: " + str(expected_items), screenshotCallback=driver.save_screenshot)
             log_wrapper(self.driver, 'STEP SUCCESS')
@@ -568,17 +595,25 @@ class AO_Browse_Store(unittest.TestCase):
             reporter[testID].reportStep("Check that results return expected number of items", "Correct number of items shown", "Incorrect number of items shown", False, "Items found: " + str(page.get_num_items()),screenshotCallback=driver.save_screenshot)
             log_wrapper(self.driver, 'STEP FAILURE')
 
+
     def test_TH_TC008(self):
         log_wrapper(self.driver, "***BEGINNING TH_TC008 [Non-responsive]***")
         self.driver.testID = "TC008_" + str(random.getrandbits(64))
         self.reporter.addTestCase(self.driver.testID, "TH_TC008", "Test Tablets page options using excel data with multiple selections [Non-responsive]")
         self.TH_TC008()
 
-    def test_TH_TC008_responsive(self):
-        log_wrapper(self.driver, "***BEGINNING TH_TC008 [Responsive]***")
+    def test_TH_TC008_responsive_mobile(self):
+        log_wrapper(self.driver, "***BEGINNING TH_TC008 [Responsive-mobile]***")
         self.driver.testID = "TC008_" + str(random.getrandbits(64))
-        self.reporter.addTestCase(self.driver.testID, "TH_TC008_R", "Test Tablets page options using excel data with multiple selections [Responsive]")
-        self.driver.set_window_size(500, 900)
+        self.reporter.addTestCase(self.driver.testID, "TH_TC008_RM", "Test Tablets page options using excel data with multiple selections [Responsive-mobile]")
+        self.driver.set_window_size(360, 900)
+        self.TH_TC008()
+
+    def test_TH_TC008_responsive_tablet(self):
+        log_wrapper(self.driver, "***BEGINNING TH_TC008 [Responsive-tablet]***")
+        self.driver.testID = "TC008_" + str(random.getrandbits(64))
+        self.reporter.addTestCase(self.driver.testID, "TH_TC008_RT", "Test Tablets page options using excel data with multiple selections [Responsive-tablet]")
+        self.driver.set_window_size(768, 900)
         self.TH_TC008()
 
     def TH_TC008(self):
@@ -586,19 +621,14 @@ class AO_Browse_Store(unittest.TestCase):
         reporter = self.reporter
         testID = self.driver.testID
         log_wrapper(self.driver, 'Entered TH_TC008 main logic')
-        log_wrapper(self.driver, 'Checking for responsive webpage')
-        if self.driver.get_window_size()['width'] < 550:
-            log_wrapper(self.driver, 'Responsive detected')
-            reporter[testID].reportEvent("Detected responsive site", False, "")
-            responsive = True
-        else:
-            log_wrapper(self.driver, 'Responsive not detected')
-            responsive = False
 
         page = HomePage(driver)
+
+        page.check_responsive()
+
         page.click_tablets()
         page = TabletsPage(driver)
-        objExcel = excelReader("D:\Documents\Selenium\Tom\AdvantageOnline\AOBrowseStore.xlsx", 7)
+        objExcel = excelReader("D:\Documents\ScrumbagsRepos\AO-Responsiveness-Testing\Tom\AOBrowseStore.xlsx", 7)
         rowNum = 1 #for keeping track of datarow for reporting
         expected_items = 0
         for dataRow in objExcel:
@@ -614,7 +644,7 @@ class AO_Browse_Store(unittest.TestCase):
             
             log_wrapper(self.driver, 'Loaded test values from excel')
             reporter[testID].reportEvent("Load row #" + str(rowNum) + " values from datasheet", False, dataString)
-            if responsive:
+            if self.driver.responsive_mobile:
                 page.open_responsive_filter()
             page.expand_expander(page.display_expander)
             page.set_display(DT_display)
@@ -628,7 +658,11 @@ class AO_Browse_Store(unittest.TestCase):
             page.set_color(DT_color)
             page.close_expander(page.color_expander)
 
+            if self.driver.responsive_mobile:
+                page.scroll_to_bottom()
             reporter[testID].reportEvent("Entered selection options", False)
+            page.wait_for_item_display_update()
+            self.driver.execute_script("window.scrollTo(0,0)")
         if expected_items == page.get_num_items():
             reporter[testID].reportStep("Check that results return expected number of items", "Correct number of items shown", "Correct number of items shown", True, "Items found: " + str(expected_items), screenshotCallback=driver.save_screenshot)
             log_wrapper(self.driver, "STEP SUCCESS")
@@ -636,37 +670,40 @@ class AO_Browse_Store(unittest.TestCase):
             reporter[testID].reportStep("Check that results return expected number of items", "Correct number of items shown", "Incorrect number of items shown", False, "Items found: " + str(page.get_num_items()),screenshotCallback=driver.save_screenshot)
             log_wrapper(self.driver, "STEP FAILURE")
 
+        
     def test_TH_TC009(self):
         log_wrapper(self.driver, "***BEGINNING TH_TC009 [Non-responsive]***")
         self.driver.testID = "TC009_" + str(random.getrandbits(64))
         self.reporter.addTestCase(self.driver.testID, "TH_TC009", "Test Mice page options using excel data with multiple selections [Non-responsive]")
         self.TH_TC009()
 
-    def test_TH_TC009_responsive(self):
-        log_wrapper(self.driver, "***BEGINNING TH_TC009 [Responsive]***")
+    def test_TH_TC009_responsive_mobile(self):
+        log_wrapper(self.driver, "***BEGINNING TH_TC009 [Responsive-mobile]***")
         self.driver.testID = "TC009_" + str(random.getrandbits(64))
-        self.reporter.addTestCase(self.driver.testID, "TH_TC009_R", "Test Mice page options using excel data with multiple selections [Responsive]")
-        self.driver.set_window_size(500, 900)
+        self.reporter.addTestCase(self.driver.testID, "TH_TC009_RM", "Test Mice page options using excel data with multiple selections [Responsive-mobile]")
+        self.driver.set_window_size(360, 900)
         self.TH_TC009()
-    
+
+    def test_TH_TC009_responsive_tablet(self):
+        log_wrapper(self.driver, "***BEGINNING TH_TC009 [Responsive-tablet]***")
+        self.driver.testID = "TC009_" + str(random.getrandbits(64))
+        self.reporter.addTestCase(self.driver.testID, "TH_TC009_RT", "Test Mice page options using excel data with multiple selections [Responsive-tablet]")
+        self.driver.set_window_size(768, 900)
+        self.TH_TC009()
+
     def TH_TC009(self):
         driver = self.driver
         reporter = self.reporter
         testID = self.driver.testID
         log_wrapper(self.driver, 'Entered TH_TC009 main test logic')
-        log_wrapper(self.driver, 'Checking for responsive webpage')
-        if self.driver.get_window_size()['width'] < 550:
-            log_wrapper(self.driver, 'Responsive detected')
-            reporter[testID].reportEvent("Detected responsive site", False, "")
-            responsive = True
-        else:
-            log_wrapper(self.driver, 'Responsive not detected')
-            responsive = False
 
         page = HomePage(driver)
+
+        page.check_responsive()
+
         page.click_mice()
         page = MicePage(driver)
-        objExcel = excelReader("D:\Documents\Selenium\Tom\AdvantageOnline\AOBrowseStore.xlsx", 8)
+        objExcel = excelReader("D:\Documents\ScrumbagsRepos\AO-Responsiveness-Testing\Tom\AOBrowseStore.xlsx", 8)
         rowNum = 1 #for keeping track of datarow for reporting
         expected_items = 0
         for dataRow in objExcel:
@@ -680,7 +717,7 @@ class AO_Browse_Store(unittest.TestCase):
             reporter[testID].reportEvent("Load row #" + str(rowNum) + " values from datasheet", False, dataString)
             log_wrapper(self.driver, 'Loaded test values from excel')
 
-            if responsive:
+            if self.driver.responsive_mobile:
                 page.open_responsive_filter()
 
             page.expand_expander(page.scroller_expander)
@@ -691,7 +728,11 @@ class AO_Browse_Store(unittest.TestCase):
             page.set_color(DT_color)
             page.close_expander(page.color_expander)
 
+            if self.driver.responsive_mobile:
+                page.scroll_to_bottom()
             reporter[testID].reportEvent("Entered selection options", False)
+            page.wait_for_item_display_update()
+            self.driver.execute_script("window.scrollTo(0,0)")
         if expected_items == page.get_num_items():
             reporter[testID].reportStep("Check that results return expected number of items", "Correct number of items shown", "Correct number of items shown", True, "Items found: " + str(expected_items), screenshotCallback=driver.save_screenshot)
             log_wrapper(self.driver, "STEP SUCCESS")
@@ -705,11 +746,18 @@ class AO_Browse_Store(unittest.TestCase):
         self.reporter.addTestCase(self.driver.testID, "TH_TC010", "Test Headphones page options using excel data with multiple selections [Non-responsive]")
         self.TH_TC010()
 
-    def test_TH_TC010_responsive(self):
-        log_wrapper(self.driver, "***BEGINNING TH_TC010 [Responsive]***")
+    def test_TH_TC010_responsive_mobile(self):
+        log_wrapper(self.driver, "***BEGINNING TH_TC010 [Responsive-mobile]***")
         self.driver.testID = "TC010_" + str(random.getrandbits(64))
-        self.reporter.addTestCase(self.driver.testID, "TH_TC010_R", "Test Headphones page options using excel data with multiple selections [Responsive]")
-        self.driver.set_window_size(500, 900)
+        self.reporter.addTestCase(self.driver.testID, "TH_TC010_RM", "Test Headphones page options using excel data with multiple selections [Responsive-mobile]")
+        self.driver.set_window_size(360, 900)
+        self.TH_TC010()
+
+    def test_TH_TC010_responsive_tablet(self):
+        log_wrapper(self.driver, "***BEGINNING TH_TC010 [Responsive-tablet]***")
+        self.driver.testID = "TC010_" + str(random.getrandbits(64))
+        self.reporter.addTestCase(self.driver.testID, "TH_TC010_RT", "Test Headphones page options using excel data with multiple selections [Responsive-tablet]")
+        self.driver.set_window_size(768, 900)
         self.TH_TC010()
 
     def TH_TC010(self):
@@ -717,19 +765,14 @@ class AO_Browse_Store(unittest.TestCase):
         reporter = self.reporter
         testID = self.driver.testID
         log_wrapper(self.driver, 'Entered TH_TC010 main test logic')
-        log_wrapper(self.driver, 'Checking or responsive webpage')
-        if self.driver.get_window_size()['width'] < 550:
-            log_wrapper(self.driver, 'Responsive detected')
-            reporter[testID].reportEvent("Detected responsive site", False, "")
-            responsive = True
-        else:
-            log_wrapper(self.driver, 'Responsive not detected')
-            responsive = False
 
         page = HomePage(driver)
+
+        page.check_responsive()
+
         page.click_headphones()
         page = HeadphonesPage(driver)
-        objExcel = excelReader("D:\Documents\Selenium\Tom\AdvantageOnline\AOBrowseStore.xlsx", 9)
+        objExcel = excelReader("D:\Documents\ScrumbagsRepos\AO-Responsiveness-Testing\Tom\AOBrowseStore.xlsx", 9)
         rowNum = 1 #for keeping track of datarow for reporting
         expected_items = 0
         for dataRow in objExcel:
@@ -747,7 +790,7 @@ class AO_Browse_Store(unittest.TestCase):
             log_wrapper(self.driver, 'Loaded test values from excel')
             reporter[testID].reportEvent("Load row #" + str(rowNum) + " values from datasheet", False, dataString)
 
-            if responsive:
+            if self.driver.responsive_mobile:
                 page.open_responsive_filter()
 
             page.expand_expander(page.compatibility_expander)
@@ -766,7 +809,11 @@ class AO_Browse_Store(unittest.TestCase):
             page.set_color(DT_color)
             page.close_expander(page.color_expander)
 
+            if self.driver.responsive_mobile:
+                page.scroll_to_bottom()
             reporter[testID].reportEvent("Entered selection options", False)
+            page.wait_for_item_display_update()
+            self.driver.execute_script("window.scrollTo(0,0)")
         if expected_items == page.get_num_items():
             reporter[testID].reportStep("Check that results return expected number of items", "Correct number of items shown", "Correct number of items shown", True, "Items found: " + str(expected_items), screenshotCallback=driver.save_screenshot)
             log_wrapper(self.driver, 'STEP SUCCESS')
@@ -781,11 +828,18 @@ class AO_Browse_Store(unittest.TestCase):
         self.reporter.addTestCase(self.driver.testID, "TH_TC011", "Test viewing items based on excel input [Non-responsive]")
         self.TH_TC011()
 
-    def test_TH_TC011_responsive(self):
-        log_wrapper(self.driver, "***BEGINNING TH_TC011 [Non-responsive]***")
+    def test_TH_TC011_responsive_mobile(self):
+        log_wrapper(self.driver, "***BEGINNING TH_TC011 [Responsive-mobile]***")
         self.driver.testID = "TC011_" + str(random.getrandbits(64))
-        self.reporter.addTestCase(self.driver.testID, "TH_TC011_R", "Test viewing items based on excel input [Responsive]")
-        self.driver.set_window_size(500, 900)
+        self.reporter.addTestCase(self.driver.testID, "TH_TC011_RM", "Test viewing items based on excel input [Responsive-mobile]")
+        self.driver.set_window_size(360, 900)
+        self.TH_TC011()
+
+    def test_TH_TC011_responsive_tablet(self):
+        log_wrapper(self.driver, "***BEGINNING TH_TC011 [Responsive-tablet]***")
+        self.driver.testID = "TC011_" + str(random.getrandbits(64))
+        self.reporter.addTestCase(self.driver.testID, "TH_TC011_RT", "Test viewing items based on excel input [Responsive-tablet]")
+        self.driver.set_window_size(768, 900)
         self.TH_TC011()
 
     def TH_TC011(self):
@@ -793,17 +847,12 @@ class AO_Browse_Store(unittest.TestCase):
         reporter = self.reporter
         testID = self.driver.testID
         log_wrapper(self.driver, 'Entered TH_TC011 main test logic')
-        log_wrapper(self.driver, 'Checking for responsive webpage')
-        if self.driver.get_window_size()['width'] < 550:
-            log_wrapper(self.driver, 'Responsive Detected')
-            reporter[testID].reportEvent("Detected responsive site", False, "")
-            responsive = True
-        else:
-            log_wrapper(self.driver, 'Responsive not detected')
-            responsive = False
-            
+
         page = HomePage(driver)
-        objExcel = excelReader("D:\Documents\Selenium\Tom\AdvantageOnline\AOBrowseStore.xlsx", 10)
+
+        page.check_responsive()
+           
+        objExcel = excelReader("D:\Documents\ScrumbagsRepos\AO-Responsiveness-Testing\Tom\AOBrowseStore.xlsx", 10)
         rowNum = 1 #for keeping track of datarow for reporting
         for dataRow in objExcel:
             rowNum += 1

@@ -38,6 +38,24 @@ class BasePage:
         else:
             return True
 
+    def check_responsive(self):
+        log_wrapper(self.driver, 'Checking for responsive webpage')
+        if self.driver.get_window_size()['width'] < 550:
+            log_wrapper(self.driver, f"Responsive mobile detected, width = {self.driver.get_window_size()['width']}")
+            self.driver.reporter[self.driver.testID].reportEvent("Detected responsive mobile site", False, "")
+            self.driver.responsive_mobile = True
+            self.driver.responsive_tablet = False
+        elif self.driver.get_window_size()['width'] < 800:
+            log_wrapper(self.driver, f"Responsive tablet detected, width = {self.driver.get_window_size()['width']}")
+            self.driver.reporter[self.driver.testID].reportEvent("Detected responsive tablet site", False, "")
+            self.driver.responsive_mobile = False
+            self.driver.responsive_tablet = True
+        else:
+            log_wrapper(self.driver, 'Responsive not detected')
+            self.driver.reporter[self.driver.testID].reportEvent("Detected desktop site", False, "")
+            self.driver.responsive_mobile = False
+            self.driver.responsive_tablet = False
+
     def click_shopping_cart(self):
         self.shopping_cart_link.click()
         self.wait_for_element(self, ShoppingCartPageLocators.By_checkout_btn)
@@ -188,6 +206,33 @@ class StorePage(BasePage):
     def get_num_items(self) -> int:
         return int(self.driver.find_element(*StorePageLocators.By_num_items).get_attribute('textContent').strip().split()[0])
 
+    def get_displayed_num_items(self) -> int:
+        return int(len(self.driver.find_elements(*StorePageLocators.By_item_area)))
+
+    def wait_for_item_display_update(self, timeout=3.0):
+        timer = 0.0
+        while (self.get_displayed_num_items() != self.get_num_items()) and timer < timeout:
+            time.sleep(0.5)
+            timer += 0.5
+        if timer < timeout:
+            self.driver.reporter[self.driver.testID].reportStep(
+                "Waited for displayed items to update after filters set",
+                "Displayed items updated to correct amount shown",
+                "Displayed items updated to correct amount shown",
+                True,
+                "",
+                screenshotCallback=self.driver.save_screenshot
+            )
+        else:
+            self.driver.reporter[self.driver.testID].reportStep(
+                "Waited for displayed items to update after filters set",
+                "Displayed items updated to correct amount shown",
+                "Displayed items updated to incorrect amount shown",
+                False,
+                "",
+                screenshotCallback=self.driver.save_screenshot
+            )
+
     def click_ith_item(self, value):
         xpath = StorePageLocators.By_item_area[1] + '[' + str(value) + ']'
         try:
@@ -224,6 +269,9 @@ class StorePage(BasePage):
             self.driver.find_element(*StorePageLocators.By_responsive_filter).click()
             time.sleep(0.3)
             report_event_and_log(self.driver, "Opened responsive filter")
+
+    def scroll_to_bottom(self):
+        self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight)")
 
 class SpeakersPage(StorePage):
     def __init__(self, driver):
