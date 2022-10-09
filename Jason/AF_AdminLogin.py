@@ -24,11 +24,6 @@ class AF_Login():
 
     def Launch_Login_Page(self):
         self.driver.get("http://uftcapstone-dev-admin.s3-website-us-east-1.amazonaws.com/login")
-##        try:
-##            WebDriverWait(self.driver, 5).until(EC.visibility_of_element_located((AO_Login_Objects.By_load_screen)))
-##            WebDriverWait(self.driver, 5).until(EC.invisibility_of_element_located((AO_Login_Objects.By_load_screen)))
-##        except:
-##            pass
 
     def AF_login(self, reporter, ssPath, username, password):
         print("***Logging into Aline Financial Admin's Page***")
@@ -158,33 +153,3 @@ class AF_Login():
             reporter.reportStep("Press submit and login","A login error should appear","Login error did not appear",False,"", driver.find_element(By.TAG_NAME, "body").screenshot, ssPath + ''.join(random.choices(string.ascii_lowercase, k=20)))
             print("No error message appeared")
         
-    def forgot_password(self, reporter, ssPath, username):
-        driver = self.driver
-
-        if username is None:
-            username = ""
-
-        WebDriverWait(driver, 60).until(EC.element_to_be_clickable((AF_Member_Login_Objects.By_forgot_password_link)))
-        driver.find_element(*AF_Member_Login_Objects.By_forgot_password_link).click()
-
-        WebDriverWait(driver, 60).until(EC.element_to_be_clickable((AF_Member_ForgotPassword_Objects.By_username_field)))
-        #enter username and password
-        username_field = self.driver.find_element(*AF_Member_ForgotPassword_Objects.By_username_field)
-        username_field.send_keys(username)
-        #check that username was entered
-        if username_field.get_attribute('value') == username:
-            reporter.reportStep("Put username in dialog box","Username should appear in the dialog box","Username successfully placed in dialog box",True,username, username_field.screenshot, ssPath + ''.join(random.choices(string.ascii_lowercase, k=20)))
-        else:
-            reporter.reportStep("Put username in dialog box","Username should appear in the dialog box","Username not place in dialog box",False,username, username_field.screenshot, ssPath + ''.join(random.choices(string.ascii_lowercase, k=20)))
-
-        time.sleep(10)
-##        WebDriverWait(driver, 60).until(EC.element_to_be_clickable((AO_Login_Objects.By_forgot_password_link)))
-##        driver.find_element(*AO_Login_Objects.By_forgot_password_link).click()
-##        time.sleep(5)
-##
-##        if len(driver.find_elements(*AO_Login_Objects.By_forgot_password_link))>0:
-##            reporter.reportStep("Press forgot password button","Site should navigate to a forgot password page","Navigation unsuccessful",False,"", driver.find_element(*AO_Login_Objects.By_forgot_password_link).screenshot, ssPath + ''.join(random.choices(string.ascii_lowercase, k=20)))
-##        else:
-##            reporter.reportStep("Press forgot password button","Site should navigate to a forgot password page","Navigation successful",True,"", driver.find_element(*AO_Login_Objects.By_forgot_password_link).screenshot, ssPath + ''.join(random.choices(string.ascii_lowercase, k=20)))
-##      
-
