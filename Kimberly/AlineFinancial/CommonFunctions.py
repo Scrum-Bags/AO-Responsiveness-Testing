@@ -2,10 +2,12 @@
 import random
 import openpyxl
 import time
-
-
+import progressbar
 from sys import path
-path.append("C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/Test")
+import os
+userStr = os.environ['USERPROFILE']
+userStr = userStr.replace('\\', '/')
+path.append(f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test")
 from Kimberly import TestSuiteReporter
 from sql import read_query, create_aline_sql_connection
 from datetime import datetime
@@ -19,8 +21,8 @@ from selenium.webdriver.support import expected_conditions
 
 def rand ():
     random.seed()
-    w = random.randint(700, 4069)
-    h = random.randint(700, 2160)
+    w = random.randint(300, 4069)
+    h = random.randint(600, 2160)
     return {w, h}
 
 def mytime():
@@ -46,14 +48,14 @@ def customWait(
     count = count / 5
     while(i < count):
         try:
-            browser.find_element(elem1[0], f"{elem1[1]}").click()
+            browser.find_element(elem1[0], f"{elem1[1]}").is_displayed()
         except:
             i +=1
         else:
             i = 50
 
         try:
-            browser.find_element(elem2[0], f"{elem2[1]}").click()
+            browser.find_element(elem2[0], f"{elem2[1]}").is_displayed()
         except:
             i +=1
         else:
@@ -66,7 +68,7 @@ def login(
     TCRN: str, 
     r: int
 ):
-    wb = openpyxl.load_workbook("C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/TestCasesExcel.xlsx")
+    wb = openpyxl.load_workbook(f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/TestCasesExcel.xlsx")
     wslogin = wb["AFLogin"]
 
     if  wslogin.cell(row = r, column = 1).value is None:
@@ -77,10 +79,14 @@ def login(
         password = ""
     else:
         password = wslogin.cell(row = r, column = 2).value
-
-    customWait(browser, (By.CLASS_NAME, "btn.btn-outline-light.w-100.rounded-pill"), (By.CLASS_NAME, "btn.btn-outline-light.rounded-pill"), 60)
-
-    WebDriverWait(browser, 60).until( expected_conditions.presence_of_element_located((By.CLASS_NAME, "app-modal-container")))
+    
+    if browser.find_element(By.CLASS_NAME, "navbar-nav.d-inline-flex.d-lg-none").is_displayed():
+        browser.find_element(By.CLASS_NAME, "navbar-nav.d-inline-flex.d-lg-none").click()
+        WebDriverWait(browser, 60).until(expected_conditions.visibility_of_element_located((By.CLASS_NAME, "btn.btn-outline-light.w-100.rounded-pill")))
+        browser.find_element(By.CLASS_NAME, "btn.btn-outline-light.w-100.rounded-pill").click()
+    else:
+        browser.find_element(By.CLASS_NAME, "btn.btn-outline-light.rounded-pill").click()
+  
 
     browser.find_element(by=By.ID, value='username').send_keys(username)
 
@@ -90,7 +96,7 @@ def login(
         Warning = False
     reporter[TCRN].reportEvent(eventDescription=wslogin.cell(row = r+1, column = 1).value, warning=Warning, 
     dataString=f"Username: {username}", screenshotCallback=browser.find_element(by=By.TAG_NAME, value='body').screenshot, 
-    imagePath=f"C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{mytime()}", imageEmbed=False)
+    imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{mytime()}", imageEmbed=False)
 
    
     browser.find_element(by=By.ID, value='password').send_keys(password)
@@ -104,11 +110,11 @@ def login(
         p += "*"
     reporter[TCRN].reportEvent(eventDescription=wslogin.cell(row = r+1, column = 2).value, warning=Warning, 
     dataString=f"Password: {p}", screenshotCallback=browser.find_element(by=By.TAG_NAME, value='body').screenshot, 
-    imagePath=f"C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{mytime()}", imageEmbed=False)
+    imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{mytime()}", imageEmbed=False)
     
     browser.find_element(by=By.XPATH, value='//button[@type="submit"]').click()
 
-    customWaitHeadless(browser, (By.XPATH, "//fa-icon[@icon='exclamation-circle']"), (By.CLASS_NAME, "nav-item.ng-star-inserted"), 60)
+    customWait(browser, (By.XPATH, "//fa-icon[@icon='exclamation-circle']"), (By.CLASS_NAME, "nav-item.ng-star-inserted"), 60)
   
     if expected_conditions.presence_of_element_located((By.XPATH, "//a[@class='nav-link.p-3.nav-active']")):
         ActualBehavior = "Pass"
@@ -120,7 +126,7 @@ def login(
 
     reporter[TCRN].reportStep(stepDescription=wslogin.cell(row = r+1, column = 3).value, expectedBehavior=wslogin.cell(row = r, column = 3).value, 
     actualBehavior=ActualBehavior, testStatus=TestStatus, dataString="", screenshotCallback=browser.find_element(by=By.TAG_NAME, value='body').screenshot,
-    imagePath=f"C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{mytime()}", imageEmbed=False)
+    imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{mytime()}", imageEmbed=False)
 
 def transactionChecker(
     browser: webdriver,
@@ -141,7 +147,7 @@ def transactionChecker(
     else:
         s = "description"
 
-    wb = openpyxl.load_workbook("C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/TestCasesExcel.xlsx")
+    wb = openpyxl.load_workbook(f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/TestCasesExcel.xlsx")
     wsBrowseStore = wb["AFViewTransactions"]      
 
     if wsBrowseStore.cell(row = r, column = c).value is None:
@@ -155,7 +161,7 @@ def transactionChecker(
     res = read_query(connection, query)
     reporter[TCN].reportEvent(eventDescription="Searching the database for item", warning=False, dataString=f"There were {res.__len__()} results found", 
     screenshotCallback=browser.find_element(by=By.TAG_NAME, value='body').screenshot,
-    imagePath=f"C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCN}/img{mytime()}", imageEmbed=False)
+    imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCN}/img{mytime()}", imageEmbed=False)
 
     customWait(browser, (By.XPATH, "/html/body/app-root/app-dashboard/div/div/app-summary/div/app-transactions-view/div[2]"),(By.XPATH, "/html/body/app-root/app-dashboard/div/div/app-summary/div/app-transactions-view") ,60)
 
@@ -163,20 +169,20 @@ def transactionChecker(
     if searchbar[0].is_displayed():
         searchbar = searchbar[0]
     else:
-        searchbar=searchbar[-1]
+        searchbar=searchbar[1]
 
-    to_input(searchbar, str(val))
+    searchbar.send_keys(val)
     
 
     searchbutton = browser.find_elements(By.XPATH, "//*//app-search-transactions//*//button[@type='submit']")
     if searchbutton[0].is_displayed():
         searchbutton[0].click()
     else:
-        searchbutton[-1].click()
+        searchbutton[1].click()
   
     reporter[TCN].reportEvent(eventDescription=wsBrowseStore.cell(row = r+1, column = c).value, warning=False, dataString=val, 
     screenshotCallback=browser.find_element(by=By.TAG_NAME, value='body').screenshot,
-    imagePath=f"C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCN}/img{mytime()}", imageEmbed=False)
+    imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCN}/img{mytime()}", imageEmbed=False)
     
     clicker = browser.find_elements(By.CLASS_NAME, "pagination")
     if clicker[-1].is_displayed():
@@ -217,10 +223,9 @@ def transactionChecker(
     expectedBehavior=wsBrowseStore.cell(row = r, column = c+1).value, actualBehavior=ActualBehavior, testStatus=TestStatus, 
     dataString=f"There were {count} items that weren't in the search", 
     screenshotCallback=browser.find_element(by=By.TAG_NAME, value='body').screenshot, 
-    imagePath=f"C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCN}/img{mytime()}", imageEmbed=False)
+    imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCN}/img{mytime()}", imageEmbed=False)
 
     browser.refresh()
-
 
 def customWaitHeadless(
     browser: webdriver,
@@ -228,29 +233,28 @@ def customWaitHeadless(
     elem2,
     count: int,
 ):
-
+    widgets = ['Loading: ', progressbar.AnimatedMarker()]
+    bar = progressbar.ProgressBar(maxval=50, widgets=widgets).start()
     i = 0
     count = count * 2
     count = count / 5
     print("Prepairing to enter Wait, stand by")
-    print("Loading", end="")
-    while(i < count):
+    while(i < int(count)):
         try:
-            browser.find_element(elem1[0], f"{elem1[1]}").click()
+            browser.find_element(elem1[0], f"{elem1[1]}").is_displayed()
         except:
             i +=1
         else:
             i = 50
 
         try:
-            browser.find_element(elem2[0], f"{elem2[1]}").click()
+            browser.find_element(elem2[0], f"{elem2[1]}").is_displayed()
         except:
             i +=1
         else:
             i = 50
+        bar.update(i)
         time.sleep(5)
-        print(".", end= "")
-    print("")
     print("Wait Completed!")
 
 def loginHeadless(
@@ -259,7 +263,7 @@ def loginHeadless(
     TCRN: str, 
     r: int
 ):
-    wb = openpyxl.load_workbook("C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/TestCasesExcel.xlsx")
+    wb = openpyxl.load_workbook(f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/TestCasesExcel.xlsx")
     wslogin = wb["AFLogin"]
 
     if  wslogin.cell(row = r, column = 1).value is None:
@@ -272,11 +276,7 @@ def loginHeadless(
         password = wslogin.cell(row = r, column = 2).value
     
     print("Username and Password retrived")
-    
-# d-inline-block py-1 ms-1 fs-5 text-decoration-none text-nowrap align-items-center
-# d-inline-block py-1 ms-1 fs-5 text-decoration-none text-nowrap align-items-center
 
-    WebDriverWait(browser, 60).until(expected_conditions.visibility_of_element_located((By.CLASS_NAME, "fixed-top")))
     if browser.find_element(By.CLASS_NAME, "navbar-nav.d-inline-flex.d-lg-none").is_displayed():
         browser.find_element(By.CLASS_NAME, "navbar-nav.d-inline-flex.d-lg-none").click()
         WebDriverWait(browser, 60).until(expected_conditions.visibility_of_element_located((By.CLASS_NAME, "btn.btn-outline-light.w-100.rounded-pill")))
@@ -296,7 +296,7 @@ def loginHeadless(
         Warning = False
     reporter[TCRN].reportEvent(eventDescription=wslogin.cell(row = r+1, column = 1).value, warning=Warning, 
     dataString=f"Username: {username}", screenshotCallback=browser.find_element(by=By.TAG_NAME, value='body').screenshot, 
-    imagePath=f"C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{mytime()}", imageEmbed=False)
+    imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{mytime()}", imageEmbed=False)
 
     print("Entered username into field")
    
@@ -311,7 +311,7 @@ def loginHeadless(
         p += "*"
     reporter[TCRN].reportEvent(eventDescription=wslogin.cell(row = r+1, column = 2).value, warning=Warning, 
     dataString=f"Password: {p}", screenshotCallback=browser.find_element(by=By.TAG_NAME, value='body').screenshot, 
-    imagePath=f"C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{mytime()}", imageEmbed=False)
+    imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{mytime()}", imageEmbed=False)
     print("Entered password into field")
 
     browser.find_element(by=By.XPATH, value='//button[@type="submit"]').click()
@@ -329,7 +329,7 @@ def loginHeadless(
 
     reporter[TCRN].reportStep(stepDescription=wslogin.cell(row = r+1, column = 3).value, expectedBehavior=wslogin.cell(row = r, column = 3).value, 
     actualBehavior=ActualBehavior, testStatus=TestStatus, dataString="", screenshotCallback=browser.find_element(by=By.TAG_NAME, value='body').screenshot,
-    imagePath=f"C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{mytime()}", imageEmbed=False)
+    imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{mytime()}", imageEmbed=False)
 
 def transactionCheckerHeadless(
     browser: webdriver,
@@ -351,7 +351,7 @@ def transactionCheckerHeadless(
     else:
         s = "description"
 
-    wb = openpyxl.load_workbook("C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/TestCasesExcel.xlsx")
+    wb = openpyxl.load_workbook(f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/TestCasesExcel.xlsx")
     wsBrowseStore = wb["AFViewTransactions"]      
 
     if wsBrowseStore.cell(row = r, column = c).value is None:
@@ -368,34 +368,37 @@ def transactionCheckerHeadless(
 
     reporter[TCN].reportEvent(eventDescription="Searching the database for item", warning=False, dataString=f"There were {res.__len__()} results found", 
     screenshotCallback=browser.find_element(by=By.TAG_NAME, value='body').screenshot,
-    imagePath=f"C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCN}/img{mytime()}", imageEmbed=False)
+    imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCN}/img{mytime()}", imageEmbed=False)
 
-    customWait(browser, (By.XPATH, "/html/body/app-root/app-dashboard/div/div/app-summary/div/app-transactions-view/div[2]"),(By.XPATH, "/html/body/app-root/app-dashboard/div/div/app-summary/div/app-transactions-view") ,60)
+    print("Waithing for the Transaction Table")
+    customWaitHeadless(browser, (By.XPATH, "/html/body/app-root/app-dashboard/div/div/app-summary/div/app-transactions-view/div[2]"),(By.XPATH, "/html/body/app-root/app-dashboard/div/div/app-summary/div/app-transactions-view") ,60)
 
     searchbar = browser.find_elements(By.XPATH, "//input[@name='searchTerm']")
     print(f"Finding correct search bar. Searchbar len: {len(searchbar)}")
     if searchbar[0].is_displayed():
         searchbar = searchbar[0]
     else:
-        searchbar =searchbar[1]
+        searchbar = searchbar[1]
 
-
-    print(f"Finding correct search bar. Searchbar len: {len(searchbar)}")
-    to_input(s, str(val))
+    print("Searchbar found")
+    searchbar.send_keys(str(val))
     print("Entering the search term")
 
     searchbutton = browser.find_elements(By.XPATH, "//*//app-search-transactions//*//button[@type='submit']")
     print(f"Finding correct search button. Searchbutton len: {len(searchbutton)}")
     if searchbutton[0].is_displayed():
-        searchbutton[0].click()
+        print("Searchbutton[0] is displayed")
+        searchbutton = searchbutton[0]
     else:
-        searchbutton[1].click()
+        print("Searchbutton[1] is displayed")
+        searchbutton = searchbutton[1]
     
     print("Clicking the enter button")
+    searchbutton.click()
   
     reporter[TCN].reportEvent(eventDescription=wsBrowseStore.cell(row = r+1, column = c).value, warning=False, dataString=val, 
     screenshotCallback=browser.find_element(by=By.TAG_NAME, value='body').screenshot,
-    imagePath=f"C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCN}/img{mytime()}", imageEmbed=False)
+    imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCN}/img{mytime()}", imageEmbed=False)
     
     clicker = browser.find_elements(By.CLASS_NAME, "pagination")
     if clicker[-1].is_displayed():
@@ -408,7 +411,7 @@ def transactionCheckerHeadless(
     ActualBehavior = "Pass"
     TestStatus = True
 
-    if wsBrowseStore.cell(row = r, column = c+1).value == "Pass" and len(clicker) == 2:
+    if wsBrowseStore.cell(row = r, column = c+1).value == "Pass" and int(len(clicker)) == 2:
         ActualBehavior = "Fail"
         TestStatus = False
 
@@ -419,7 +422,7 @@ def transactionCheckerHeadless(
         if searchbar[0].is_displayed():
             webtable = webtable[0]
         else:
-            webtable=webtable[-1]
+            webtable=webtable[1]
         items = webtable.find_elements(By.TAG_NAME, "tr")
 
         for y in range(len(items)):
@@ -435,7 +438,7 @@ def transactionCheckerHeadless(
     expectedBehavior=wsBrowseStore.cell(row = r, column = c+1).value, actualBehavior=ActualBehavior, testStatus=TestStatus, 
     dataString=f"There were {count} items that weren't in the search", 
     screenshotCallback=browser.find_element(by=By.TAG_NAME, value='body').screenshot, 
-    imagePath=f"C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCN}/img{mytime()}", imageEmbed=False)
+    imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCN}/img{mytime()}", imageEmbed=False)
 
     browser.refresh()
     print("Refreshing the page")

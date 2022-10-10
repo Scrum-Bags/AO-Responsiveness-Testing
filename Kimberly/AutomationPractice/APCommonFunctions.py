@@ -1,5 +1,8 @@
 import random
 import openpyxl
+import os
+userStr = os.environ['USERPROFILE']
+userStr = userStr.replace('\\', '/')
 from datetime import datetime
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -26,7 +29,7 @@ def login(
     TCRN: str, 
     r: int
 ):
-    wb = openpyxl.load_workbook("C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/TestCasesExcel.xlsx")
+    wb = openpyxl.load_workbook(f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/TestCasesExcel.xlsx")
     wslogin = wb["APLogin"]
 
     email = wslogin.cell(row = r, column = 1).value
@@ -40,7 +43,7 @@ def login(
         Warning = False
     reporter[TCRN].reportEvent(eventDescription=wslogin.cell(row = r+1, column = 1).value, warning=Warning, 
     dataString=f"Email: {email}", screenshotCallback=browser.find_element(by=By.ID, value='page').screenshot, 
-    imagePath=f"C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{time()}", imageEmbed=False)
+    imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{time()}", imageEmbed=False)
 
    
     browser.find_element(by=By.ID, value='passwd').send_keys(password)
@@ -54,7 +57,7 @@ def login(
         p += "*"
     reporter[TCRN].reportEvent(eventDescription=wslogin.cell(row = r+1, column = 2).value, warning=Warning, 
     dataString=f"Password: {p}", screenshotCallback=browser.find_element(by=By.ID, value='page').screenshot, 
-    imagePath=f"C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{time()}", imageEmbed=False)
+    imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{time()}", imageEmbed=False)
     
     browser.find_element(by=By.ID, value='SubmitLogin').click()
 
@@ -74,7 +77,7 @@ def login(
 
     reporter[TCRN].reportStep(stepDescription=wslogin.cell(row = r+1, column = 3).value, expectedBehavior=wslogin.cell(row = r, column = 3).value, 
     actualBehavior=ActualBehavior, testStatus=TestStatus, dataString="", screenshotCallback=browser.find_element(by=By.ID, value='page').screenshot,
-   imagePath=f"C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{time()}", imageEmbed=False)
+   imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{time()}", imageEmbed=False)
 
 def selectCategories(
     browser: webdriver,
@@ -82,7 +85,7 @@ def selectCategories(
     TCRN: str,
     r: int
 ):
-    wb = openpyxl.load_workbook("C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/TestCasesExcel.xlsx")
+    wb = openpyxl.load_workbook(f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/TestCasesExcel.xlsx")
     wsBrowseStore = wb["APBrowseStore"]
 
 
@@ -97,7 +100,7 @@ def selectCategories(
     
     reporter[TCRN].reportEvent(eventDescription=wsBrowseStore.cell(row = r+1, column = count).value, warning=False, 
     dataString=string, screenshotCallback=browser.find_element(by=By.ID, value='page').screenshot, 
-    imagePath=f"C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{time()}", imageEmbed=False)
+    imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{time()}", imageEmbed=False)
 
 
     #Category
@@ -111,7 +114,7 @@ def selectCategories(
 
     reporter[TCRN].reportEvent(eventDescription=wsBrowseStore.cell(row = r+1, column = count).value, warning=False, 
     dataString=string, screenshotCallback=browser.find_element(by=By.ID, value='page').screenshot, 
-    imagePath=f"C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{time()}", imageEmbed=False)
+    imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{time()}", imageEmbed=False)
 
 
     #Size
@@ -125,7 +128,7 @@ def selectCategories(
 
     reporter[TCRN].reportEvent(eventDescription=wsBrowseStore.cell(row = r+1, column = count).value, warning=False, 
     dataString=string, screenshotCallback=browser.find_element(by=By.ID, value='page').screenshot, 
-    imagePath=f"C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{time()}", imageEmbed=False)
+    imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{time()}", imageEmbed=False)
 
 
     #Color
@@ -139,7 +142,7 @@ def selectCategories(
 
     reporter[TCRN].reportEvent(eventDescription=wsBrowseStore.cell(row = r+1, column = count).value, warning=False, 
     dataString=string, screenshotCallback=browser.find_element(by=By.ID, value='page').screenshot, 
-    imagePath=f"C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{time()}", imageEmbed=False)
+    imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{time()}", imageEmbed=False)
 
 
     #compositions 
@@ -153,7 +156,7 @@ def selectCategories(
 
     reporter[TCRN].reportEvent(eventDescription=wsBrowseStore.cell(row = r+1, column = count).value, warning=False, 
     dataString=string, screenshotCallback=browser.find_element(by=By.ID, value='page').screenshot, 
-    imagePath=f"C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{time()}", imageEmbed=False)
+    imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{time()}", imageEmbed=False)
 
 
     #styles 
@@ -167,7 +170,7 @@ def selectCategories(
 
     reporter[TCRN].reportEvent(eventDescription=wsBrowseStore.cell(row = r+1, column = count).value, warning=False, 
     dataString=string, screenshotCallback=browser.find_element(by=By.ID, value='page').screenshot, 
-    imagePath=f"C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{time()}", imageEmbed=False)
+    imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{time()}", imageEmbed=False)
 
 
     #properties
@@ -181,7 +184,7 @@ def selectCategories(
 
     reporter[TCRN].reportEvent(eventDescription=wsBrowseStore.cell(row = r+1, column = count).value, warning=False, 
     dataString=string, screenshotCallback=browser.find_element(by=By.ID, value='page').screenshot, 
-    imagePath=f"C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{time()}", imageEmbed=False)
+    imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{time()}", imageEmbed=False)
 
 
     #availability
@@ -195,7 +198,7 @@ def selectCategories(
 
     reporter[TCRN].reportEvent(eventDescription=wsBrowseStore.cell(row = r+1, column = count).value, warning=False, 
     dataString= string, screenshotCallback=browser.find_element(by=By.ID, value='page').screenshot, 
-    imagePath=f"C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{time()}", imageEmbed=False)
+    imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{time()}", imageEmbed=False)
 
 
     #manufacturer
@@ -209,7 +212,7 @@ def selectCategories(
 
     reporter[TCRN].reportEvent(eventDescription=wsBrowseStore.cell(row = r+1, column = count).value, warning=False, 
     dataString=string, screenshotCallback=browser.find_element(by=By.ID, value='page').screenshot, 
-    imagePath=f"C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{time()}", imageEmbed=False)
+    imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{time()}", imageEmbed=False)
 
 
     #condition
@@ -223,7 +226,7 @@ def selectCategories(
 
     reporter[TCRN].reportEvent(eventDescription=wsBrowseStore.cell(row = r+1, column = count).value, warning=False, 
     dataString=string, screenshotCallback=browser.find_element(by=By.ID, value='page').screenshot, 
-    imagePath=f"C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{time()}", imageEmbed=False)
+    imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{time()}", imageEmbed=False)
 
 
     #Test price
@@ -241,7 +244,7 @@ def selectCategories(
   
     reporter[TCRN].reportEvent(eventDescription=wsBrowseStore.cell(row = r+1, column = count).value, warning=False, 
     dataString=val, screenshotCallback=browser.find_element(by=By.ID, value='page').screenshot, 
-    imagePath=f"C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{time()}", imageEmbed=False)
+    imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{time()}", imageEmbed=False)
 
 
     #Pick a random
@@ -255,12 +258,12 @@ def selectCategories(
         reporter[TCRN].reportStep(stepDescription=wsBrowseStore.cell(row = r+1, column = count).value, 
         expectedBehavior=wsBrowseStore.cell(row = r, column = count).value, 
         actualBehavior="Pass", testStatus=True, dataString="Theres nothing here", screenshotCallback=browser.find_element(by=By.ID, value='page').screenshot,
-        imagePath=f"C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{time()}", imageEmbed=False)
+        imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{time()}", imageEmbed=False)
     else:
         reporter[TCRN].reportStep(stepDescription=wsBrowseStore.cell(row = r+1, column = count).value, 
         expectedBehavior=wsBrowseStore.cell(row = r, column = count).value, 
         actualBehavior="Pass", testStatus=True, dataString="", screenshotCallback=browser.find_element(by=By.ID, value='page').screenshot,
-        imagePath=f"C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{time()}", imageEmbed=False)
+        imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{time()}", imageEmbed=False)
 
     browser.find_element(by=By.XPATH, value="//a[@title='My Store']").click()
     WebDriverWait(browser, 60).until(expected_conditions.presence_of_element_located((By.CLASS_NAME, "homeslider-description")))
@@ -271,7 +274,7 @@ reporter: TestSuiteReporter,
 TCRN: str,
 r: int
 ):
-    wb = openpyxl.load_workbook("C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/TestCasesExcel.xlsx")
+    wb = openpyxl.load_workbook("{path}/OneDrive/Documents/UFTOne/tests/selenium/TestCasesExcel.xlsx")
     ws = wb["APPersonalInfo"]
  
     browser.find_element(by=By.XPATH, value="//a[@title='Information']").click()
@@ -286,7 +289,7 @@ r: int
 
     reporter[TCRN].reportEvent(eventDescription=ws.cell(row = r+1, column = 1).value, warning=False, 
     dataString=f"Gender: {i}", screenshotCallback=browser.find_element(by=By.ID, value='page').screenshot, 
-    imagePath=f"C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{time()}", imageEmbed=False)
+    imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{time()}", imageEmbed=False)
 
 
     to_input(browser.find_element(by=By.XPATH, value="//input[@id='firstname']"), ws.cell(row = r, column = 2).value)
@@ -299,7 +302,7 @@ r: int
     reporter[TCRN].reportEvent(eventDescription=ws.cell(row = r+1, column = 2).value, warning=Warning, 
     dataString=f"First Name: {ws.cell(row = r, column = 2).value}, Last Name: {ws.cell(row = r, column = 3).value}, Email: {ws.cell(row = r, column = 4).value}", 
     screenshotCallback=browser.find_element(by=By.ID, value='page').screenshot, 
-    imagePath=f"C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{time()}", imageEmbed=False)
+    imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{time()}", imageEmbed=False)
 
 
 
@@ -323,7 +326,7 @@ r: int
     reporter[TCRN].reportEvent(eventDescription=ws.cell(row = r+1, column = 5).value, warning=Warning, 
     dataString=f"Birthday: {ws.cell(row = r, column = 5).value}/{ws.cell(row = r, column = 6).value}/{ws.cell(row = r, column = 7).value}", 
     screenshotCallback=browser.find_element(by=By.ID, value='page').screenshot, 
-    imagePath=f"C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{time()}", imageEmbed=False)
+    imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{time()}", imageEmbed=False)
 
 
     to_input(browser.find_element(by=By.XPATH, value="//input[@id='old_passwd']"), ws.cell(row = r, column = 8).value)
@@ -348,7 +351,7 @@ r: int
     reporter[TCRN].reportEvent(eventDescription=ws.cell(row = r+1, column = 8).value, warning=Warning, 
     dataString=f"Old Password: {op}, Password: {p}, New Password: {np}", 
     screenshotCallback=browser.find_element(by=By.ID, value='page').screenshot, 
-    imagePath=f"C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{time()}", imageEmbed=False)
+    imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{time()}", imageEmbed=False)
 
 
     if ws.cell(row = r, column = 11).value:
@@ -360,7 +363,7 @@ r: int
     reporter[TCRN].reportEvent(eventDescription=ws.cell(row = r+1, column = 11).value, warning=Warning, 
     dataString=f"Click Newsletter: {ws.cell(row = r, column = 11).value}", 
     screenshotCallback=browser.find_element(by=By.ID, value='page').screenshot, 
-    imagePath=f"C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{time()}", imageEmbed=False)
+    imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{time()}", imageEmbed=False)
 
 
     if ws.cell(row = r, column = 12).value:
@@ -370,7 +373,7 @@ r: int
         Warning = True
     reporter[TCRN].reportEvent(eventDescription=ws.cell(row = r+1, column = 12).value, warning=False, 
     dataString=f"Click Opt In: {ws.cell(row = r, column = 11).value}", screenshotCallback=browser.find_element(by=By.ID, value='page').screenshot,
-    imagePath=f"C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{time()}", imageEmbed=False)
+    imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{time()}", imageEmbed=False)
 
     browser.find_element(by=By.XPATH, value="//button[@name='submitIdentity']").click()
     WebDriverWait(browser, 60).until( expected_conditions.presence_of_element_located((By.CLASS_NAME, "alert")))
@@ -385,7 +388,7 @@ r: int
         TestStatus = True
     reporter[TCRN].reportStep(stepDescription=ws.cell(row = r+1, column = 13).value, expectedBehavior=ws.cell(row = r, column = 12).value, 
     actualBehavior=ActualBehavior, testStatus=TestStatus, dataString="", screenshotCallback=browser.find_element(by=By.ID, value='page').screenshot,
-    imagePath=f"C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{time()}", imageEmbed=False)
+    imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{time()}", imageEmbed=False)
 
 def update_address(
     browser: webdriver, 
@@ -393,7 +396,7 @@ def update_address(
     TCRN: str, 
     r: int
  ):
-    wb = openpyxl.load_workbook("C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/TestCasesExcel.xlsx")
+    wb = openpyxl.load_workbook(f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/TestCasesExcel.xlsx")
     ws = wb["APUpdateAddress"]
 
 
@@ -416,14 +419,14 @@ def update_address(
        to_input( browser.find_element(by=By.ID, value='lastname'), ln)
     reporter[TCRN].reportEvent(eventDescription= ws.cell(row = r+1, column = 1).value, warning=Warning, 
     dataString=f"First Name: {fn}, Last Name: {ln}", screenshotCallback=browser.find_element(by=By.ID, value='page').screenshot, 
-    imagePath=f"C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{time()}", imageEmbed=False)
+    imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{time()}", imageEmbed=False)
 
     #Company
     company = ws.cell(row = r, column = 3).value
     to_input(browser.find_element(by=By.ID, value='company'), company)
     reporter[TCRN].reportEvent(eventDescription= ws.cell(row = r+1, column = 3).value, warning=Warning, 
     dataString=f"Company: {company}", screenshotCallback=browser.find_element(by=By.ID, value='page').screenshot, 
-    imagePath=f"C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{time()}", imageEmbed=False)
+    imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{time()}", imageEmbed=False)
    
     #Address and Address2
     add1 = ws.cell(row = r, column = 4).value
@@ -436,7 +439,7 @@ def update_address(
     to_input(browser.find_element(by=By.ID, value='address2'), add2)
     reporter[TCRN].reportEvent(eventDescription=ws.cell(row = r+1, column = 4).value, warning=Warning, 
     dataString=f"Address: {add1}, Address2: {add2}", screenshotCallback=browser.find_element(by=By.ID, value='page').screenshot, 
-    imagePath=f"C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{time()}", imageEmbed=False)
+    imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{time()}", imageEmbed=False)
    
 
     #City, State and Zipcode
@@ -459,7 +462,7 @@ def update_address(
         to_input(browser.find_element(by=By.ID, value='postcode'), zip)
     reporter[TCRN].reportEvent(eventDescription=ws.cell(row = r+1, column = 6).value, warning=Warning, 
     dataString=f"City: {c}, State: {s}, Zipcode: {zip}", screenshotCallback=browser.find_element(by=By.ID, value='page').screenshot, 
-    imagePath=f"C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{time()}", imageEmbed=False)
+    imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{time()}", imageEmbed=False)
    
 
     #Country
@@ -472,7 +475,7 @@ def update_address(
         country.select_by_index(int(con))
     reporter[TCRN].reportEvent(eventDescription=ws.cell(row = r+1, column = 9).value, warning=Warning, dataString=f"Country: {con}", 
     screenshotCallback=browser.find_element(by=By.ID, value='page').screenshot, 
-    imagePath=f"C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{time()}", imageEmbed=False)
+    imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{time()}", imageEmbed=False)
 
 
     #Home and Mobile Phone
@@ -486,7 +489,7 @@ def update_address(
     to_input(browser.find_element(by=By.ID, value='phone_mobile'), mobile)
     reporter[TCRN].reportEvent(eventDescription=ws.cell(row = r+1, column = 10).value, warning=Warning, 
     dataString=f"Home Phone: {home}, Mobile Phone: {mobile}",  screenshotCallback=browser.find_element(by=By.ID, value='page').screenshot, 
-    imagePath=f"C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{time()}", imageEmbed=False)
+    imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{time()}", imageEmbed=False)
     
     
     #Other Text
@@ -494,7 +497,7 @@ def update_address(
     to_input(browser.find_element(by=By.ID, value='other'), s)
     reporter[TCRN].reportEvent(eventDescription=ws.cell(row = r+1, column = 12).value, warning=Warning, 
     dataString=f"Additional Information: {s}",  screenshotCallback=browser.find_element(by=By.ID, value='page').screenshot, 
-    imagePath=f"C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{time()}", imageEmbed=False)
+    imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{time()}", imageEmbed=False)
     
 
     #Alias
@@ -506,7 +509,7 @@ def update_address(
         to_input(browser.find_element(by=By.ID, value='alias'), a)
     reporter[TCRN].reportEvent(eventDescription=ws.cell(row = r+1, column = 13).value, warning=Warning, 
     dataString=f"Alias: {a}",  screenshotCallback=browser.find_element(by=By.ID, value='page').screenshot, 
-    imagePath=f"C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{time()}", imageEmbed=False)
+    imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{time()}", imageEmbed=False)
 
     browser.find_element(by=By.ID, value='submitAddress').click()
     WebDriverWait(browser, 60).until(
@@ -525,7 +528,7 @@ def update_address(
 
     reporter[TCRN].reportStep(stepDescription=ws.cell(row = r+1, column = 14).value, expectedBehavior=ws.cell(row = r, column = 14).value, 
     actualBehavior=ActualBehavior, testStatus=TestStatus, dataString="", screenshotCallback=browser.find_element(by=By.ID, value='page').screenshot,
-    imagePath=f"C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{time()}", imageEmbed=False)
+    imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{time()}", imageEmbed=False)
 
 
 
