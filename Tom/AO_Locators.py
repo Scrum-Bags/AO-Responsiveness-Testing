@@ -4,6 +4,8 @@ class BasePageLocators(object):
     By_shopping_cart_link = (By.ID, 'shoppingCartLink')
     By_username = (By.XPATH, '/html/body/header/nav/ul/li[3]/a/span')
     By_shopping_cart_num = (By.XPATH, '/html/body/header/nav/ul/li[2]/a/span')
+    By_order_history_dropdown = (By.XPATH, '//*[@id="loginMiniTitle"]/label[2]')
+    By_signout_dropdown = (By.XPATH, '//*[@id="loginMiniTitle"]/label[3]')
 
 class HomePageLocators(object):
     By_speakers_link = (By.ID, 'speakersTxt')
@@ -17,6 +19,8 @@ class HomePageLocators(object):
     By_username_field = (By.NAME, 'username')
     By_password_field = (By.NAME, 'password')
     By_signin_btn = (By.ID, 'sign_in_btnundefined')
+
+    By_loader = (By.XPATH, '/html/body/div[2]')
 
 class StorePageLocators(object):
     By_item_area = (By.XPATH, '/html/body/div[3]/section/article/div[3]/div/div/div[2]/ul/li')
@@ -232,5 +236,11 @@ class OrderConfirmationPageLocators(object):
     By_order_total = (By.XPATH, '//*[@id="orderPaymentSuccess"]/div/div[3]/div[3]/label/a')
 
 class OrderHistoryPageLocators(object):
+    #most recent orders
     By_order_num = (By.XPATH, '//*[@id="myAccountContainer"]/div/table/tbody/tr[2]/td[1]/label')
     By_total_price = (By.XPATH, '//*[@id="myAccountContainer"]/div/table/tbody/tr[2]/td[7]/label')
+
+    #general orders
+    By_no_orders = (By.XPATH, '/html/body/div[3]/section/article/div[3]/div/div/label')
+
+
