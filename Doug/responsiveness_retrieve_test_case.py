@@ -44,7 +44,6 @@ class RetrieveInfoResponsivenessTestCase(ReportingTestCase):
         # Go to main page
         self.driverObj.get("http://www.advantageonlineshopping.com/#/")
         mainPage = MainPage(loggedIn=False)
-        self._testMainPageResponsiveLayout()
 
         # Log in
         mainPage.logIn(
@@ -52,7 +51,7 @@ class RetrieveInfoResponsivenessTestCase(ReportingTestCase):
             self.data['password']
         )
 
-        # Go to account summary page
+        # get main page object
         mainPage = MainPage(loggedIn=True)
 
         # Go to account summary page
