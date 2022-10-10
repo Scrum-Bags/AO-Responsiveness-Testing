@@ -52,12 +52,18 @@ class RetrieveInfoResponsivenessTestCase(ReportingTestCase):
         mainPage = MainPage(loggedIn=False)
         self._testMainPageResponsiveLayout()
 
-        # TODO  logic here
+        # Log in
+        mainPage.logIn(
+            self.data['username'],
+            self.data['password']
+        )
 
         # Go to account summary page
         mainPage = MainPage(loggedIn=True)
         mainPage.goToUserProfile()
         self._testAccountPageResponsiveLayout()
+
+        # TODO logic here
 
     def tearDown(self):
         pass
@@ -71,6 +77,29 @@ class RetrieveInfoResponsivenessTestCase(ReportingTestCase):
 
         # Get page object
         accountPage = AccountSummaryPage()
+
+        # TODO Check that elements are sized to match
+
+        # Check that mobile elements are displayed
+        self._mobileElementsDisplayedCheck()
+
+        # Set window size to maximum
+        self._setWindowMaxDimensions()
+
+        # Get page object
+        accountPage = AccountSummaryPage()
+
+        # TODO Check that elements are sized to match
+
+        # Check that mobile elements are not displayed
+        self._mobileElementsNotDisplayedCheck()
+    
+    def _testAccountInfoEditPageResponsiveLayout(self):
+        # Set window size to mobile size (<464px?)
+        self._setWindowMobileDimensions()
+
+        # Get page object
+        editPage = UserInfoEditPage()
 
         # TODO Check that elements are sized to match
 
