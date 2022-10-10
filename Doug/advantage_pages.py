@@ -13,46 +13,6 @@ from page_elements.advantage_online_elements import *
 from runittest.reporting_unittest import SingletonWebDriver
 
 
-# class Page:
-#     """Base page class to handle basic object inclusion."""
-
-#     def __init__(
-#         self,
-#         idDict: dict,
-#         extraDict: Union[dict, None] = None
-#     ):
-#         self.elements = {}
-#         tempDict = idDict
-#         if extraDict is not None:
-#             tempDict.update(extraDict)
-#         self.driverObj = SingletonWebDriver()
-#         # print(f"Getting wait key from idDict: {idDict}")
-#         waitObjectID = idDict[list(idDict.keys())[0]]
-#         # print(f"Have key: {waitObjectID}")
-#         # print("Waiting for page to load")
-#         WebDriverWait(
-#             self.driverObj,
-#             10
-#         ).until(
-#             EC.presence_of_element_located((waitObjectID.values()))
-#         )
-#         # print("Page has loaded!")
-#         self.addElements(tempDict)
-
-#     def addElements(self, idDict: dict):
-#         # print("Adding Elements")
-#         for name, args in idDict.items():
-#             # temp_element = None
-#             try:
-#                 # print(f"trying to find: {name}: {args}")
-#                 # temp_element = self.driverObj.find_element(**args)
-#                 self.elements[name] = self.driverObj.find_element(**args)
-#                 # setattr(self, name, temp_element)
-#             except NoSuchElementException as e:
-#                 # print(f"error!: element not found: {e}")
-#                 continue
-#         # print("Elements Added")
-
 class Page:
     """Base page class to handle basic object inclusion."""
 
@@ -114,10 +74,9 @@ class AdvantagePage(Page):
             baseDict.update(loggedInCommonElementIDs)
         else:
             baseDict.update(loggedOutCommonElementIDs)
-        super().__init__(
-            idDict=baseDict,
-            extraDict=extraDict
-        )
+        super().__init__(idDict=baseDict)
+        if extraDict is not None:
+            self.addElements(extraDict)
         WebDriverWait(
             self.driverObj,
             10
@@ -208,6 +167,16 @@ class AdvantagePage(Page):
         password: str
     ):
         if not self.loggedIn:
+            WebDriverWait(
+                self.driverObj,
+                10
+            ).until(
+                EC.element_to_be_clickable(
+                    commonElementIDs["user_icon"].values()
+                )
+            )
+            self.elements["user_icon"].click()
+            sleep(0.5)
             self.elements['login_username'].clear()
             self.elements['login_username'].send_keys(username)
             self.elements['login_password'].clear()
@@ -278,30 +247,12 @@ class MainPage(AdvantagePage):
         loggedIn: bool,
     ):
         super().__init__(
-            loggedIn=loggedIn, 
-            extraDict=mainPageWaitIDs
+            loggedIn=loggedIn,
+            extraDict=mainPageWideElementIDs
         )
-        WebDriverWait(
-            self.driverObj,
+        self.waitForElements(
+            mainPageWaitIDs,
             10
-        ).until(
-            EC.all_of(
-                EC.visibility_of_element_located(
-                    mainPageWaitIDs["headphones_image"].values()
-                ),
-                EC.visibility_of_element_located(
-                    mainPageWaitIDs["laptops_image"].values()
-                ),
-                EC.visibility_of_element_located(
-                    mainPageWaitIDs["mice_image"].values()
-                ),
-                EC.visibility_of_element_located(
-                    mainPageWaitIDs["speakers_image"].values()
-                ),
-                EC.visibility_of_element_located(
-                    mainPageWaitIDs["tablets_image"].values()
-                )
-            )
         )
         WebDriverWait(
             self.driverObj,
