@@ -11,16 +11,6 @@ from printlogger.printlogger import displayPrint
 
 class RetrieveInfoResponsivenessTestCase(ReportingTestCase):
 
-    _mainPageMobileDims = {
-        "width": 463,
-        "height": 720
-    }
-
-    _registerPageMobileDims = {
-        "width": 751,
-        "height": 720
-    }
-
     _accountPageMobileDims = {
         "width": 460,
         "height": 720
@@ -45,7 +35,7 @@ class RetrieveInfoResponsivenessTestCase(ReportingTestCase):
     def testUserRetrieveInfoResponsiveLayout(self):
         # Go to main page
         self.driverObj.get("http://www.advantageonlineshopping.com/#/")
-        self.driverObj.maximize_window()
+        self._setWindowMaxDimensions()
         mainPage = MainPage(loggedIn=False)
 
         # Log in
@@ -63,6 +53,11 @@ class RetrieveInfoResponsivenessTestCase(ReportingTestCase):
 
         # get page object
         summaryPage = AccountSummaryPage()
+        displayPrint("Account page loaded")
+        self.reportEvent(
+            "Account page loaded",
+            element="screen"
+        )
 
         # go to info edit page
         displayPrint("Going to profile edit page")
@@ -70,6 +65,11 @@ class RetrieveInfoResponsivenessTestCase(ReportingTestCase):
 
         # get edit page object
         editPage = UserInfoEditPage()
+        displayPrint("Profile edit page loaded")
+        self.reportEvent(
+            "Profile edit page loaded",
+            element="screen"
+        )
 
         # test edit page responsiveness
         displayPrint("Testing edit page responsiveness")
@@ -196,7 +196,16 @@ class RetrieveInfoResponsivenessTestCase(ReportingTestCase):
             "Account info does not match summary info",
             testStatus,
             element="screen",
-            data=['email', 'firstName', 'lastName', 'phoneNumber', 'addressCountry', 'addressCity', 'addressStreet', 'addressPostalCode', 'addressRegion']
+            data=[
+                'firstName',
+                'lastName',
+                'phoneNumber',
+                'addressCountry',
+                'addressCity',
+                'addressStreet',
+                'addressPostalCode',
+                'addressRegion'
+            ]
         )
 
         # logout
@@ -238,7 +247,38 @@ class RetrieveInfoResponsivenessTestCase(ReportingTestCase):
         # Get page object
         editPage = UserInfoEditPage()
 
-        # TODO Check that elements are sized to match
+        # check that all fields are vertically parallel
+        xPositions = {
+            f: editPage.elements[f].location['x']
+            for f in 
+            [
+                'email',
+                'first_name',
+                'last_name',
+                'phone_number',
+                'address_country',
+                'address_city',
+                'address_street',
+                'address_postal_code',
+                'address_region'
+            ]
+        }
+        testStatus = len(xPosition.values()) == 1
+        displayPrint("Mobile format vertical field alignment check")
+        self.reportStep(
+            "Mobile format vertical field alignment check",
+            "Input fields are vertically aligned",
+            "Input fields are not vertically aligned",
+            testStatus,
+            element='screen',
+            data='<br>'.join(
+                [
+                    f"{a}: {ax}" 
+                    for a, ax 
+                    in xPositions.items()
+                ]
+            )
+        )
 
         # Check that mobile elements are displayed
         self._mobileElementsDisplayedCheck()
@@ -249,29 +289,50 @@ class RetrieveInfoResponsivenessTestCase(ReportingTestCase):
         # Get page object
         editPage = UserInfoEditPage()
 
-        # TODO Check that elements are sized to match
+        # Test for field parallels
+        parallelPairKeys = [
+            ('first_name', 'last_name'),
+            ('address_country', 'address_city'),
+            ('address_street', 'address_postal_code')
+        ]
+        for pair in parallelPairKeys:
+            a, b = pair
+            ay, by = editPage.elements[a].location['y'], editPage.elements[b].location['y']
+            testStatus = ay == by
+            displayPrint(f"Checking vertical positions of {a} and {b}")
+            self.reportStep(
+                f"Testing horizontal positions of {a} and {b}",
+                f"{a} is parallel to {b}",
+                f"{a} is not parallel to {b}",
+                testStatus,
+                element="screen",
+                data=f"{a}'s y: {ay}<br>{b}'s y: {by}"
+            )
 
         # Check that mobile elements are not displayed
         self._mobileElementsNotDisplayedCheck()
 
     def _setWindowMobileDimensions(self):
-        self.driverObj.set_window_size(**self._mainPageMobileDims)
+        self.driverObj.set_window_size(**self._accountPageMobileDims)
+        displayPrint("Window sized to mobile dimensions")
         self.reportEvent(
             "Window sized to mobile dimensions",
             element='screen',
-            data='<br>'.join([f"{k}: {v}" for k, v in self._mainPageMobileDims.items()])
+            data='<br>'.join([f"{k}: {v}" for k, v in self._accountPageMobileDims.items()])
         )
 
     def _setWindowMaxDimensions(self):
         self.driverObj.maximize_window()
+        displayPrint("Window sized to max dimensions")
         self.reportEvent(
-            "Window maximized",
+            "Window sized to max dimensions",
             element='screen'
         )
 
     def _mobileElementsDisplayedCheck(self):
         page = AdvantagePage(loggedIn=False)
         testStatus = page.mobileElementsDisplayed()
+        displayPrint("Mobile elements displayed check")
         self.reportStep(
             "Mobile elements displayed check",
             "Mobile elements are displayed",
@@ -283,6 +344,7 @@ class RetrieveInfoResponsivenessTestCase(ReportingTestCase):
     def _mobileElementsNotDisplayedCheck(self):
         page = AdvantagePage(loggedIn=False)
         testStatus = not page.mobileElementsDisplayed()
+        displayPrint("Mobile elements not displayed check")
         self.reportStep(
             "Mobile elements not displayed check",
             "Mobile elements are not displayed",
