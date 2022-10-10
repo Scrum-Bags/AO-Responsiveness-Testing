@@ -202,6 +202,22 @@ class AdvantagePage(Page):
                 )
             )
     
+    def logIn(
+        self, 
+        username: str,
+        password: str
+    ):
+        if not self.loggedIn:
+            self.elements['login_username'].clear()
+            self.elements['login_username'].send_keys(username)
+            self.elements['login_password'].clear()
+            self.elements['login_password'].send_keys(password)
+            self.elements['login_button'].click()
+            self.waitForElements(
+                loggedInCommonElementIDs,
+                10
+            )
+    
     def logOut(self):
         if self.loggedIn:
             WebDriverWait(
