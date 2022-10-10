@@ -6,6 +6,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 from runittest.reporting_unittest import ReportingTestCase
 from page_elements.advantage_online_elements import *
 from advantage_pages import *
+from printlogger.printlogger import displayPrint
 
 
 class RetrieveInfoResponsivenessTestCase(ReportingTestCase):
@@ -36,6 +37,7 @@ class RetrieveInfoResponsivenessTestCase(ReportingTestCase):
             testCaseDescription,
             **kwargs
         )
+        displayPrint(f"case data: {self.data}")
     
     def setUp(self):
         pass
@@ -55,21 +57,25 @@ class RetrieveInfoResponsivenessTestCase(ReportingTestCase):
         mainPage = MainPage(loggedIn=True)
 
         # Go to account summary page
+        displayPrint("Going to account page")
         mainPage.goToUserProfile()
 
         # get page object
         summaryPage = AccountSummaryPage()
 
         # go to info edit page
+        displayPrint("Going to profile edit page")
         summaryPage.goToProfileEditPage()
 
         # get edit page object
         editPage = UserInfoEditPage()
 
         # test edit page responsiveness
+        displayPrint("Testing edit page responsiveness")
         self._testAccountInfoEditPageResponsiveLayout()
 
         # validate info against known
+        editPage = UserInfoEditPage()
         # email
         testStatus = self.data['email'] == editPage.getEmail()
         self.reportStep(
@@ -171,9 +177,11 @@ class RetrieveInfoResponsivenessTestCase(ReportingTestCase):
         )
 
         # Return to summary page
+        displayPrint("Going to user profile summary")
         editPage.goToUserProfile()
 
         # get page object
+        displayPrint("Getting summary page object")
         summaryPage = AccountSummaryPage()
 
         # test page responsiveness
@@ -238,7 +246,7 @@ class RetrieveInfoResponsivenessTestCase(ReportingTestCase):
         self._setWindowMaxDimensions()
 
         # Get page object
-        accountPage = AccountSummaryPage()
+        editPage = UserInfoEditPage()
 
         # TODO Check that elements are sized to match
 
