@@ -79,7 +79,8 @@ class RetrieveInfoResponsivenessTestCase(ReportingTestCase):
             "Email field does not match expected value",
             testStatus,
             element=editPage.elements['email'],
-            imageEmbed=True
+            imageEmbed=True,
+            data=['email']
         )
         # first name
         testStatus = self.data['firstName'] == editPage.getFirstName()
@@ -89,7 +90,8 @@ class RetrieveInfoResponsivenessTestCase(ReportingTestCase):
             "First name field does not match expected value",
             testStatus,
             element=editPage.elements['first_name'],
-            imageEmbed=True
+            imageEmbed=True,
+            data=['firstName']
         )
         # last name
         testStatus = self.data['lastName'] == editPage.getLastName()
@@ -99,7 +101,8 @@ class RetrieveInfoResponsivenessTestCase(ReportingTestCase):
             "Last name field does not match expected value",
             testStatus,
             element=editPage.elements['last_name'],
-            imageEmbed=True
+            imageEmbed=True,
+            data=['lastName']
         )
         # phone number
         testStatus = self.data['phoneNumber'] == editPage.getPhoneNumber()
@@ -109,7 +112,8 @@ class RetrieveInfoResponsivenessTestCase(ReportingTestCase):
             "Phone number field does not match expected value",
             testStatus,
             element=editPage.elements['phone_number'],
-            imageEmbed=True
+            imageEmbed=True,
+            data=['phoneNumber']
         )
         # address country 
         testStatus = self.data['addressCountry'] == editPage.getAddressCountry()
@@ -119,7 +123,8 @@ class RetrieveInfoResponsivenessTestCase(ReportingTestCase):
             "Address country selector does not match expected value",
             testStatus,
             element=editPage.elements['address_country'],
-            imageEmbed=True
+            imageEmbed=True,
+            data=['addressCountry']
         )
         # address city 
         testStatus = self.data['addressCity'] == editPage.getAddressCity()
@@ -129,7 +134,8 @@ class RetrieveInfoResponsivenessTestCase(ReportingTestCase):
             "Address city field does not match expected value",
             testStatus,
             element=editPage.elements['address_city'],
-            imageEmbed=True
+            imageEmbed=True,
+            data=['addressCity']
         )
         # address street 
         testStatus = self.data['addressStreet'] == editPage.getAddressStreet()
@@ -139,7 +145,8 @@ class RetrieveInfoResponsivenessTestCase(ReportingTestCase):
             "Address street does not match expected value",
             testStatus,
             element=editPage.elements['address_street'],
-            imageEmbed=True
+            imageEmbed=True,
+            data=['addressStreet']
         )
         # address postal code 
         testStatus = self.data['addressPostalCode'] == editPage.getAddressPostalCode()
@@ -149,7 +156,8 @@ class RetrieveInfoResponsivenessTestCase(ReportingTestCase):
             "Address postal code does not match expected value",
             testStatus,
             element=editPage.elements['address_postal_code'],
-            imageEmbed=True
+            imageEmbed=True,
+            data=['addressPostalCode']
         )
         # address region 
         testStatus = self.data['addressRegion'] == editPage.getAddressRegion()
@@ -159,7 +167,8 @@ class RetrieveInfoResponsivenessTestCase(ReportingTestCase):
             "Address region does not match expected value",
             testStatus,
             element=editPage.elements['address_region'],
-            imageEmbed=True
+            imageEmbed=True,
+            data=['addressRegion']
         )
 
         # Return to summary page
@@ -172,6 +181,15 @@ class RetrieveInfoResponsivenessTestCase(ReportingTestCase):
         self._testAccountPageResponsiveLayout()
 
         # validate info against display
+        testStatus = summaryPage.validateUserInfo(**self.data)
+        self.reportStep(
+            "Summary page info match check",
+            "Account info matches summary info",
+            "Account info does not match summary info",
+            testStatus,
+            element="screen",
+            data=['email', 'firstName', 'lastName', 'phoneNumber', 'addressCountry', 'addressCity', 'addressStreet', 'addressPostalCode', 'addressRegion']
+        )
 
         # logout
         summaryPage.logOut()
