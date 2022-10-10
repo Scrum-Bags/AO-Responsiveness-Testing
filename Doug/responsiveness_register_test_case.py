@@ -4,14 +4,8 @@ from time import sleep
 from selenium.webdriver.common.action_chains import ActionChains
 
 from runittest.reporting_unittest import ReportingTestCase
-from page_elements.advantage_online_elements import commonElementIDs
-from page_elements.advantage_online_elements import mainPageWideElementIDs
-from page_elements.advantage_online_elements import mainPageWaitIDs
-from page_elements.advantage_online_elements import userRegisterElementIDs
-from advantage_pages import AccountSummaryPage
-from advantage_pages import AdvantagePage
-from advantage_pages import MainPage
-from advantage_pages import RegisterPage
+from page_elements.advantage_online_elements import *
+from advantage_pages import *
 
 
 class RegisterResponsivenessTestCase(ReportingTestCase):
@@ -368,7 +362,7 @@ class RegisterResponsivenessTestCase(ReportingTestCase):
 
     def tearDown(self):
         mainPage = MainPage(loggedIn=True)
-        mainPage.logout()
+        mainPage.logOut()
     
     def runTest(self):
         self.testUserRegisterResponsiveLayout()
