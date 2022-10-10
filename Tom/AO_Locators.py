@@ -5,6 +5,7 @@ class BasePageLocators(object):
     By_username = (By.XPATH, '/html/body/header/nav/ul/li[3]/a/span')
     By_shopping_cart_num = (By.XPATH, '/html/body/header/nav/ul/li[2]/a/span')
     By_order_history_dropdown = (By.XPATH, '//*[@id="loginMiniTitle"]/label[2]')
+    By_signout_dropdown = (By.XPATH, '//*[@id="loginMiniTitle"]/label[3]')
 
 class HomePageLocators(object):
     By_speakers_link = (By.ID, 'speakersTxt')

@@ -67,6 +67,15 @@ class BasePage:
     def get_shopping_cart_num(self):
        return int(self.driver.find_element(*BasePageLocators.By_shopping_cart_num).get_attribute('textContent'))
 
+    def logout(self):
+        if self.driver.find_element(*BasePageLocators.By_username).get_attribute('textContent') != "":
+            self.driver.find_element(*BasePageLocators.By_username).click()
+            time.sleep(1)
+            self.driver.find_element(*BasePageLocators.By_signout_dropdown).click()
+        else:
+            report_event_and_log(self.driver, "Attempted to logout but was already logged out")
+
+
 
 class HomePage(BasePage):
     def __init__(self, driver):
@@ -150,6 +159,7 @@ class HomePage(BasePage):
         else:
             report_event_and_log(self.driver, "Attempted to login but was already logged in")
 
+    
 
 class StorePage(BasePage):
     def __init__(self, driver):
