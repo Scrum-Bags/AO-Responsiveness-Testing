@@ -43,9 +43,9 @@ for dataRow in excelReader(
     0,
     varModFunc=lambda a: a[3:]
 ):
-    testList.append(
-        RegisterResponsivenessTestCase(**dataRow)
-    )
+    # testList.append(
+    #     RegisterResponsivenessTestCase(**dataRow)
+    # )
     testList.append(
         RetrieveInfoResponsivenessTestCase(**dataRow)
     )
