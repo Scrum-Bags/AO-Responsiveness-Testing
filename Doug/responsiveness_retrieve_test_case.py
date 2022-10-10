@@ -63,7 +63,12 @@ class RetrieveInfoResponsivenessTestCase(ReportingTestCase):
         mainPage.goToUserProfile()
         self._testAccountPageResponsiveLayout()
 
-        # TODO logic here
+        # Go to account info edit page
+        # test page responsiveness
+        # validate info against known
+        # Return to summary page
+        # validate info against display
+        # logout
 
     def tearDown(self):
         pass
