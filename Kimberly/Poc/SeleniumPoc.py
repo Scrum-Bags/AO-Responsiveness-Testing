@@ -1,11 +1,13 @@
 import unittest
+from sys import path
 import os
 userStr = os.environ['USERPROFILE']
 userStr = userStr.replace('\\', '/')
+path.append(f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test")
+from Kimberly import TestSuiteReporter
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from CommonFunctions import personal_info_update, update_address, login, signout
-from TestSuiteReporter import TestSuiteReporter
 
 
 class TestCases(unittest.TestCase):
@@ -17,6 +19,7 @@ class TestCases(unittest.TestCase):
         browser.get('http://automationpractice.com/index.php')
         
         TCN = "SeleniumLoginLogout"
+        r = 2
         reporter.addTestCase(TCN, "TC000","Users will be Logging in valid data and Logging out")
 
         if browser.find_element(by=By.CLASS_NAME, value="login"):

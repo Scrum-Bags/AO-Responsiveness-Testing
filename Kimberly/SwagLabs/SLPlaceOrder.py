@@ -18,158 +18,160 @@ from selenium.webdriver.support.select import Select
 
 class TestCases(unittest.TestCase):
   
-    # def test_001_place_order_pos(self):
-    #     reporter = TestSuiteReporter("SwagLabs", f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/Reports", "Kimberly Modeste")
-    #     wb = openpyxl.load_workbook(f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/TestCasesExcel.xlsx")
-    #     wsBrowseStore = wb["SLPlaceOrder"]      
+    #Commented
+    def atest_001_place_order_pos(self):
+        reporter = TestSuiteReporter("SwagLabs", f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/Reports", "Kimberly Modeste")
+        wb = openpyxl.load_workbook(f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/TestCasesExcel.xlsx")
+        wsBrowseStore = wb["SLPlaceOrder"]      
       
-    #     browser = webdriver.Chrome()
-    #     browser.get('https://www.saucedemo.com/')
+        browser = webdriver.Chrome()
+        browser.get('https://www.saucedemo.com/')
         
-    #     TCN = "PosFilterA-Z"
-    #     r = 2
-    #     reporter.addTestCase(TCN, "TC001", "User will be purchasing from the SwagLabs website "+wsBrowseStore.cell(row = r+1, column = 1).value)
+        TCN = "PosFilterA-Z"
+        r = 2
+        reporter.addTestCase(TCN, "TC001", "User will be purchasing from the SwagLabs website "+wsBrowseStore.cell(row = r+1, column = 1).value)
 
-    #     if browser.find_element(by=By.CLASS_NAME, value="login-box"):
-    #         login(browser, reporter,TCN)
+        if browser.find_element(by=By.CLASS_NAME, value="login-box"):
+            login(browser, reporter,TCN)
         
-    #     filter = Select(browser.find_element(by=By.CLASS_NAME, value="product_sort_container"))
-    #     val = wsBrowseStore.cell(row = r, column = 1).value
-    #     if not val is None:
-    #         filter.select_by_value(wsBrowseStore.cell(row = r, column = 1).value)
-    #     else:
-    #         val = ""
+        filter = Select(browser.find_element(by=By.CLASS_NAME, value="product_sort_container"))
+        val = wsBrowseStore.cell(row = r, column = 1).value
+        if not val is None:
+            filter.select_by_value(wsBrowseStore.cell(row = r, column = 1).value)
+        else:
+            val = ""
 
-    #     reporter[TCN].reportEvent(eventDescription="User will be changing the filter", warning=False, 
-    #     dataString=val, screenshotCallback=browser.find_element(by=By.TAG_NAME, value='body').screenshot, 
-    #     imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCN}/img{mytime()}", imageEmbed=False)
+        reporter[TCN].reportEvent(eventDescription="User will be changing the filter", warning=False, 
+        dataString=val, screenshotCallback=browser.find_element(by=By.TAG_NAME, value='body').screenshot, 
+        imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCN}/img{mytime()}", imageEmbed=False)
 
-    #     inventory = browser.find_element(by=By.CLASS_NAME, value="inventory_list").find_elements(by=By.CLASS_NAME, value="inventory_item")
+        inventory = browser.find_element(by=By.CLASS_NAME, value="inventory_list").find_elements(by=By.CLASS_NAME, value="inventory_item")
 
-    #     num = list(range(0, inventory.__len__()))
-    #     random.seed()
-    #     i = random.randint(1, 5)
-    #     for x in range(i):
-    #         j = random.randint(0, num.__len__()-1)
-    #         inventory[num[j]].find_element(by=By.TAG_NAME, value="button").click()
-    #         num.remove(num[j])
+        num = list(range(0, inventory.__len__()))
+        random.seed()
+        i = random.randint(1, 5)
+        for x in range(i):
+            j = random.randint(0, num.__len__()-1)
+            inventory[num[j]].find_element(by=By.TAG_NAME, value="button").click()
+            num.remove(num[j])
 
-    #     reporter[TCN].reportEvent(eventDescription="User selected items", warning=False, 
-    #     dataString=f"Number of Items Selected: {i}", screenshotCallback=browser.find_element(by=By.TAG_NAME, value='body').screenshot, 
-    #     imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCN}/img{mytime()}", imageEmbed=False)
-
-
-    #     # Add purchase here
-    #     browser.find_element(By.CLASS_NAME, "shopping_cart_link").click()
-    #     WebDriverWait(browser, 60).until(expected_conditions.presence_of_element_located((By.ID, "checkout")))
-    #     browser.find_element(By.ID, "checkout").click()
-
-    #     WebDriverWait(browser, 60).until(expected_conditions.presence_of_element_located((By.ID, "first-name")))
-    #     print(wsBrowseStore.cell(row = r, column = 2).value)
-    #     browser.find_element(By.ID, "first-name").send_keys(wsBrowseStore.cell(row = r, column = 2).value)
-    #     reporter[TCN].reportEvent(eventDescription=wsBrowseStore.cell(row = r+1, column = 2).value, warning=False, 
-    #     dataString=wsBrowseStore.cell(row = r, column = 2).value, screenshotCallback=browser.find_element(by=By.TAG_NAME, value='body').screenshot, 
-    #     imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCN}/img{mytime()}", imageEmbed=False)
-
-    #     browser.find_element(By.ID, "last-name").send_keys(wsBrowseStore.cell(row = r, column = 3).value)
-    #     reporter[TCN].reportEvent(eventDescription=wsBrowseStore.cell(row = r+1, column = 3).value, warning=False, 
-    #     dataString=wsBrowseStore.cell(row = r, column = 3).value, screenshotCallback=browser.find_element(by=By.TAG_NAME, value='body').screenshot, 
-    #     imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCN}/img{mytime()}", imageEmbed=False)
-
-    #     browser.find_element(By.ID, "postal-code").send_keys(wsBrowseStore.cell(row = r, column = 4).value)
-    #     reporter[TCN].reportEvent(eventDescription=wsBrowseStore.cell(row = r+1, column = 4).value, warning=False, 
-    #     dataString=wsBrowseStore.cell(row = r, column = 4).value, screenshotCallback=browser.find_element(by=By.TAG_NAME, value='body').screenshot, 
-    #     imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCN}/img{mytime()}", imageEmbed=False)
-
-    #     browser.find_element(By.ID, "continue").click()
-    #     browser.find_element(By.ID, "finish").click()
-    #     browser.find_element(By.ID, "back-to-products").click()
+        reporter[TCN].reportEvent(eventDescription="User selected items", warning=False, 
+        dataString=f"Number of Items Selected: {i}", screenshotCallback=browser.find_element(by=By.TAG_NAME, value='body').screenshot, 
+        imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCN}/img{mytime()}", imageEmbed=False)
 
 
-    #     # Logout
-    #     browser.find_element(by=By.ID, value="react-burger-menu-btn").click()
-    #     buttonList = browser.find_element(by=By.CLASS_NAME, value="bm-item-list").find_elements(by=By.TAG_NAME, value="a")
-    #     WebDriverWait(browser, 60).until(expected_conditions.element_to_be_clickable(buttonList[2]))
-    #     buttonList[2].click()
+        # Add purchase here
+        browser.find_element(By.CLASS_NAME, "shopping_cart_link").click()
+        WebDriverWait(browser, 60).until(expected_conditions.presence_of_element_located((By.ID, "checkout")))
+        browser.find_element(By.ID, "checkout").click()
 
-    #     reporter[TCN].reportStep(stepDescription="User should click the hamburger and logout", 
-    #     expectedBehavior="Pass", actualBehavior="Pass", testStatus=True, dataString="", 
-    #     screenshotCallback=browser.find_element(by=By.TAG_NAME, value='body').screenshot, 
-    #     imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCN}/img{mytime()}", imageEmbed=False)
+        WebDriverWait(browser, 60).until(expected_conditions.presence_of_element_located((By.ID, "first-name")))
+        print(wsBrowseStore.cell(row = r, column = 2).value)
+        browser.find_element(By.ID, "first-name").send_keys(wsBrowseStore.cell(row = r, column = 2).value)
+        reporter[TCN].reportEvent(eventDescription=wsBrowseStore.cell(row = r+1, column = 2).value, warning=False, 
+        dataString=wsBrowseStore.cell(row = r, column = 2).value, screenshotCallback=browser.find_element(by=By.TAG_NAME, value='body').screenshot, 
+        imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCN}/img{mytime()}", imageEmbed=False)
+
+        browser.find_element(By.ID, "last-name").send_keys(wsBrowseStore.cell(row = r, column = 3).value)
+        reporter[TCN].reportEvent(eventDescription=wsBrowseStore.cell(row = r+1, column = 3).value, warning=False, 
+        dataString=wsBrowseStore.cell(row = r, column = 3).value, screenshotCallback=browser.find_element(by=By.TAG_NAME, value='body').screenshot, 
+        imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCN}/img{mytime()}", imageEmbed=False)
+
+        browser.find_element(By.ID, "postal-code").send_keys(wsBrowseStore.cell(row = r, column = 4).value)
+        reporter[TCN].reportEvent(eventDescription=wsBrowseStore.cell(row = r+1, column = 4).value, warning=False, 
+        dataString=wsBrowseStore.cell(row = r, column = 4).value, screenshotCallback=browser.find_element(by=By.TAG_NAME, value='body').screenshot, 
+        imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCN}/img{mytime()}", imageEmbed=False)
+
+        browser.find_element(By.ID, "continue").click()
+        browser.find_element(By.ID, "finish").click()
+        browser.find_element(By.ID, "back-to-products").click()
+
+
+        # Logout
+        browser.find_element(by=By.ID, value="react-burger-menu-btn").click()
+        buttonList = browser.find_element(by=By.CLASS_NAME, value="bm-item-list").find_elements(by=By.TAG_NAME, value="a")
+        WebDriverWait(browser, 60).until(expected_conditions.element_to_be_clickable(buttonList[2]))
+        buttonList[2].click()
+
+        reporter[TCN].reportStep(stepDescription="User should click the hamburger and logout", 
+        expectedBehavior="Pass", actualBehavior="Pass", testStatus=True, dataString="", 
+        screenshotCallback=browser.find_element(by=By.TAG_NAME, value='body').screenshot, 
+        imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCN}/img{mytime()}", imageEmbed=False)
     
-    # def test_002_place_order_blank(self):
-    #     reporter = TestSuiteReporter("SwagLabs", f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/Reports", "Kimberly Modeste")
-    #     wb = openpyxl.load_workbook(f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/TestCasesExcel.xlsx")
-    #     wsBrowseStore = wb["SLPlaceOrder"]      
+    #Commented
+    def atest_002_place_order_blank(self):
+        reporter = TestSuiteReporter("SwagLabs", f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/Reports", "Kimberly Modeste")
+        wb = openpyxl.load_workbook(f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/TestCasesExcel.xlsx")
+        wsBrowseStore = wb["SLPlaceOrder"]      
       
-    #     browser = webdriver.Chrome()
-    #     browser.get('https://www.saucedemo.com/')
+        browser = webdriver.Chrome()
+        browser.get('https://www.saucedemo.com/')
         
-    #     TCN = "BlankFilterA-Z"
-    #     r = 4
-    #     reporter.addTestCase(TCN, "TC002", "User will be purchasing from the SwagLabs website "+wsBrowseStore.cell(row = r+1, column = 1).value)
+        TCN = "BlankFilterA-Z"
+        r = 4
+        reporter.addTestCase(TCN, "TC002", "User will be purchasing from the SwagLabs website "+wsBrowseStore.cell(row = r+1, column = 1).value)
 
-    #     if browser.find_element(by=By.CLASS_NAME, value="login-box"):
-    #         login(browser, reporter,TCN)
+        if browser.find_element(by=By.CLASS_NAME, value="login-box"):
+            login(browser, reporter,TCN)
         
-    #     filter = Select(browser.find_element(by=By.CLASS_NAME, value="product_sort_container"))
-    #     val = wsBrowseStore.cell(row = r, column = 1).value
-    #     if not val is None:
-    #         filter.select_by_value(wsBrowseStore.cell(row = r, column = 1).value)
-    #     else:
-    #         val = ""
+        filter = Select(browser.find_element(by=By.CLASS_NAME, value="product_sort_container"))
+        val = wsBrowseStore.cell(row = r, column = 1).value
+        if not val is None:
+            filter.select_by_value(wsBrowseStore.cell(row = r, column = 1).value)
+        else:
+            val = ""
 
-    #     reporter[TCN].reportEvent(eventDescription="User will be changing the filter", warning=False, 
-    #     dataString=val, screenshotCallback=browser.find_element(by=By.TAG_NAME, value='body').screenshot, 
-    #     imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCN}/img{mytime()}", imageEmbed=False)
+        reporter[TCN].reportEvent(eventDescription="User will be changing the filter", warning=False, 
+        dataString=val, screenshotCallback=browser.find_element(by=By.TAG_NAME, value='body').screenshot, 
+        imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCN}/img{mytime()}", imageEmbed=False)
      
-    #     # Add purchase here
-    #     ActualBehavior="Pass"
-    #     TestStatus=True
-    #     browser.find_element(By.CLASS_NAME, "shopping_cart_link").click()
-    #     try:
-    #         browser.find_element(By.CLASS_NAME, "cart_item").click()
-    #     except:
-    #         ActualBehavior="Pass"
-    #         TestStatus=False
+        # Add purchase here
+        ActualBehavior="Pass"
+        TestStatus=True
+        browser.find_element(By.CLASS_NAME, "shopping_cart_link").click()
+        try:
+            browser.find_element(By.CLASS_NAME, "cart_item").click()
+        except:
+            ActualBehavior="Pass"
+            TestStatus=False
 
-    #     browser.find_element(By.ID, "checkout").click()
+        browser.find_element(By.ID, "checkout").click()
 
-    #     browser.find_element(By.ID, "first-name").send_keys(wsBrowseStore.cell(row = r, column = 2).value)
-    #     reporter[TCN].reportEvent(eventDescription=wsBrowseStore.cell(row = r+1, column = 2).value, warning=False, 
-    #     dataString=wsBrowseStore.cell(row = r, column = 2).value, screenshotCallback=browser.find_element(by=By.TAG_NAME, value='body').screenshot, 
-    #     imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCN}/img{mytime()}", imageEmbed=False)
+        browser.find_element(By.ID, "first-name").send_keys(wsBrowseStore.cell(row = r, column = 2).value)
+        reporter[TCN].reportEvent(eventDescription=wsBrowseStore.cell(row = r+1, column = 2).value, warning=False, 
+        dataString=wsBrowseStore.cell(row = r, column = 2).value, screenshotCallback=browser.find_element(by=By.TAG_NAME, value='body').screenshot, 
+        imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCN}/img{mytime()}", imageEmbed=False)
 
-    #     browser.find_element(By.ID, "last-name").send_keys(wsBrowseStore.cell(row = r, column = 3).value)
-    #     reporter[TCN].reportEvent(eventDescription=wsBrowseStore.cell(row = r+1, column = 3).value, warning=False, 
-    #     dataString=wsBrowseStore.cell(row = r, column = 3).value, screenshotCallback=browser.find_element(by=By.TAG_NAME, value='body').screenshot, 
-    #     imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCN}/img{mytime()}", imageEmbed=False)
+        browser.find_element(By.ID, "last-name").send_keys(wsBrowseStore.cell(row = r, column = 3).value)
+        reporter[TCN].reportEvent(eventDescription=wsBrowseStore.cell(row = r+1, column = 3).value, warning=False, 
+        dataString=wsBrowseStore.cell(row = r, column = 3).value, screenshotCallback=browser.find_element(by=By.TAG_NAME, value='body').screenshot, 
+        imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCN}/img{mytime()}", imageEmbed=False)
 
-    #     browser.find_element(By.ID, "postal-code").send_keys(wsBrowseStore.cell(row = r, column = 4).value)
-    #     reporter[TCN].reportEvent(eventDescription=wsBrowseStore.cell(row = r+1, column = 4).value, warning=False, 
-    #     dataString=wsBrowseStore.cell(row = r, column = 4).value, screenshotCallback=browser.find_element(by=By.TAG_NAME, value='body').screenshot, 
-    #     imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCN}/img{mytime()}", imageEmbed=False)
+        browser.find_element(By.ID, "postal-code").send_keys(wsBrowseStore.cell(row = r, column = 4).value)
+        reporter[TCN].reportEvent(eventDescription=wsBrowseStore.cell(row = r+1, column = 4).value, warning=False, 
+        dataString=wsBrowseStore.cell(row = r, column = 4).value, screenshotCallback=browser.find_element(by=By.TAG_NAME, value='body').screenshot, 
+        imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCN}/img{mytime()}", imageEmbed=False)
 
-    #     reporter[TCN].reportStep(stepDescription="User should finish the checkout", 
-    #     expectedBehavior="Fail", actualBehavior=ActualBehavior, testStatus=TestStatus, dataString="", 
-    #     screenshotCallback=browser.find_element(by=By.TAG_NAME, value='body').screenshot, 
-    #     imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCN}/img{mytime()}", imageEmbed=False)
+        reporter[TCN].reportStep(stepDescription="User should finish the checkout", 
+        expectedBehavior="Fail", actualBehavior=ActualBehavior, testStatus=TestStatus, dataString="", 
+        screenshotCallback=browser.find_element(by=By.TAG_NAME, value='body').screenshot, 
+        imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCN}/img{mytime()}", imageEmbed=False)
 
-    #     browser.find_element(By.ID, "continue").click()
-    #     browser.find_element(By.ID, "finish").click()
-    #     browser.find_element(By.ID, "back-to-products").click()
+        browser.find_element(By.ID, "continue").click()
+        browser.find_element(By.ID, "finish").click()
+        browser.find_element(By.ID, "back-to-products").click()
 
 
-    #     # Logout
-    #     browser.find_element(by=By.ID, value="react-burger-menu-btn").click()
-    #     buttonList = browser.find_element(by=By.CLASS_NAME, value="bm-item-list").find_elements(by=By.TAG_NAME, value="a")
-    #     WebDriverWait(browser, 60).until(expected_conditions.element_to_be_clickable(buttonList[2]))
-    #     buttonList[2].click()
+        # Logout
+        browser.find_element(by=By.ID, value="react-burger-menu-btn").click()
+        buttonList = browser.find_element(by=By.CLASS_NAME, value="bm-item-list").find_elements(by=By.TAG_NAME, value="a")
+        WebDriverWait(browser, 60).until(expected_conditions.element_to_be_clickable(buttonList[2]))
+        buttonList[2].click()
 
-    #     reporter[TCN].reportStep(stepDescription="User should click the hamburger and logout", 
-    #     expectedBehavior="Pass", actualBehavior="Pass", testStatus=True, dataString="", 
-    #     screenshotCallback=browser.find_element(by=By.TAG_NAME, value='body').screenshot, 
-    #     imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCN}/img{mytime()}", imageEmbed=False)
+        reporter[TCN].reportStep(stepDescription="User should click the hamburger and logout", 
+        expectedBehavior="Pass", actualBehavior="Pass", testStatus=True, dataString="", 
+        screenshotCallback=browser.find_element(by=By.TAG_NAME, value='body').screenshot, 
+        imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCN}/img{mytime()}", imageEmbed=False)
 
     def test_003_place_order(self):
         reporter = TestSuiteReporter.TestSuiteReporter("SwagLabs", f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/Reports", "Kimberly Modeste")

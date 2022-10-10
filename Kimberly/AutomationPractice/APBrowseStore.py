@@ -1,11 +1,13 @@
 import unittest
+from sys import path
 import os
 userStr = os.environ['USERPROFILE']
 userStr = userStr.replace('\\', '/')
+path.append(f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test")
+from Kimberly import TestSuiteReporter
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from APCommonFunctions import selectCategories, login
-from TestSuiteReporter import TestSuiteReporter
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions
 
