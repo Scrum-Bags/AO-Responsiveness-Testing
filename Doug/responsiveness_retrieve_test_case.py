@@ -71,6 +71,96 @@ class RetrieveInfoResponsivenessTestCase(ReportingTestCase):
         self._testAccountInfoEditPageResponsiveLayout()
 
         # validate info against known
+        # email
+        testStatus = self.data['email'] == editPage.getEmail()
+        self.reportStep(
+            "Email field value check",
+            "Email field matches expected value",
+            "Email field does not match expected value",
+            testStatus,
+            element=editPage.elements['email'],
+            imageEmbed=True
+        )
+        # first name
+        testStatus = self.data['firstName'] == editPage.getFirstName()
+        self.reportStep(
+            "First name field value check",
+            "First name field matches expected value",
+            "First name field does not match expected value",
+            testStatus,
+            element=editPage.elements['first_name'],
+            imageEmbed=True
+        )
+        # last name
+        testStatus = self.data['lastName'] == editPage.getLastName()
+        self.reportStep(
+            "Last name field value check",
+            "Last name field matches expected value",
+            "Last name field does not match expected value",
+            testStatus,
+            element=editPage.elements['last_name'],
+            imageEmbed=True
+        )
+        # phone number
+        testStatus = self.data['phoneNumber'] == editPage.getPhoneNumber()
+        self.reportStep(
+            "Phone number field value check",
+            "Phone number field matches expected value",
+            "Phone number field does not match expected value",
+            testStatus,
+            element=editPage.elements['phone_number'],
+            imageEmbed=True
+        )
+        # address country 
+        testStatus = self.data['addressCountry'] == editPage.getAddressCountry()
+        self.reportStep(
+            "Address country selector value check",
+            "Address country selector matches expected value",
+            "Address country selector does not match expected value",
+            testStatus,
+            element=editPage.elements['address_country'],
+            imageEmbed=True
+        )
+        # address city 
+        testStatus = self.data['addressCity'] == editPage.getAddressCity()
+        self.reportStep(
+            "Address city field value check",
+            "Address city field matches expected value",
+            "Address city field does not match expected value",
+            testStatus,
+            element=editPage.elements['address_city'],
+            imageEmbed=True
+        )
+        # address street 
+        testStatus = self.data['addressStreet'] == editPage.getAddressStreet()
+        self.reportStep(
+            "Address street field value check",
+            "Address street matches expected value",
+            "Address street does not match expected value",
+            testStatus,
+            element=editPage.elements['address_street'],
+            imageEmbed=True
+        )
+        # address postal code 
+        testStatus = self.data['addressPostalCode'] == editPage.getAddressPostalCode()
+        self.reportStep(
+            "Address postal code field value check",
+            "Address postal code matches expected value",
+            "Address postal code does not match expected value",
+            testStatus,
+            element=editPage.elements['address_postal_code'],
+            imageEmbed=True
+        )
+        # address region 
+        testStatus = self.data['addressRegion'] == editPage.getAddressRegion()
+        self.reportStep(
+            "Address region field value check",
+            "Address region matches expected value",
+            "Address region does not match expected value",
+            testStatus,
+            element=editPage.elements['address_region'],
+            imageEmbed=True
+        )
 
         # Return to summary page
         editPage.goToUserProfile()
@@ -84,6 +174,7 @@ class RetrieveInfoResponsivenessTestCase(ReportingTestCase):
         # validate info against display
 
         # logout
+        summaryPage.logOut()
 
     def tearDown(self):
         pass
