@@ -11,6 +11,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 from page_elements.advantage_online_elements import *
 from runittest.reporting_unittest import SingletonWebDriver
+from printlogger.printlogger import displayPrint
 
 
 class Page:
@@ -152,13 +153,9 @@ class AdvantagePage(Page):
             )
             summaryElement = self.elements["menu_items_container"].find_elements(By.TAG_NAME, "label")[0]
             summaryElement.click()
-            WebDriverWait(
-                self.driverObj,
+            self.waitForElements(
+                accountSummaryElementIDs,
                 10
-            ).until(
-                EC.visibility_of_element_located(
-                    accountSummaryElementIDs["details_box"].values()
-                )
             )
     
     def logIn(
@@ -247,8 +244,7 @@ class MainPage(AdvantagePage):
         loggedIn: bool,
     ):
         super().__init__(
-            loggedIn=loggedIn,
-            extraDict=mainPageWideElementIDs
+            loggedIn=loggedIn
         )
         self.waitForElements(
             mainPageWaitIDs,
@@ -691,10 +687,10 @@ class UserInfoEditPage(AdvantagePage):
     
     def __init__(
         self,
-        loggedIn=True,
-        extraDict=accountInfoEditPageElementIDs
+        loggedIn=True
     ):
         super().__init__(loggedIn=True)
+        self.addElements(accountInfoEditPageElementIDs)
 
     def getEmail(self) -> str:
         return self.elements['email'].get_attribute('value')
