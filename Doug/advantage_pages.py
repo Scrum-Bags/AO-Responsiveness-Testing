@@ -9,16 +9,49 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support.ui import WebDriverWait
 
-from page_elements.advantage_online_elements import accountSummaryElementIDs
-from page_elements.advantage_online_elements import commonElementIDs
-from page_elements.advantage_online_elements import commonMobileElementIDs
-from page_elements.advantage_online_elements import loggedOutCommonElementIDs
-from page_elements.advantage_online_elements import loggedInCommonElementIDs
-from page_elements.advantage_online_elements import mainPageWaitIDs
-from page_elements.advantage_online_elements import mainPageWideElementIDs
-from page_elements.advantage_online_elements import userRegisterElementIDs
+from page_elements.advantage_online_elements import *
 from runittest.reporting_unittest import SingletonWebDriver
 
+
+# class Page:
+#     """Base page class to handle basic object inclusion."""
+
+#     def __init__(
+#         self,
+#         idDict: dict,
+#         extraDict: Union[dict, None] = None
+#     ):
+#         self.elements = {}
+#         tempDict = idDict
+#         if extraDict is not None:
+#             tempDict.update(extraDict)
+#         self.driverObj = SingletonWebDriver()
+#         # print(f"Getting wait key from idDict: {idDict}")
+#         waitObjectID = idDict[list(idDict.keys())[0]]
+#         # print(f"Have key: {waitObjectID}")
+#         # print("Waiting for page to load")
+#         WebDriverWait(
+#             self.driverObj,
+#             10
+#         ).until(
+#             EC.presence_of_element_located((waitObjectID.values()))
+#         )
+#         # print("Page has loaded!")
+#         self.addElements(tempDict)
+
+#     def addElements(self, idDict: dict):
+#         # print("Adding Elements")
+#         for name, args in idDict.items():
+#             # temp_element = None
+#             try:
+#                 # print(f"trying to find: {name}: {args}")
+#                 # temp_element = self.driverObj.find_element(**args)
+#                 self.elements[name] = self.driverObj.find_element(**args)
+#                 # setattr(self, name, temp_element)
+#             except NoSuchElementException as e:
+#                 # print(f"error!: element not found: {e}")
+#                 continue
+#         # print("Elements Added")
 
 class Page:
     """Base page class to handle basic object inclusion."""
@@ -26,39 +59,46 @@ class Page:
     def __init__(
         self,
         idDict: dict,
-        extraDict: Union[dict, None] = None
+        waitTimeout: int = 30
     ):
         self.elements = {}
-        tempDict = idDict
-        if extraDict is not None:
-            tempDict.update(extraDict)
+        self.baseElementIDs = {}
         self.driverObj = SingletonWebDriver()
-        # print(f"Getting wait key from idDict: {idDict}")
-        waitObjectID = idDict[list(idDict.keys())[0]]
-        # print(f"Have key: {waitObjectID}")
-        # print("Waiting for page to load")
-        WebDriverWait(
-            self.driverObj,
-            10
-        ).until(
-            EC.presence_of_element_located((waitObjectID.values()))
-        )
-        # print("Page has loaded!")
-        self.addElements(tempDict)
+        self.waitForElements(idDict, waitTimeout)
+        self.addElements(idDict)
+        self.loaded = len(self.baseElementIDs) == len(idDict)
 
     def addElements(self, idDict: dict):
-        # print("Adding Elements")
+        self.baseElementIDs.update(idDict)
         for name, args in idDict.items():
-            # temp_element = None
             try:
-                # print(f"trying to find: {name}: {args}")
-                # temp_element = self.driverObj.find_element(**args)
-                self.elements[name] = self.driverObj.find_element(**args)
-                # setattr(self, name, temp_element)
+                tempElement = self.driverObj.find_element(**args)
             except NoSuchElementException as e:
-                # print(f"error!: element not found: {e}")
+                # displayPrint("Element not found" **args)
                 continue
-        # print("Elements Added")
+            else:
+                # displayPrint("Element found", **args)
+                self.elements[name] = tempElement
+    
+    def refresh(self):
+        self.addElements(self.baseElementIDs)
+    
+    def waitForElements(
+        self,
+        objectIDs: dict,
+        timeOut: int
+    ):
+        conditions = [
+            EC.presence_of_element_located(l.values())
+            for l in
+            objectIDs.values()
+        ]
+        WebDriverWait(
+            self.driverObj,
+            timeOut
+        ).until(
+            EC.all_of(*conditions)
+        )
 
 
 class AdvantagePage(Page):
@@ -671,3 +711,10 @@ class AccountSummaryPage(AdvantagePage):
                 # print(f"{'phoneNumber' if isPhoneNumber else 'fullName'} doesn't match!\n")
                 return False
         return True
+
+    def goToProfileEditPage(self):
+        self.elements['account_details_link'].click()
+        self.waitForElements(
+            accountInfoEditPageElementIDs, 
+            20
+        )
