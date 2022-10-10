@@ -27,7 +27,7 @@ class AO_Account_Order_History(unittest.TestCase):
     def setUpClass(cls):
         cls.edge_options = Options()
         cls.edge_options.add_experimental_option('excludeSwitches', ['enable-logging'])
-        cls.edge_options.headless = True
+        cls.edge_options.headless = False
         cls.driver = webdriver.Edge(options=cls.edge_options)
         cls.driver.loggingID = "AO_Account_Order_History"
 
@@ -38,7 +38,7 @@ class AO_Account_Order_History(unittest.TestCase):
     def setUp(self):
         self.driver.get("https://www.advantageonlineshopping.com/#/")
         self.driver.reporter = self.reporter
-        self.driver.set_window_size(945, 1012)
+        self.driver.set_window_size(1920, 1012)
         log_wrapper(self.driver, "Waiting for home page to load")
 
     def tearDown(self):
@@ -50,24 +50,27 @@ class AO_Account_Order_History(unittest.TestCase):
         self.reporter.addTestCase(self.driver.testID, "TH_TC014", "Check orders against excel sheet values [Non-responsive]")
         self.TH_TC014()
 
-    def test_TH_TC014_responsive(self):
-        log_wrapper(self.driver, "***BEGINNING TH_TC014 [Responsive]***")
+    def test_TH_TC014_responsive_mobile(self):
+        log_wrapper(self.driver, "***BEGINNING TH_TC014 [Responsive-mobile]***")
         self.driver.testID = "TC014_" + str(random.getrandbits(64))
-        self.reporter.addTestCase(self.driver.testID, "TH_TC014", "Check orders against excel sheet values [Responsive]")
-        self.driver.set_window_size(500, 900)
+        self.reporter.addTestCase(self.driver.testID, "TH_TC014_RM", "Check orders against excel sheet values [Responsive-mobile]")
+        self.driver.set_window_size(360, 900)
+        self.TH_TC014()
+
+    def test_TH_TC014_responsive_tablet(self):
+        log_wrapper(self.driver, "***BEGINNING TH_TC014 [Responsive-tablet]***")
+        self.driver.testID = "TC014_" + str(random.getrandbits(64))
+        self.reporter.addTestCase(self.driver.testID, "TH_TC014_RM", "Check orders against excel sheet values [Responsive-tablet]")
+        self.driver.set_window_size(768, 900)
         self.TH_TC014()
 
     def TH_TC014(self):
         log_wrapper(self.driver, 'Entered TH_TC014 main test logic')
-        if self.driver.get_window_size()['width'] < 550:
-            report_event_and_log(self.driver, 'Detected responisve')
-            responsive = True
-        else:
-            report_event_and_log(self.driver, 'Responsive not detected')
-            responsive = False
-        
+       
         load_excel_sheet(self.driver, f'TH_TC014_1', 'AOOrderHistory.xlsx', 'TH_TC014')
         page = HomePage(self.driver)
+
+        page.check_responsive()
         page.login(self.driver.data['DT_email'], self.driver.data['DT_password'])
         page.click_order_history()
             
@@ -96,7 +99,7 @@ class AO_Account_Order_History(unittest.TestCase):
                     "Order numbers match",
                     f"Order numbers don't match:  {values['order_num']}",
                     False, 
-                    f"Found value: {data['DT_order_number']} Should be: {values['order_num']}",
+                    f"DB value: {data['DT_order_number']} Website value: {values['order_num']}",
                     screenshotCallback=self.driver.save_screenshot
                     )
 
@@ -117,7 +120,7 @@ class AO_Account_Order_History(unittest.TestCase):
                     "Order dates match",
                     "Order dates don't match: ",
                     False, 
-                    f"Found value: {data['DT_order_date']} Should be: {values['order_date']}",
+                    f"DB value: {data['DT_order_date']} Website value: {values['order_date']}",
                     screenshotCallback=self.driver.save_screenshot
                     )
     
@@ -139,7 +142,7 @@ class AO_Account_Order_History(unittest.TestCase):
                     "Order times match",
                     "Order times don't match: ",
                     False, 
-                    f"Found value: {data['DT_order_time']} Should be: {values['order_time']}",
+                    f"DB value: {data['DT_order_time']} Website value: {values['order_time']}",
                     screenshotCallback=self.driver.save_screenshot
                     )
     
@@ -161,7 +164,7 @@ class AO_Account_Order_History(unittest.TestCase):
                     "Product names match",
                     "Product names don't match: ",
                     False, 
-                    f"Found value {data['DT_product_name']} Should be: {values['product_name']}",
+                    f"DB value {data['DT_product_name']} Website value: {values['product_name']}",
                     screenshotCallback=self.driver.save_screenshot
                     )
     
@@ -183,7 +186,7 @@ class AO_Account_Order_History(unittest.TestCase):
                     "Quantities match",
                     "Quantities don't match: ",
                     False, 
-                    f"Found value {data['DT_quantity']} Should be: {values['quantity']}",
+                    f"DB value {data['DT_quantity']} Website value: {values['quantity']}",
                     screenshotCallback=self.driver.save_screenshot
                     )
     
@@ -205,12 +208,13 @@ class AO_Account_Order_History(unittest.TestCase):
                     "Prices match",
                     "Prices don't match: ",
                     False, 
-                    f"Found value {data['DT_total_price']} Should be: {values['total_price']}",
+                    f"DB value {data['DT_total_price']} Website value: {values['total_price']}",
                     screenshotCallback=self.driver.save_screenshot
                     )
+
+        page.logout()        
     
 
-        time.sleep(1)
 
     def test_TH_TC015(self):
         log_wrapper(self.driver, "***BEGINNING TH_TC015 [Non-Responsive]***")
@@ -218,24 +222,26 @@ class AO_Account_Order_History(unittest.TestCase):
         self.reporter.addTestCase(self.driver.testID, "TH_TC015", "Test that 'No Orders' message appears on account with no orders [Non-responsive]")
         self.TH_TC015()
 
-    def test_TH_TC015_responsive(self):
-        log_wrapper(self.driver, "***BEGINNING TH_TC015 [Responsive]***")
+    def test_TH_TC015_responsive_mobile(self):
+        log_wrapper(self.driver, "***BEGINNING TH_TC015 [Responsive-mobile]***")
         self.driver.testID = "TC015_" + str(random.getrandbits(64))
-        self.reporter.addTestCase(self.driver.testID, "TH_TC015", "Test that 'No Orders' message appears on account with no orders [Responsive]")
-        self.driver.set_window_size(500, 900)
+        self.reporter.addTestCase(self.driver.testID, "TH_TC015_RM", "Test that 'No Orders' message appears on account with no orders [Responsive-mobile]")
+        self.driver.set_window_size(360, 900)
+        self.TH_TC015()
+
+    def test_TH_TC015_responsive_tablet(self):
+        log_wrapper(self.driver, "***BEGINNING TH_TC015 [Responsive-tablet]***")
+        self.driver.testID = "TC015_" + str(random.getrandbits(64))
+        self.reporter.addTestCase(self.driver.testID, "TH_TC015_RM", "Test that 'No Orders' message appears on account with no orders [Responsive-tablet]")
+        self.driver.set_window_size(768, 900)
         self.TH_TC015()
 
     def TH_TC015(self):
         log_wrapper(self.driver, 'Entered TH_TC015 main test logic')
-        if self.driver.get_window_size()['width'] < 550:
-            report_event_and_log(self.driver, 'Detected responisve')
-            responsive = True
-        else:
-            report_event_and_log(self.driver, 'Responsive not detected')
-            responsive = False
-        
+       
         load_excel_sheet(self.driver, f'TH_TC015_1', 'AOOrderHistory.xlsx', 'TH_TC015')
         page = HomePage(self.driver)
+        page.check_responsive()
         page.login(self.driver.data['DT_email'], self.driver.data['DT_password'])
         page.click_order_history()
             
