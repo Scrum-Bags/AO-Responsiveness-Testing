@@ -730,55 +730,72 @@ class UserInfoEditPage(AdvantagePage):
         super().__init__(loggedIn=True)
 
     def getEmail(self) -> str:
-        pass
+        return self.elements['email'].get_attribute('value')
 
     def setEmail(self, value: str):
-        pass
+        self.elements['email'].clear()
+        self.elements['email'].send_keys(value)
 
     def getFirstName(self) -> str:
-        pass
+        return self.elements['first_name'].get_attribute('value')
 
     def setFirstName(self, value: str):
-        pass
+        self.elements['first_name'].clear()
+        self.elements['first_name'].send_keys(value)
 
     def getLastName(self) -> str:
-        pass
+        return self.elements['last_name'].get_attribute('value')
 
     def setLastName(self, value: str):
-        pass
+        self.elements['last_name'].clear()
+        self.elements['last_name'].send_keys(value)
 
     def getPhoneNumber(self) -> str:
-        pass
+        return self.elements['phone_number'].get_attribute('value')
 
     def setPhoneNumber(self, value: str):
-        pass
+        self.elements['phone_number'].clear()
+        self.elements['phone_number'].send_keys(value)
 
     def getAddressCountry(self) -> str:
-        pass
+        tempSelect = Select(self.elements['address_country'])
+        return tempSelect.first_selected_option
 
-    def setAddressCountry(self):
-        pass
+    def setAddressCountry(self, value: str):
+        self.elements['address_country'].clear()
+        self.elements['address_country'].send_keys(value)
 
     def getAddressCity(self) -> str:
-        pass
+        return self.elements['address_city'].get_attribute('value')
 
-    def setAddressCity(self):
-        pass
+    def setAddressCity(self, value: str):
+        self.elements['address_city'].clear()
+        self.elements['address_city'].send_keys(value)
 
     def getAddressStreet(self) -> str:
-        pass
+        return self.elements['address_street'].get_attribute('value')
 
-    def setAddressStreet(self):
-        pass
+    def setAddressStreet(self, value: str):
+        self.elements['address_street'].clear()
+        self.elements['address_street'].send_keys(value)
 
     def getAddressPostalCode(self) -> str:
-        pass
+        return self.elements['address_postal_code'].get_attribute('value')
 
-    def setAddressPostalCode(self):
-        pass
+    def setAddressPostalCode(self, value: str):
+        self.elements['address_postal_code'].clear()
+        self.elements['address_postal_code'].send_keys(value)
 
     def getAddressRegion(self) -> str:
-        pass
+        return self.elements['address_region'].get_attribute('value')
 
-    def setAddressRegion(self):
-        pass
+    def setAddressRegion(self, value: str):
+        self.elements['address_region'].clear()
+        self.elements['address_region'].send_keys(value)
+
+    def saveInfo(self):
+        self.elements['save_button'].click()
+        self.waitForElements(
+            accountSummaryElementIDs,
+            20
+        )
