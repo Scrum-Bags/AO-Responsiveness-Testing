@@ -14,7 +14,7 @@ from advantage_pages import MainPage
 from advantage_pages import RegisterPage
 
 
-class ResponsivenessTestCase(ReportingTestCase):
+class RegisterResponsivenessTestCase(ReportingTestCase):
 
     _mainPageMobileDims = {
         "width": 463,
@@ -366,13 +366,9 @@ class ResponsivenessTestCase(ReportingTestCase):
         # Click register button
         registerPage.submitInfo()  # Waits for the main page to load
 
-        # Go to account summary page
-        mainPage = MainPage(loggedIn=True)
-        mainPage.goToUserProfile()
-        self._testAccountPageResponsiveLayout()
-
     def tearDown(self):
-        pass
+        mainPage = MainPage(loggedIn=True)
+        mainPage.logout()
     
     def runTest(self):
         self.testUserRegisterResponsiveLayout()
@@ -533,7 +529,7 @@ class ResponsivenessTestCase(ReportingTestCase):
         # Get page object
         registerPage = RegisterPage()
 
-        # TODO: check that vertical positions are now similar for pairs
+        # Check that vertical positions are now similar for pairs
         fieldParallels = [
             ('username', 'email'),
             ('password', 'password_confirm'),
@@ -560,35 +556,12 @@ class ResponsivenessTestCase(ReportingTestCase):
         # Check that mobile elements are not displayed
         self._mobileElementsNotDisplayedCheck()
 
-    def _testAccountPageResponsiveLayout(self):
-        # Set window size to mobile size (<464px?)
-        self._setWindowMobileDimensions()
-
-        # Get page object
-        accountPage = AccountSummaryPage()
-
-        # TODO Check that elements are sized to match
-
-        # Check that mobile elements are displayed
-        self._mobileElementsDisplayedCheck()
-
-        # Set window size to maximum
-        self._setWindowMaxDimensions()
-
-        # Get page object
-        accountPage = AccountSummaryPage()
-
-        # TODO Check that elements are sized to match
-
-        # Check that mobile elements are not displayed
-        self._mobileElementsNotDisplayedCheck()
-
     def _setWindowMobileDimensions(self):
         self.driverObj.set_window_size(**self._mainPageMobileDims)
         self.reportEvent(
             "Window sized to mobile dimensions",
             element='screen',
-            data='\n'.join([f"{k}: {v}" for k, v in self._mainPageMobileDims.items()])
+            data='<br>'.join([f"{k}: {v}" for k, v in self._mainPageMobileDims.items()])
         )
 
     def _setWindowMaxDimensions(self):

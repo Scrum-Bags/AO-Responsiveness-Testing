@@ -1,7 +1,8 @@
 from os import path
 
 from excel.excelreader import excelReader
-from responsiveness_test_case import ResponsivenessTestCase
+from responsiveness_register_test_case import RegisterResponsivenessTestCase
+from responsiveness_retrieve_test_case import RetrieveInfoResponsivenessTestCase
 from runittest.reporting_unittest import ReportingTestCase
 from runittest.reporting_unittest import ReportingTestResult
 from runittest.reporting_unittest import ReportingTestSuite
@@ -43,7 +44,10 @@ for dataRow in excelReader(
     varModFunc=lambda a: a[3:]
 ):
     testList.append(
-        ResponsivenessTestCase(**dataRow)
+        RegisterResponsivenessTestCase(**dataRow)
+    )
+    testList.append(
+        RetrieveInfoResponsivenessTestCase(**dataRow)
     )
 
 AO_Suite.addTests(testList)

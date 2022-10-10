@@ -209,5 +209,52 @@ accountSummaryElementIDs = {
     "details_box": {
         "by": By.CLASS_NAME,
         "value": "borderBox"
+    },
+    "account_details_link": {
+        "by": By.CSS_SELECTOR,
+        "value": "div.cube:nth-child(1) > h3:nth-child(1) > a:nth-child(1)"
+    }
+}
+
+accountInfoEditPageElementIDs = {
+    "email": {
+        "by": By.NAME,
+        "value": "emailAccountDetails"
+    },
+    "first_name": {
+        "by": By.NAME,
+        "value": "first_nameAccountDetails"
+    },
+    "last_name": {
+        "by": By.NAME,
+        "value": "last_nameAccountDetails"
+    },
+    "phone_number": {
+        "by": By.NAME,
+        "value": "phone_numberAccountDetails"
+    },
+    "address_country": {
+        "by": By.NAME,
+        "value": "countryListboxAccountDetails"
+    },
+    "address_city": {
+        "by": By.NAME,
+        "value": "cityAccountDetails"
+    },
+    "address_street": {
+        "by": By.NAME,
+        "value": "addressAccountDetails"
+    },
+    "address_postal_code": {
+        "by": By.NAME,
+        "value": "postal_codeAccountDetails"
+    },
+    "address_region": {
+        "by": By.NAME,
+        "value": "state_/_province_/_regionAccountDetails"
+    },
+    "save_button": {
+        "by": By.ID,
+        "value": "save_btnundefined"
     }
 }
