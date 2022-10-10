@@ -4,14 +4,8 @@ from time import sleep
 from selenium.webdriver.common.action_chains import ActionChains
 
 from runittest.reporting_unittest import ReportingTestCase
-from page_elements.advantage_online_elements import commonElementIDs
-from page_elements.advantage_online_elements import mainPageWideElementIDs
-from page_elements.advantage_online_elements import mainPageWaitIDs
-from page_elements.advantage_online_elements import userRegisterElementIDs
-from advantage_pages import AccountSummaryPage
-from advantage_pages import AdvantagePage
-from advantage_pages import MainPage
-from advantage_pages import RegisterPage
+from page_elements.advantage_online_elements import *
+from advantage_pages import *
 
 
 class RetrieveInfoResponsivenessTestCase(ReportingTestCase):
@@ -60,14 +54,35 @@ class RetrieveInfoResponsivenessTestCase(ReportingTestCase):
 
         # Go to account summary page
         mainPage = MainPage(loggedIn=True)
+
+        # Go to account summary page
         mainPage.goToUserProfile()
+
+        # get page object
+        summaryPage = AccountSummaryPage()
+
+        # go to info edit page
+        summaryPage.goToProfileEditPage()
+
+        # get edit page object
+        editPage = UserInfoEditPage()
+
+        # test edit page responsiveness
+        self._testAccountInfoEditPageResponsiveLayout()
+
+        # validate info against known
+
+        # Return to summary page
+        editPage.goToUserProfile()
+
+        # get page object
+        summaryPage = AccountSummaryPage()
+
+        # test page responsiveness
         self._testAccountPageResponsiveLayout()
 
-        # Go to account info edit page
-        # test page responsiveness
-        # validate info against known
-        # Return to summary page
         # validate info against display
+
         # logout
 
     def tearDown(self):
