@@ -61,19 +61,34 @@ class BasePage:
         self.wait_for_element(self, ShoppingCartPageLocators.By_checkout_btn)
 
     def click_order_history(self):
-        self.driver.find_element(*BasePageLocators.By_username).click()
-        self.driver.find_element(*BasePageLocators.By_order_history_dropdown).click()
+        if self.driver.responsive_mobile == True:
+            time.sleep(1)
+            self.driver.find_element(*HomePageLocators.By_mobile_expand).click()
+            time.sleep(1)
+            self.driver.find_element(*HomePageLocators.By_mobile_user).click()
+            time.sleep(1)
+            self.driver.find_element(*HomePageLocators.By_mobile_history).click()
+        else:
+            self.driver.find_element(*BasePageLocators.By_username).click()
+            self.driver.find_element(*BasePageLocators.By_order_history_dropdown).click()
 
     def get_shopping_cart_num(self):
        return int(self.driver.find_element(*BasePageLocators.By_shopping_cart_num).get_attribute('textContent'))
 
     def logout(self):
-        if self.driver.find_element(*BasePageLocators.By_username).get_attribute('textContent') != "":
-            self.driver.find_element(*BasePageLocators.By_username).click()
-            time.sleep(1)
-            self.driver.find_element(*BasePageLocators.By_signout_dropdown).click()
+        if self.driver.responsive_mobile == True:
+           self.driver.find_element(*HomePageLocators.By_mobile_expand).click()
+           time.sleep(1)
+           self.driver.find_element(*HomePageLocators.By_mobile_user).click()
+           time.sleep(1)
+           self.driver.find_element(*BasePageLocators.By_mobile_signout).click()
         else:
-            report_event_and_log(self.driver, "Attempted to logout but was already logged out")
+            if self.driver.find_element(*BasePageLocators.By_username).get_attribute('textContent') != "":
+                self.driver.find_element(*BasePageLocators.By_username).click()
+                time.sleep(1)
+                self.driver.find_element(*BasePageLocators.By_signout_dropdown).click()
+            else:
+                report_event_and_log(self.driver, "Attempted to logout but was already logged out")
 
 
 
@@ -149,7 +164,12 @@ class HomePage(BasePage):
 
     def login(self, user, password):
         if self.driver.find_element(*BasePageLocators.By_username).get_attribute('textContent') == "":
-            self.user_btn.click()
+            if self.driver.responsive_mobile == True:
+                self.driver.find_element(*HomePageLocators.By_mobile_expand).click()
+                time.sleep(0.3)
+                self.driver.find_element(*HomePageLocators.By_mobile_user).click()
+            else:
+                self.user_btn.click()
             time.sleep(1)
             self.driver.find_element(*HomePageLocators.By_username_field).send_keys(user)
             self.driver.find_element(*HomePageLocators.By_password_field).send_keys(password)
