@@ -718,3 +718,67 @@ class AccountSummaryPage(AdvantagePage):
             accountInfoEditPageElementIDs, 
             20
         )
+
+
+class UserInfoEditPage(AdvantagePage):
+    
+    def __init__(
+        self,
+        loggedIn=True,
+        extraDict=accountInfoEditPageElementIDs
+    ):
+        super().__init__(loggedIn=True)
+
+    def getEmail(self) -> str:
+        pass
+
+    def setEmail(self, value: str):
+        pass
+
+    def getFirstName(self) -> str:
+        pass
+
+    def setFirstName(self, value: str):
+        pass
+
+    def getLastName(self) -> str:
+        pass
+
+    def setLastName(self, value: str):
+        pass
+
+    def getPhoneNumber(self) -> str:
+        pass
+
+    def setPhoneNumber(self, value: str):
+        pass
+
+    def getAddressCountry(self) -> str:
+        pass
+
+    def setAddressCountry(self):
+        pass
+
+    def getAddressCity(self) -> str:
+        pass
+
+    def setAddressCity(self):
+        pass
+
+    def getAddressStreet(self) -> str:
+        pass
+
+    def setAddressStreet(self):
+        pass
+
+    def getAddressPostalCode(self) -> str:
+        pass
+
+    def setAddressPostalCode(self):
+        pass
+
+    def getAddressRegion(self) -> str:
+        pass
+
+    def setAddressRegion(self):
+        pass
