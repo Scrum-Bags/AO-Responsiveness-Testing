@@ -16,7 +16,7 @@ class AO_Account_Order_History(unittest.TestCase):
         self.reporter = TestSuiteReporter(self.timestr, "./", "Tom")
         logging.basicConfig(level=logging.INFO,
                             handlers=[
-                                logging.FileHandler("AO_Browse_Store" + self.timestr + ".log"),
+                                logging.FileHandler("AO_Account_Order_History" + self.timestr + ".log"),
                                 logging.StreamHandler()
                             ],
                             format= '[%(asctime)s] %(levelname)s %(message)s',
