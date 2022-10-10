@@ -45,6 +45,7 @@ class RetrieveInfoResponsivenessTestCase(ReportingTestCase):
     def testUserRetrieveInfoResponsiveLayout(self):
         # Go to main page
         self.driverObj.get("http://www.advantageonlineshopping.com/#/")
+        self.driverObj.maximize_window()
         mainPage = MainPage(loggedIn=False)
 
         # Log in
