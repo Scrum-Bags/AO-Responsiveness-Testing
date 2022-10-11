@@ -134,3 +134,4 @@ runittest/
 *.html
 **/*.xlsm
 .screenshots/
+Doug/run_tests.bat
