@@ -135,3 +135,4 @@ runittest/
 **/*.xlsm
 .screenshots/
 Doug/run_tests.bat
+Doug/Report Archive/
