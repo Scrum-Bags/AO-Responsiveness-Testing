@@ -46,6 +46,8 @@ for dataRow in excelReader(
     testList.append(
         RegisterResponsivenessTestCase(**dataRow)
     )
+    dataRow['testCaseID'] = "DW_TC002"
+    dataRow['testCaseDescription'] = "Logged-in user can retrieve their profile information"
     testList.append(
         RetrieveInfoResponsivenessTestCase(**dataRow)
     )
