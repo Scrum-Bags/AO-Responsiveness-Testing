@@ -106,6 +106,7 @@ class AdvantagePage(Page):
                     loggedOutCommonElementIDs["new_account"].values()
                 )
             )
+            sleep(1.0)
             self.elements["new_account"].click()
             WebDriverWait(
                 self.driverObj,
@@ -172,8 +173,9 @@ class AdvantagePage(Page):
                     commonElementIDs["user_icon"].values()
                 )
             )
+            sleep(1.0)
             self.elements["user_icon"].click()
-            sleep(0.5)
+            sleep(1.0)
             self.elements['login_username'].clear()
             self.elements['login_username'].send_keys(username)
             self.elements['login_password'].clear()
@@ -194,6 +196,7 @@ class AdvantagePage(Page):
                     loggedInCommonElementIDs["user_menu"].values()
                 )
             )
+            sleep(1.0)
             self.elements["user_menu"].click()
             WebDriverWait(
                 self.driverObj,
