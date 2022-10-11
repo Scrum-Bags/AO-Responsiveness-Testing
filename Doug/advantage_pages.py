@@ -642,38 +642,29 @@ class AccountSummaryPage(AdvantagePage):
             extraDict=accountSummaryElementIDs
         )
         self.fieldKeys = list(self.elements.keys())
-    
-    def validateUserInfo(
-        self,
-        **kwargs
-    ):
-        summaryBlock = self.driverObj.find_elements(**accountSummaryElementIDs["details_box"])[0]
+        summaryBlock = self.driverObj.find_elements(
+            **accountSummaryElementIDs["details_box"]
+        )[0]
         dataItems = summaryBlock.find_elements(by=By.CLASS_NAME, value="ng-binding")
+        self.dataFields = {}
         for item in dataItems:
-            innerText = item.get_attribute("innerText").strip()
             match item.get_dom_attribute("data-ng-hide"):
                 case "accountDetails.homeAddress == ''":
-                    compareStr = kwargs["addressStreet"]
+                    self.dataFields["addressStreet"] = item
                 case "accountDetails.cityName == ''":
-                    compareStr = kwargs["addressCity"]
+                    self.dataFields["addressCity"] = item
                 case "accountDetails.countryName == ''":
-                    compareStr = kwargs["addressCountry"] 
+                    self.dataFields["addressCountry"] = item
                 case "accountDetails.stateProvince == ''":
-                    compareStr = kwargs["addressRegion"]
+                    self.dataFields["addressRegion"] = item
                 case "accountDetails.zipcode == ''":
-                    compareStr = kwargs["addressPostalCode"]
+                    self.dataFields["addressPostalCode"] = item
                 case None:
-                    isPhoneNumber = rematch(r'^[0-9\-]{10,20}$', innerText) is not None
-                    # print(f"isPhoneNumber: {isPhoneNumber}")
+                    isPhoneNumber = rematch(r'^[0-9\-]{10,20}$', item.get_attribute('innerText')) is not None
                     if isPhoneNumber:
-                        compareStr = kwargs["phoneNumber"]
+                        self.dataFields["phoneNumber"] = item
                     else:
-                        compareStr = " ".join([kwargs["firstName"], kwargs["lastName"]])
-            # print(f"compareStr: '{compareStr}' innerText: '{innerText}'")
-            if compareStr != innerText:
-                # print(f"{'phoneNumber' if isPhoneNumber else 'fullName'} doesn't match!\n")
-                return False
-        return True
+                        self.dataFields["fullName"] = item
 
     def goToProfileEditPage(self):
         self.elements['account_details_link'].click()
@@ -722,7 +713,7 @@ class UserInfoEditPage(AdvantagePage):
 
     def getAddressCountry(self) -> str:
         tempSelect = Select(self.elements['address_country'])
-        return tempSelect.first_selected_option
+        return tempSelect.first_selected_option.get_attribute('innerText')
 
     def setAddressCountry(self, value: str):
         self.elements['address_country'].clear()
