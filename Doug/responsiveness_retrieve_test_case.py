@@ -45,6 +45,7 @@ class RetrieveInfoResponsivenessTestCase(ReportingTestCase):
         mainPage = MainPage(loggedIn=False)
 
         # Log in
+        displayPrint("Logging in")
         mainPage.logIn(
             self.data['username'],
             self.data['password']
@@ -52,9 +53,12 @@ class RetrieveInfoResponsivenessTestCase(ReportingTestCase):
 
         # get main page object
         mainPage = MainPage(loggedIn=True)
+        displayPrint("Logged in")
+        self.reportEvent("Logged in")
 
         # Go to account summary page
         displayPrint("Going to account page")
+        self.reportEvent("Going to account page")
         mainPage.goToUserProfile()
 
         # get page object
@@ -67,6 +71,7 @@ class RetrieveInfoResponsivenessTestCase(ReportingTestCase):
 
         # go to info edit page
         displayPrint("Going to profile edit page")
+        self.reportEvent("Going to profile edit page")
         summaryPage.goToProfileEditPage()
 
         # get edit page object
@@ -224,6 +229,7 @@ class RetrieveInfoResponsivenessTestCase(ReportingTestCase):
             )
 
         # logout
+        displayPrint("Logging out")
         summaryPage.logOut()
 
     def tearDown(self):
