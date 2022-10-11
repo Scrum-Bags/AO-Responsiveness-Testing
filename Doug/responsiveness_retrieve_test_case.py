@@ -27,7 +27,13 @@ class RetrieveInfoResponsivenessTestCase(ReportingTestCase):
             testCaseDescription,
             **kwargs
         )
-        displayPrint(f"case data: {self.data}")
+        # displayPrint(f"case data: {self.data}")
+        self.data['fullName'] = ' '.join(
+            [
+                self.data['firstName'],
+                self.data['lastName']
+            ]
+        )
     
     def setUp(self):
         pass
@@ -189,24 +195,33 @@ class RetrieveInfoResponsivenessTestCase(ReportingTestCase):
         self._testAccountPageResponsiveLayout()
 
         # validate info against display
-        testStatus = summaryPage.validateUserInfo(**self.data)
-        self.reportStep(
-            "Summary page info match check",
-            "Account info matches summary info",
-            "Account info does not match summary info",
-            testStatus,
-            element="screen",
-            data=[
-                'firstName',
-                'lastName',
-                'phoneNumber',
-                'addressCountry',
-                'addressCity',
-                'addressStreet',
-                'addressPostalCode',
-                'addressRegion'
-            ]
-        )
+        for displayKey in [
+            'fullName',
+            'addressStreet',
+            'addressCity',
+            'addressCountry',
+            'addressRegion',
+            'addressPostalCode',
+            'phoneNumber',
+        ]:
+            expected = self.data[displayKey]
+            actual = summaryPage.dataFields[displayKey].get_attribute('innerText')
+            testStatus = expected == actual
+            displayPrint(f"Checking displayed value: {displayKey}")
+            self.reportStep(
+                "Summary page info match check",
+                "expected data matches displayed data",
+                "expected data does not match displayed data",
+                testStatus,
+                data="<br>".join(
+                    [
+                        f"expected: '{expected}'",
+                        f"actual: '{actual}'"
+                    ]
+                ),
+                element=summaryPage.dataFields[displayKey],
+                imageEmbed=True
+            )
 
         # logout
         summaryPage.logOut()
@@ -224,7 +239,52 @@ class RetrieveInfoResponsivenessTestCase(ReportingTestCase):
         # Get page object
         accountPage = AccountSummaryPage()
 
-        # TODO Check that elements are sized to match
+        # Check that information fields are vertically aligned
+        positions = {
+            fieldName: accountPage.dataFields[fieldName].location
+            for fieldName in 
+            [
+                'fullName',
+                'addressStreet',
+                'addressCity',
+                'addressCountry',
+                'addressRegion',
+                'addressPostalCode',
+                'phoneNumber'
+            ]
+        }
+        positionsSet = set([a['x'] for a in positions.values()])
+        testStatus = all(
+            [
+                positions['fullName']['x'] == positions['phoneNumber']['x'],
+                len(
+                    set(
+                        [
+                            positions['addressStreet']['x'],
+                            positions['addressCity']['x'],
+                            positions['addressCountry']['x'],
+                            positions['addressRegion']['x'],
+                            positions['addressPostalCode']['x']
+                        ]
+                    )
+                ) == 1
+            ]
+        )
+        displayPrint("Elements vertically align check")
+        self.reportStep(
+            "Elements vertically align check",
+            "Display fields are vertically aligned in their boxes",
+            "Display fields are not vertically aligned in their boxes",
+            testStatus,
+            element="screen",
+            data='<br>'.join(
+                [
+                    f"{a}'s x: {b['x']}"
+                    for a, b in 
+                    positions.items()
+                ]
+            )
+        )
 
         # Check that mobile elements are displayed
         self._mobileElementsDisplayedCheck()
@@ -235,7 +295,32 @@ class RetrieveInfoResponsivenessTestCase(ReportingTestCase):
         # Get page object
         accountPage = AccountSummaryPage()
 
-        # TODO Check that elements are sized to match
+        # Check that fullName, addressStreet, phoneNumber align H
+        yPositions = {
+            fieldName: accountPage.dataFields[fieldName].location['y']
+            for fieldName in 
+            [
+                'fullName',
+                'addressStreet',
+                'phoneNumber'
+            ]
+        }
+        testStatus = len(set(yPositions.values())) == 1
+        displayPrint("Elements horizontally align check")
+        self.reportStep(
+            "Elements horizontally align check",
+            "Name, Address, Phone number are horizontally aligned",
+            "Name, Address, Phone number are not horizontally aligned",
+            testStatus,
+            element="screen",
+            data='<br>'.join(
+                [
+                    f"{a}'s y: {ay}"
+                    for a, ay
+                    in yPositions.items()
+                ]
+            )
+        )
 
         # Check that mobile elements are not displayed
         self._mobileElementsNotDisplayedCheck()
@@ -263,7 +348,7 @@ class RetrieveInfoResponsivenessTestCase(ReportingTestCase):
                 'address_region'
             ]
         }
-        testStatus = len(xPosition.values()) == 1
+        testStatus = len(set(xPositions.values())) == 1
         displayPrint("Mobile format vertical field alignment check")
         self.reportStep(
             "Mobile format vertical field alignment check",
@@ -273,7 +358,7 @@ class RetrieveInfoResponsivenessTestCase(ReportingTestCase):
             element='screen',
             data='<br>'.join(
                 [
-                    f"{a}: {ax}" 
+                    f"{a}'s x: {ax}" 
                     for a, ax 
                     in xPositions.items()
                 ]
