@@ -1,5 +1,8 @@
 from os import path
 
+from selenium.webdriver.firefox.options import Options
+from selenium.webdriver.firefox.service import Service as FirefoxService
+
 from excel.excelreader import excelReader
 from responsiveness_register_test_case import RegisterResponsivenessTestCase
 from responsiveness_retrieve_test_case import RetrieveInfoResponsivenessTestCase
@@ -8,8 +11,14 @@ from runittest.reporting_unittest import ReportingTestResult
 from runittest.reporting_unittest import ReportingTestSuite
 from runittest.reporting_unittest import SingletonWebDriver
 
+# Set browser options
+ffoptions = Options()
+ffoptions.headless = True
+
 # Set up a web driver object
-driver = SingletonWebDriver()
+driver = SingletonWebDriver(
+    options=ffoptions 
+)
 
 # Set up a test suite object
 reportPath = path.join(
