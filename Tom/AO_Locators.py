@@ -6,6 +6,7 @@ class BasePageLocators(object):
     By_shopping_cart_num = (By.XPATH, '/html/body/header/nav/ul/li[2]/a/span')
     By_order_history_dropdown = (By.XPATH, '//*[@id="loginMiniTitle"]/label[2]')
     By_signout_dropdown = (By.XPATH, '//*[@id="loginMiniTitle"]/label[3]')
+    By_mobile_signout = (By.XPATH, '//*[@id="loginMobileMiniTitle"]/label[3]')
 
 class HomePageLocators(object):
     By_speakers_link = (By.ID, 'speakersTxt')
@@ -14,6 +15,11 @@ class HomePageLocators(object):
     By_mice_link = (By.ID, 'miceTxt')
     By_headphones_link = (By.ID, 'headphonesTxt')
     By_user_btn = (By.ID, 'menuUser')
+
+    #mobile only
+    By_mobile_expand = (By.ID, 'mobile-btn')
+    By_mobile_user = (By.ID, 'mobileUser')
+    By_mobile_history = (By.XPATH, '//*[@id="loginMobileMiniTitle"]/label[2]')
 
     #only loaded when login box is open
     By_username_field = (By.NAME, 'username')

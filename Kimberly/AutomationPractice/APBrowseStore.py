@@ -1,8 +1,13 @@
 import unittest
+from sys import path
+import os
+userStr = os.environ['USERPROFILE']
+userStr = userStr.replace('\\', '/')
+path.append(f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test")
+from Kimberly import TestSuiteReporter
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from APCommonFunctions import selectCategories, login
-from TestSuiteReporter import TestSuiteReporter
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions
 
@@ -12,7 +17,7 @@ class TestCases(unittest.TestCase):
         browser = webdriver.Chrome()
         browser.get('http://automationpractice.com/index.php')
 
-        reporter = TestSuiteReporter("AutomationPractice", "C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/Reports/", "Kimberly Modeste")
+        reporter = TestSuiteReporter("AutomationPractice", f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/Reports/", "Kimberly Modeste")
         reporter.addTestCase("Browse Store Reg", "TC001", "User will be browsing the AutomationPractice Website")
        
         if browser.find_element(by=By.CLASS_NAME, value="login"):
@@ -28,7 +33,7 @@ class TestCases(unittest.TestCase):
         browser = webdriver.Chrome()
         browser.get('http://automationpractice.com/index.php')
 
-        reporter = TestSuiteReporter("AutomationPractice", "C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/Reports/", "Kimberly Modeste")
+        reporter = TestSuiteReporter("AutomationPractice", f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/Reports/", "Kimberly Modeste")
         reporter.addTestCase("Browse Store All", "TC002", "User will be browsing the AutomationPractice Website clicking everything")
        
         if browser.find_element(by=By.CLASS_NAME, value="login"):

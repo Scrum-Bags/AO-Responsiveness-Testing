@@ -16,7 +16,7 @@ class AO_Account_Order_History(unittest.TestCase):
         self.reporter = TestSuiteReporter(self.timestr, "./", "Tom")
         logging.basicConfig(level=logging.INFO,
                             handlers=[
-                                logging.FileHandler("AO_Browse_Store" + self.timestr + ".log"),
+                                logging.FileHandler("AO_Account_Order_History" + self.timestr + ".log"),
                                 logging.StreamHandler()
                             ],
                             format= '[%(asctime)s] %(levelname)s %(message)s',
@@ -27,7 +27,7 @@ class AO_Account_Order_History(unittest.TestCase):
     def setUpClass(cls):
         cls.edge_options = Options()
         cls.edge_options.add_experimental_option('excludeSwitches', ['enable-logging'])
-        cls.edge_options.headless = False
+        cls.edge_options.headless = True
         cls.driver = webdriver.Edge(options=cls.edge_options)
         cls.driver.loggingID = "AO_Account_Order_History"
 

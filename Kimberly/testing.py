@@ -176,16 +176,23 @@
 #     print("is int")
 
 
-import time
+# import time
 
-print("Hi")
-time.sleep(5)
-print("Loading", end="")
-for x in range(5):
-    print(".", end= "")
-    time.sleep(1)
-print("")
+# print("Hi")
+# time.sleep(5)
+# print("Loading", end="")
+# for x in range(5):
+#     print(".", end= "")
+#     time.sleep(1)
+# print("")
 
 
 
-print("Hello")
+# print("Hello")
+
+
+import os
+path = os.environ['USERPROFILE']
+path = path.replace('\\', '/')
+print(path)
+

@@ -1,6 +1,11 @@
 import random
 import unittest
 import openpyxl
+from sys import path
+import os
+userStr = os.environ['USERPROFILE']
+userStr = userStr.replace('\\', '/')
+path.append(f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/")
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from SwagLabs.SLCommonFuctions import login, mytime
@@ -13,8 +18,8 @@ from selenium.webdriver.support.select import Select
 class TestCases(unittest.TestCase):
   
     def test_001_browse_store_pos(self):
-        reporter = TestSuiteReporter("SwagLabs", "C:/Users/OWNER/OneDrive/Documents/UFTOne/reports/", "Kimberly Modeste")
-        wb = openpyxl.load_workbook("C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/TestCasesExcel.xlsx")
+        reporter = TestSuiteReporter("SwagLabs", f"{userStr}/OneDrive/Documents/UFTOne/reports/", "Kimberly Modeste")
+        wb = openpyxl.load_workbook(f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/TestCasesExcel.xlsx")
         wsBrowseStore = wb["SLBrowseStore"]      
       
         browser = webdriver.Chrome()
@@ -34,7 +39,7 @@ class TestCases(unittest.TestCase):
 
         reporter["Filter A-Z"].reportEvent(eventDescription="User will be changing the filter", warning=False, 
         dataString=val, screenshotCallback=browser.find_element(by=By.TAG_NAME, value='body').screenshot, 
-        imagePath="C:/Users/OWNER/OneDrive/Documents/UFTOne/reports/Images/img"+mytime(), imageEmbed=False)
+        imagePath=f"{userStr}/OneDrive/Documents/UFTOne/reports/Images/img"+mytime(), imageEmbed=False)
 
         inventory = browser.find_element(by=By.CLASS_NAME, value="inventory_list").find_elements(by=By.CLASS_NAME, value="inventory_item")
 
@@ -48,7 +53,7 @@ class TestCases(unittest.TestCase):
 
         reporter["Filter A-Z"].reportEvent(eventDescription="User selected items", warning=False, 
         dataString=f"Number of Items Selected: {i}", screenshotCallback=browser.find_element(by=By.TAG_NAME, value='body').screenshot, 
-        imagePath="C:/Users/OWNER/OneDrive/Documents/UFTOne/reports/Images/img"+mytime(), imageEmbed=False)
+        imagePath=f"{userStr}/OneDrive/Documents/UFTOne/reports/Images/img"+mytime(), imageEmbed=False)
 
         browser.find_element(by=By.ID, value="react-burger-menu-btn").click()
         buttonList = browser.find_element(by=By.CLASS_NAME, value="bm-item-list").find_elements(by=By.TAG_NAME, value="a")
@@ -58,11 +63,11 @@ class TestCases(unittest.TestCase):
         reporter["Filter A-Z"].reportStep(stepDescription="User should click the hamburger and logout", 
         expectedBehavior="Pass", actualBehavior="Pass", testStatus=True, dataString="", 
         screenshotCallback=browser.find_element(by=By.TAG_NAME, value='body').screenshot, 
-        imagePath="C:/Users/OWNER/OneDrive/Documents/UFTOne/reports/Images/img"+mytime(), imageEmbed=False)
+        imagePath=f"{userStr}/OneDrive/Documents/UFTOne/reports/Images/img"+mytime(), imageEmbed=False)
         
     def test_002_browse_store_pos(self):
-        reporter = TestSuiteReporter("SwagLabs", "C:/Users/OWNER/OneDrive/Documents/UFTOne/reports/", "Kimberly Modeste")
-        wb = openpyxl.load_workbook("C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/TestCasesExcel.xlsx")
+        reporter = TestSuiteReporter("SwagLabs", f"{userStr}/OneDrive/Documents/UFTOne/reports/", "Kimberly Modeste")
+        wb = openpyxl.load_workbook(f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/TestCasesExcel.xlsx")
         wsBrowseStore = wb["SLBrowseStore"]      
       
         browser = webdriver.Chrome()
@@ -82,7 +87,7 @@ class TestCases(unittest.TestCase):
 
         reporter["Filter Z-A"].reportEvent(eventDescription="User will be changing the filter", warning=False, 
         dataString=val, screenshotCallback=browser.find_element(by=By.TAG_NAME, value='body').screenshot, 
-        imagePath="C:/Users/OWNER/OneDrive/Documents/UFTOne/reports/Images/img"+mytime(), imageEmbed=False)
+        imagePath=f"{userStr}/OneDrive/Documents/UFTOne/reports/Images/img"+mytime(), imageEmbed=False)
 
         inventory = browser.find_element(by=By.CLASS_NAME, value="inventory_list").find_elements(by=By.CLASS_NAME, value="inventory_item")
 
@@ -96,7 +101,7 @@ class TestCases(unittest.TestCase):
 
         reporter["Filter Z-A"].reportEvent(eventDescription="User selected items", warning=False, 
         dataString=f"Number of Items Selected: {i}", screenshotCallback=browser.find_element(by=By.TAG_NAME, value='body').screenshot, 
-        imagePath="C:/Users/OWNER/OneDrive/Documents/UFTOne/reports/Images/img"+mytime(), imageEmbed=False)
+        imagePath=f"{userStr}/OneDrive/Documents/UFTOne/reports/Images/img"+mytime(), imageEmbed=False)
 
         browser.find_element(by=By.ID, value="react-burger-menu-btn").click()
         buttonList = browser.find_element(by=By.CLASS_NAME, value="bm-item-list").find_elements(by=By.TAG_NAME, value="a")
@@ -106,11 +111,11 @@ class TestCases(unittest.TestCase):
         reporter["Filter Z-A"].reportStep(stepDescription="User should click the hamburger and logout", 
         expectedBehavior="Pass", actualBehavior="Pass", testStatus=True, dataString="", 
         screenshotCallback=browser.find_element(by=By.TAG_NAME, value='body').screenshot, 
-        imagePath="C:/Users/OWNER/OneDrive/Documents/UFTOne/reports/Images/img"+mytime(), imageEmbed=False)
+        imagePath=f"{userStr}/OneDrive/Documents/UFTOne/reports/Images/img"+mytime(), imageEmbed=False)
       
     def test_003_browse_store_pos(self):
-        reporter = TestSuiteReporter("SwagLabs", "C:/Users/OWNER/OneDrive/Documents/UFTOne/reports/", "Kimberly Modeste")
-        wb = openpyxl.load_workbook("C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/TestCasesExcel.xlsx")
+        reporter = TestSuiteReporter("SwagLabs", f"{userStr}/OneDrive/Documents/UFTOne/reports/", "Kimberly Modeste")
+        wb = openpyxl.load_workbook(f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/TestCasesExcel.xlsx")
         wsBrowseStore = wb["SLBrowseStore"]      
       
         browser = webdriver.Chrome()
@@ -130,7 +135,7 @@ class TestCases(unittest.TestCase):
 
         reporter["Filter lohi"].reportEvent(eventDescription="User will be changing the filter", warning=False, 
         dataString=val, screenshotCallback=browser.find_element(by=By.TAG_NAME, value='body').screenshot, 
-        imagePath="C:/Users/OWNER/OneDrive/Documents/UFTOne/reports/Images/img"+mytime(), imageEmbed=False)
+        imagePath=f"{userStr}/OneDrive/Documents/UFTOne/reports/Images/img"+mytime(), imageEmbed=False)
 
         inventory = browser.find_element(by=By.CLASS_NAME, value="inventory_list").find_elements(by=By.CLASS_NAME, value="inventory_item")
 
@@ -144,7 +149,7 @@ class TestCases(unittest.TestCase):
 
         reporter["Filter lohi"].reportEvent(eventDescription="User selected items", warning=False, 
         dataString=f"Number of Items Selected: {i}", screenshotCallback=browser.find_element(by=By.TAG_NAME, value='body').screenshot, 
-        imagePath="C:/Users/OWNER/OneDrive/Documents/UFTOne/reports/Images/img"+mytime(), imageEmbed=False)
+        imagePath=f"{userStr}/OneDrive/Documents/UFTOne/reports/Images/img"+mytime(), imageEmbed=False)
 
         browser.find_element(by=By.ID, value="react-burger-menu-btn").click()
         buttonList = browser.find_element(by=By.CLASS_NAME, value="bm-item-list").find_elements(by=By.TAG_NAME, value="a")
@@ -154,11 +159,11 @@ class TestCases(unittest.TestCase):
         reporter["Filter lohi"].reportStep(stepDescription="User should click the hamburger and logout", 
         expectedBehavior="Pass", actualBehavior="Pass", testStatus=True, dataString="", 
         screenshotCallback=browser.find_element(by=By.TAG_NAME, value='body').screenshot, 
-        imagePath="C:/Users/OWNER/OneDrive/Documents/UFTOne/reports/Images/img"+mytime(), imageEmbed=False)
+        imagePath=f"{userStr}/OneDrive/Documents/UFTOne/reports/Images/img"+mytime(), imageEmbed=False)
       
     def test_004_browse_store_pos(self):
-        reporter = TestSuiteReporter("SwagLabs", "C:/Users/OWNER/OneDrive/Documents/UFTOne/reports/", "Kimberly Modeste")
-        wb = openpyxl.load_workbook("C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/TestCasesExcel.xlsx")
+        reporter = TestSuiteReporter("SwagLabs", f"{userStr}/OneDrive/Documents/UFTOne/reports/", "Kimberly Modeste")
+        wb = openpyxl.load_workbook(f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/TestCasesExcel.xlsx")
         wsBrowseStore = wb["SLBrowseStore"]      
       
         browser = webdriver.Chrome()
@@ -178,7 +183,7 @@ class TestCases(unittest.TestCase):
 
         reporter["Filter hilo"].reportEvent(eventDescription="User will be changing the filter", warning=False, 
         dataString=val, screenshotCallback=browser.find_element(by=By.TAG_NAME, value='body').screenshot, 
-        imagePath="C:/Users/OWNER/OneDrive/Documents/UFTOne/reports/Images/img"+mytime(), imageEmbed=False)
+        imagePath=f"{userStr}/OneDrive/Documents/UFTOne/reports/Images/img"+mytime(), imageEmbed=False)
 
         inventory = browser.find_element(by=By.CLASS_NAME, value="inventory_list").find_elements(by=By.CLASS_NAME, value="inventory_item")
 
@@ -192,7 +197,7 @@ class TestCases(unittest.TestCase):
 
         reporter["Filter hilo"].reportEvent(eventDescription="User selected items", warning=False, 
         dataString=f"Number of Items Selected: {i}", screenshotCallback=browser.find_element(by=By.TAG_NAME, value='body').screenshot, 
-        imagePath="C:/Users/OWNER/OneDrive/Documents/UFTOne/reports/Images/img"+mytime(), imageEmbed=False)
+        imagePath=f"{userStr}/OneDrive/Documents/UFTOne/reports/Images/img"+mytime(), imageEmbed=False)
 
         browser.find_element(by=By.ID, value="react-burger-menu-btn").click()
         buttonList = browser.find_element(by=By.CLASS_NAME, value="bm-item-list").find_elements(by=By.TAG_NAME, value="a")
@@ -202,7 +207,7 @@ class TestCases(unittest.TestCase):
         reporter["Filter hilo"].reportStep(stepDescription="User should click the hamburger and logout", 
         expectedBehavior="Pass", actualBehavior="Pass", testStatus=True, dataString="", 
         screenshotCallback=browser.find_element(by=By.TAG_NAME, value='body').screenshot, 
-        imagePath="C:/Users/OWNER/OneDrive/Documents/UFTOne/reports/Images/img"+mytime(), imageEmbed=False)
+        imagePath=f"{userStr}/OneDrive/Documents/UFTOne/reports/Images/img"+mytime(), imageEmbed=False)
      
 unittest.main()
 

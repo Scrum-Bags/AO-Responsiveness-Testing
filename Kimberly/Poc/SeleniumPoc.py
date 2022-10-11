@@ -1,19 +1,25 @@
 import unittest
+from sys import path
+import os
+userStr = os.environ['USERPROFILE']
+userStr = userStr.replace('\\', '/')
+path.append(f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test")
+from Kimberly import TestSuiteReporter
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from CommonFunctions import personal_info_update, update_address, login, signout
-from TestSuiteReporter import TestSuiteReporter
 
 
 class TestCases(unittest.TestCase):
 
     def test_000_selenium_poc_login_logout(self):
-        reporter = TestSuiteReporter("SeleniumPoc", "C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/Reports/", "Kimberly Modeste")
+        reporter = TestSuiteReporter("SeleniumPoc", f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/Reports/", "Kimberly Modeste")
 
         browser = webdriver.Chrome()
         browser.get('http://automationpractice.com/index.php')
         
         TCN = "SeleniumLoginLogout"
+        r = 2
         reporter.addTestCase(TCN, "TC000","Users will be Logging in valid data and Logging out")
 
         if browser.find_element(by=By.CLASS_NAME, value="login"):
@@ -22,7 +28,7 @@ class TestCases(unittest.TestCase):
         browser.quit()
 
     def test_001_selenium_poc_personal_info_pos(self):
-        reporter = TestSuiteReporter("SeleniumPoc", "C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/Reports/", "Kimberly Modeste")   
+        reporter = TestSuiteReporter("SeleniumPoc", f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/Reports/", "Kimberly Modeste")   
       
         browser = webdriver.Chrome()
         browser.get('http://automationpractice.com/index.php')
@@ -38,7 +44,7 @@ class TestCases(unittest.TestCase):
         browser.quit()
 
     def test_002_selenium_poc_Update_Address_pos(self):
-        reporter = TestSuiteReporter("SeleniumPoc", "C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/Reports/", "Kimberly Modeste")
+        reporter = TestSuiteReporter("SeleniumPoc", f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/Reports/", "Kimberly Modeste")
   
         browser = webdriver.Chrome()
         browser.get('http://automationpractice.com/index.php')
@@ -55,7 +61,7 @@ class TestCases(unittest.TestCase):
         browser.quit()
 
     def test_003_selenium_poc_personal_info_err(self):
-        reporter = TestSuiteReporter("SeleniumPoc", "C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/Reports/", "Kimberly Modeste")   
+        reporter = TestSuiteReporter("SeleniumPoc", f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/Reports/", "Kimberly Modeste")   
       
         browser = webdriver.Chrome()
         browser.get('http://automationpractice.com/index.php')
@@ -71,7 +77,7 @@ class TestCases(unittest.TestCase):
         browser.quit()
 
     def test_002_selenium_poc_Update_Address_err(self):
-        reporter = TestSuiteReporter("SeleniumPoc", "C:/Users/OWNER/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/Reports/", "Kimberly Modeste")
+        reporter = TestSuiteReporter("SeleniumPoc", f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/Reports/", "Kimberly Modeste")
   
         browser = webdriver.Chrome()
         browser.get('http://automationpractice.com/index.php')
