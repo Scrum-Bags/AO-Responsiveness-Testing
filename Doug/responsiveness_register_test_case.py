@@ -6,6 +6,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 from runittest.reporting_unittest import ReportingTestCase
 from page_elements.advantage_online_elements import *
 from advantage_pages import *
+from printlogger.printlogger import displayPrint
 
 
 class RegisterResponsivenessTestCase(ReportingTestCase):
@@ -44,15 +45,21 @@ class RegisterResponsivenessTestCase(ReportingTestCase):
         # Go to main page
         self.driverObj.get("http://www.advantageonlineshopping.com/#/")
         mainPage = MainPage(loggedIn=False)
+        displayPrint("Loading main page")
+
+        # test main page responsiveness
+        displayPrint("Testing main page responsiveness")
         self._testMainPageResponsiveLayout()
 
         # # Go to register page
+        displayPrint("Going to user registration")
         mainPage.goToUserRegistration()
         self._testRegisterPageResponsiveLayout()
 
         # Fill out new user info
         # Get the page object
         registerPage = RegisterPage()
+        displayPrint("User Registration page loaded")
 
         # Report that page loaded
         self.reportEvent(
@@ -62,6 +69,7 @@ class RegisterResponsivenessTestCase(ReportingTestCase):
 
         # Put data into fields
         # Input Username
+        displayPrint(f"Inputting username: {self.data['username']}")
         if self.data["expectedErrorField"] in ["", "username", "termsAndConditionsOptIn"]:
             registerPage.fillUsername(self.data["username"])
             self.reportEvent(
@@ -85,6 +93,7 @@ class RegisterResponsivenessTestCase(ReportingTestCase):
                 return
             
         # Input Email
+        displayPrint(f"Inputting email: {self.data['email']}")
         if self.data["expectedErrorField"] in ["", "email", "termsAndConditionsOptIn"]:
             registerPage.fillEmail(self.data["email"])
             self.reportEvent(
@@ -108,6 +117,7 @@ class RegisterResponsivenessTestCase(ReportingTestCase):
                 return
 
         # Input Password
+        displayPrint(f"Inputting password: {'*' * len(self.data['password'])}")
         if self.data["expectedErrorField"] in ["", "password", "passwordConfirm", "termsAndConditionsOptIn"]:
             registerPage.fillPassword(self.data["password"])
             self.reportEvent(
@@ -131,6 +141,7 @@ class RegisterResponsivenessTestCase(ReportingTestCase):
                 return
 
         # Input Password Confirmation
+        displayPrint(f"Inputting password contrimation: {'*' * len(self.data['password'])}")
         if self.data["expectedErrorField"] in ["", "passwordConfirm", "termsAndConditionsOptIn"]:
             registerPage.fillPasswordConfirm(self.data["passwordConfirm"])
             self.reportEvent(
@@ -154,6 +165,7 @@ class RegisterResponsivenessTestCase(ReportingTestCase):
                 return
 
         # Input First Name
+        displayPrint(f"Inputting first name: {self.data['firstName']}")
         if self.data["expectedErrorField"] in ["", "firstName"]:
             registerPage.fillFirstName(self.data["firstName"])
             self.reportEvent(
@@ -177,6 +189,7 @@ class RegisterResponsivenessTestCase(ReportingTestCase):
                 return
 
         # Input Last Name
+        displayPrint(f"Inputting last name: {self.data['lastName']}")
         if self.data["expectedErrorField"] in ["", "lastName"]:
             registerPage.fillLastName(self.data["lastName"])
             self.reportEvent(
@@ -200,6 +213,7 @@ class RegisterResponsivenessTestCase(ReportingTestCase):
                 return
 
         # Input Phone Number
+        displayPrint(f"Inputting phone number: {self.data['phoneNumber']}")
         if self.data["expectedErrorField"] in ["", "phoneNumber"]:
             registerPage.fillPhoneNumber(self.data["phoneNumber"])
             self.reportEvent(
@@ -223,6 +237,7 @@ class RegisterResponsivenessTestCase(ReportingTestCase):
                 return
 
         # Input Address Country
+        displayPrint(f"Inputting address country: {self.data['addressCountry']}")
         if self.data["expectedErrorField"] == '':
             registerPage.fillAddressCountry(self.data["addressCountry"])
             self.reportEvent(
@@ -233,6 +248,7 @@ class RegisterResponsivenessTestCase(ReportingTestCase):
             )
 
         # Input Address City
+        displayPrint(f"Inputting address city: {self.data['addressCity']}")
         if self.data["expectedErrorField"] in ["", "addressCity"]:
             registerPage.fillAddressCity(self.data["addressCity"])
             self.reportEvent(
@@ -256,6 +272,7 @@ class RegisterResponsivenessTestCase(ReportingTestCase):
                 return
 
         # Input Address Street
+        displayPrint(f"Inputting address street: {self.data['addressStreet']}")
         if self.data["expectedErrorField"] in ["", "addressStreet"]:
             registerPage.fillAddressStreet(self.data["addressStreet"])
             self.reportEvent(
@@ -279,6 +296,7 @@ class RegisterResponsivenessTestCase(ReportingTestCase):
                 return
 
         # Input Address Region
+        displayPrint(f"Inputting address region: {self.data['addressRegion']}")
         if self.data["expectedErrorField"] in ["", "addressRegion"]:
             registerPage.fillAddressRegion(self.data["addressRegion"])
             self.reportEvent(
@@ -302,6 +320,7 @@ class RegisterResponsivenessTestCase(ReportingTestCase):
                 return
 
         # Input Address Postal Code
+        displayPrint(f"Inputting address postal code: {self.data['addressPostalCode']}")
         if self.data["expectedErrorField"] in ["", "addressPostalCode"]:
             registerPage.fillAddressPostalCode(self.data["addressPostalCode"])
             self.reportEvent(
@@ -325,6 +344,7 @@ class RegisterResponsivenessTestCase(ReportingTestCase):
                 return
 
         # Input Offers Opt In selection
+        displayPrint(f"Deciding on offers opt-in")
         if self.data["expectedErrorField"] == '':
             registerPage.setOfferOptin(self.data["offersOptIn"])
             self.reportEvent(
@@ -335,6 +355,7 @@ class RegisterResponsivenessTestCase(ReportingTestCase):
             )
 
         # Input Terms And Conditions selection
+        displayPrint(f"Checking terms and conditions")
         if self.data["expectedErrorField"] in ["", "termsAndConditionsOptIn"]:
             registerPage.setTermsAndConditionsOptIn(self.data["termsAndConditionsOptIn"])
             self.reportEvent(
@@ -358,10 +379,12 @@ class RegisterResponsivenessTestCase(ReportingTestCase):
                 return
 
         # Click register button
+        displayPrint(f"Submitting registration info")
         registerPage.submitInfo()  # Waits for the main page to load
 
     def tearDown(self):
         mainPage = MainPage(loggedIn=True)
+        displayPrint("Logging out")
         mainPage.logOut()
     
     def runTest(self):
@@ -379,6 +402,7 @@ class RegisterResponsivenessTestCase(ReportingTestCase):
             element = self.driverObj.find_element(**mainPageWaitIDs[ID])
             targetWidth = self.driverObj.find_element(**commonElementIDs['body']).size['width']
             testStatus = element.size['width'] == targetWidth
+            displayPrint(f"'{ID}' element width check, page is {targetWidth}px wide")
             self.reportStep(
                 f"'{ID}' element width check, page is {targetWidth}px wide",
                 f"'{ID}' element is {element.size['width']}px wide",
@@ -392,6 +416,7 @@ class RegisterResponsivenessTestCase(ReportingTestCase):
         offerElement = self.driverObj.find_element(
             **offerElementIDs
         )
+        displayPrint("Offer not displayed check")
         self.reportStep(
             "Offer not displayed check", 
             "Offer is not displayed", 
@@ -425,6 +450,7 @@ class RegisterResponsivenessTestCase(ReportingTestCase):
         bottomRowWidth = imageWidths['laptops_image'] + imageWidths['mice_image'] + imageWidths['headphones_image']
         # Check that top row and headphones sum to window width
         testStatus = abs(topRowWidth - bodyWidth) < 2.0
+        displayPrint("Top images row width check")
         self.reportStep(
             "Top images row width check",
             f"Sum of row widths {topRowWidth} is the same as the window width: {bodyWidth}",
@@ -433,6 +459,7 @@ class RegisterResponsivenessTestCase(ReportingTestCase):
         )
         # Check that bottom row and headphone sum to window width
         testStatus = abs(bottomRowWidth - bodyWidth) < 2.0
+        displayPrint("Bottom images row width check")
         self.reportStep(
             "Bottom images row width check",
             f"Sum of row widths {bottomRowWidth} is the same as the window width: {bodyWidth}",
@@ -451,6 +478,7 @@ class RegisterResponsivenessTestCase(ReportingTestCase):
         ]:
             ratio = other / headphones
             testStatus = abs(ratio) - 1.0625 < 0.05
+            displayPrint("Images width ratio check")
             self.reportStep(
                 "Images width ratio check",
                 f"Ratio {ratio} between {otherName} ({other}px) and headphones image ({headphones}px) is ~1.0625",
@@ -465,6 +493,7 @@ class RegisterResponsivenessTestCase(ReportingTestCase):
         offerElement = self.driverObj.find_element(
             **mainPageWideElementIDs["offer_button"]
         )
+        displayPrint("Offer displayed check")
         self.reportStep(
             "Offer displayed check", 
             "Offer is displayed", 
@@ -506,6 +535,7 @@ class RegisterResponsivenessTestCase(ReportingTestCase):
             testStatus = fieldVerticalPositions[a] < fieldVerticalPositions[b]  # NB top of page y = 0, so smaller is higher
             element = self.driverObj.find_element(**userRegisterElementIDs[orderedFields[b]])
             self.driverObj.execute_script('arguments[0].scrollIntoView(false);', element)
+            displayPrint("Relative field position check")
             self.reportStep(
                 "Relative field position check", 
                 f"{orderedFields[a]} field is higher (y={fieldVerticalPositions[a]}) than {orderedFields[b]} field (y={fieldVerticalPositions[b]})", 
@@ -539,6 +569,7 @@ class RegisterResponsivenessTestCase(ReportingTestCase):
             testStatus = fieldVerticalPositions[a] == fieldVerticalPositions[b]
             element = self.driverObj.find_element(**userRegisterElementIDs[a])
             self.driverObj.execute_script('arguments[0].scrollIntoView(false);', element)
+            displayPrint(f"Parallel field position check on {a} and {b}")
             self.reportStep(
                 "Parallel field position check", 
                 f"{a} field (y={fieldVerticalPositions[a]}) is parallel to field {b} (y={fieldVerticalPositions[b]})", 
@@ -552,6 +583,7 @@ class RegisterResponsivenessTestCase(ReportingTestCase):
 
     def _setWindowMobileDimensions(self):
         self.driverObj.set_window_size(**self._mainPageMobileDims)
+        displayPrint("Window sized to mobile dimensions")
         self.reportEvent(
             "Window sized to mobile dimensions",
             element='screen',
@@ -560,6 +592,7 @@ class RegisterResponsivenessTestCase(ReportingTestCase):
 
     def _setWindowMaxDimensions(self):
         self.driverObj.maximize_window()
+        displayPrint("Window maximized")
         self.reportEvent(
             "Window maximized",
             element='screen'
@@ -568,6 +601,7 @@ class RegisterResponsivenessTestCase(ReportingTestCase):
     def _mobileElementsDisplayedCheck(self):
         page = AdvantagePage(loggedIn=False)
         testStatus = page.mobileElementsDisplayed()
+        displayPrint("Mobile elements displayed check")
         self.reportStep(
             "Mobile elements displayed check",
             "Mobile elements are displayed",
@@ -579,6 +613,7 @@ class RegisterResponsivenessTestCase(ReportingTestCase):
     def _mobileElementsNotDisplayedCheck(self):
         page = AdvantagePage(loggedIn=False)
         testStatus = not page.mobileElementsDisplayed()
+        displayPrint("Mobile elements not displayed check")
         self.reportStep(
             "Mobile elements not displayed check",
             "Mobile elements are not displayed",
