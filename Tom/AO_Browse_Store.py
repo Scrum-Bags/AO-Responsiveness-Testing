@@ -30,10 +30,11 @@ class AO_Browse_Store(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.chrome_options = Options()
-        cls.chrome_options.add_experimental_option('excludeSwitches', ['enable-logging'])
+        #cls.chrome_options.add_experimental_option('excludeSwitches', ['enable-logging'])
         cls.chrome_options.headless = True
-        cls.chrome_options.binary_location = "/usr/bin/google-chrome-stable"
-        cls.driver = webdriver.Chrome(options=cls.chrome_options, executable_path='/usr/bin/chromedriver')
+        #cls.chrome_options.binary_location = "/usr/bin/google-chrome-stable"
+        cls.driver = webdriver.Chrome(options=cls.chrome_options)
+        #cls.driver = webdriver.Chrome(options=cls.chrome_options, executable_path='/usr/bin/chromedriver')
         cls.driver.loggingID = "AO_Browse_Store"
 
     @classmethod
