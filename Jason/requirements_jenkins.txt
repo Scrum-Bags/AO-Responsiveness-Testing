@@ -11,7 +11,6 @@ outcome==1.2.0
 pycparser==2.21
 pypiwin32
 PySocks==1.7.1
-pywin32==304
 selenium==4.4.3
 sniffio==1.2.0
 sortedcontainers==2.4.0
