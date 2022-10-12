@@ -80,6 +80,18 @@ loggedOutCommonElementIDs = {
     "new_account": {
         "by": By.CLASS_NAME,
         "value": "create-new-account"
+    },
+    "login_username": {
+        "by": By.NAME,
+        "value": "username"
+    },
+    "login_password": {
+        "by": By.NAME,
+        "value": "password"
+    },
+    "login_button": {
+        "by": By.ID,
+        "value": "sign_in_btnundefined"
     }
 }
 

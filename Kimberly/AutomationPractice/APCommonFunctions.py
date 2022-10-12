@@ -1,13 +1,15 @@
 import random
 import openpyxl
+from sys import path
 import os
 userStr = os.environ['USERPROFILE']
 userStr = userStr.replace('\\', '/')
+path.append(f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test")
+from Kimberly import TestSuiteReporter
 from datetime import datetime
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.select import Select
-from TestSuiteReporter import TestSuiteReporter
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver import ActionChains
