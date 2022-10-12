@@ -145,22 +145,21 @@ class HomePage(BasePage):
     def click_category_excel(self, value):
         report_event_and_log(self.driver, "Clicking category page from excel")
         value = value.upper()
-        match value:
-            case "SPEAKERS":
-                self.click_speakers()
-                return SpeakersPage(self.driver)
-            case "LAPTOPS":
-                self.click_laptops()
-                return LaptopsPage(self.driver)
-            case "TABLETS":
-                self.click_tablets()
-                return TabletsPage(self.driver)
-            case "MICE":
-                self.click_mice()
-                return MicePage(self.driver)
-            case "HEADPHONES":
-                self.click_headphones()
-                return HeadphonesPage(self.driver)
+        if value == "SPEAKERS":
+            self.click_speakers()
+            return SpeakersPage(self.driver)
+        elif value == "LAPTOPS":
+            self.click_laptops()
+            return LaptopsPage(self.driver)
+        elif value == "TABLETS":
+            self.click_tablets()
+            return TabletsPage(self.driver)
+        elif value == "MICE":
+            self.click_mice()
+            return MicePage(self.driver)
+        elif value == "HEADPHONES":
+            self.click_headphones()
+            return HeadphonesPage(self.driver)
 
     def login(self, user, password):
         if self.driver.find_element(*BasePageLocators.By_username).get_attribute('textContent') == "":
@@ -325,67 +324,62 @@ class SpeakersPage(StorePage):
         self.color_expander.click()
 
     def set_compat(self, value):
-        match value:
-            case "0":
+        if value == "0":
                 self.driver.find_element(*SpeakersPageLocators.By_compat_0).click()
-            case "1":
-                self.driver.find_element(*SpeakersPageLocators.By_compat_1).click()
+        elif value == "1":
+            self.driver.find_element(*SpeakersPageLocators.By_compat_1).click()
         report_event_and_log(self.driver, "Set compatability option to " + str(value))
 
     def set_manufacturer(self, value):
-        match value:
-            case "Bose":
-                self.driver.find_element(*SpeakersPageLocators.By_manufacturer_0).click()
-            case "HP":
-                self.driver.find_element(*SpeakersPageLocators.By_manufacturer_1).click()
-            case "Logitech":
-                self.driver.find_element(*SpeakersPageLocators.By_manufacturer_2).click()
+        if value == "Bose":
+            self.driver.find_element(*SpeakersPageLocators.By_manufacturer_0).click()
+        elif value == "HP":
+            self.driver.find_element(*SpeakersPageLocators.By_manufacturer_1).click()
+        elif value == "Logitech":
+            self.driver.find_element(*SpeakersPageLocators.By_manufacturer_2).click()
         report_event_and_log(self.driver, "Set manufacturer option to " + str(value))
 
     def set_weight(self, value):
-        match value:
-            case "0.55 lb":
-                self.driver.find_element(*SpeakersPageLocators.By_weight_0).click()
-            case "1.0 lb":
-                self.driver.find_element(*SpeakersPageLocators.By_weight_1).click()
-            case "1.1 lb":
-                self.driver.find_element(*SpeakersPageLocators.By_weight_2).click()
-            case "1.25 lb":
-                self.driver.find_element(*SpeakersPageLocators.By_weight_3).click()
-            case "1.26 lb":
-                self.driver.find_element(*SpeakersPageLocators.By_weight_4).click()
-            case "1.95 lb":
-                self.driver.find_element(*SpeakersPageLocators.By_weight_5).click()
-            case "3.03 lb":
-                self.driver.find_element(*SpeakersPageLocators.By_weight_6).click()
+        if value == "0.55 lb":
+            self.driver.find_element(*SpeakersPageLocators.By_weight_0).click()
+        elif value == "1.0 lb":
+            self.driver.find_element(*SpeakersPageLocators.By_weight_1).click()
+        elif value == "1.1 lb":
+            self.driver.find_element(*SpeakersPageLocators.By_weight_2).click()
+        elif value == "1.25 lb":
+            self.driver.find_element(*SpeakersPageLocators.By_weight_3).click()
+        elif value == "1.26 lb":
+            self.driver.find_element(*SpeakersPageLocators.By_weight_4).click()
+        elif value == "1.95 lb":
+            self.driver.find_element(*SpeakersPageLocators.By_weight_5).click()
+        elif value == "3.03 lb":
+            self.driver.find_element(*SpeakersPageLocators.By_weight_6).click()
         report_event_and_log(self.driver, "Set weight option to " + str(value))
 
     def set_wireless(self, value):
-        match value:
-            case "0":
-                self.driver.find_element(*SpeakersPageLocators.By_wireless_0).click()
-            case "1": 
-                self.driver.find_element(*SpeakersPageLocators.By_wireless_1).click()
+        if value == "0":
+            self.driver.find_element(*SpeakersPageLocators.By_wireless_0).click()
+        elif value == "1": 
+            self.driver.find_element(*SpeakersPageLocators.By_wireless_1).click()
         report_event_and_log(self.driver, "Set wireless option to " + str(value))
                 
     def set_color(self, value):
-        match value:
-            case "BLACK":
-                self.driver.find_element(*SpeakersPageLocators.By_color_BLACK).click()
-            case "BLUE":
-                self.driver.find_element(*SpeakersPageLocators.By_color_BLUE).click()
-            case "GRAY":
-                self.driver.find_element(*SpeakersPageLocators.By_color_GRAY).click()
-            case "PURPLE":
-                self.driver.find_element(*SpeakersPageLocators.By_color_PURPLE).click()
-            case "RED":
-                self.driver.find_element(*SpeakersPageLocators.By_color_RED).click()
-            case "TURQUOISE":
-                self.driver.find_element(*SpeakersPageLocators.By_color_TURQUOISE).click()
-            case "WHITE":
-                self.driver.find_element(*SpeakersPageLocators.By_color_WHITE).click()
-            case "YELLOW":
-                self.driver.find_element(*SpeakersPageLocators.By_color_YELLOW).click()
+        if value == "BLACK":
+            self.driver.find_element(*SpeakersPageLocators.By_color_BLACK).click()
+        elif value == "BLUE":
+            self.driver.find_element(*SpeakersPageLocators.By_color_BLUE).click()
+        elif value == "GRAY":
+            self.driver.find_element(*SpeakersPageLocators.By_color_GRAY).click()
+        elif value == "PURPLE":
+            self.driver.find_element(*SpeakersPageLocators.By_color_PURPLE).click()
+        elif value == "RED":
+            self.driver.find_element(*SpeakersPageLocators.By_color_RED).click()
+        elif value == "TURQUOISE":
+            self.driver.find_element(*SpeakersPageLocators.By_color_TURQUOISE).click()
+        elif value == "WHITE":
+            self.driver.find_element(*SpeakersPageLocators.By_color_WHITE).click()
+        elif value == "YELLOW":
+            self.driver.find_element(*SpeakersPageLocators.By_color_YELLOW).click()
         report_event_and_log(self.driver, "Set color option to " + str(value))
 
 class LaptopsPage(StorePage):
@@ -402,111 +396,106 @@ class LaptopsPage(StorePage):
         report_event_and_log(self.driver, "Loaded Laptops Page")
 
     def set_display(self, value):
-        match value:
-            case "0":
-                self.driver.find_element(*LaptopsPageLocators.By_display_0).click()
-            case "1":
-                self.driver.find_element(*LaptopsPageLocators.By_display_1).click()
-            case "2":
-                self.driver.find_element(*LaptopsPageLocators.By_display_2).click()               
-            case "3":
-                self.driver.find_element(*LaptopsPageLocators.By_display_3).click()
-            case "4":
-                self.driver.find_element(*LaptopsPageLocators.By_display_4).click()
-            case "5":
-                self.driver.find_element(*LaptopsPageLocators.By_display_5).click()
-            case "6":
-                self.driver.find_element(*LaptopsPageLocators.By_display_6).click()
-            case "7":
-                self.driver.find_element(*LaptopsPageLocators.By_display_7).click()
-            case "8":
-                self.driver.find_element(*LaptopsPageLocators.By_display_8).click()
-            case "9":
-                self.driver.find_element(*LaptopsPageLocators.By_display_9).click()
-            case "10":
-                self.driver.find_element(*LaptopsPageLocators.By_display_10).click()
+        if value ==  "0":
+            self.driver.find_element(*LaptopsPageLocators.By_display_0).click()
+        elif value ==  "1":
+            self.driver.find_element(*LaptopsPageLocators.By_display_1).click()
+        elif value ==  "2":
+            self.driver.find_element(*LaptopsPageLocators.By_display_2).click()               
+        elif value ==  "3":
+            self.driver.find_element(*LaptopsPageLocators.By_display_3).click()
+        elif value ==  "4":
+            self.driver.find_element(*LaptopsPageLocators.By_display_4).click()
+        elif value ==  "5":
+            self.driver.find_element(*LaptopsPageLocators.By_display_5).click()
+        elif value ==  "6":
+            self.driver.find_element(*LaptopsPageLocators.By_display_6).click()
+        elif value ==  "7":
+            self.driver.find_element(*LaptopsPageLocators.By_display_7).click()
+        elif value ==  "8":
+            self.driver.find_element(*LaptopsPageLocators.By_display_8).click()
+        elif value ==  "9":
+            self.driver.find_element(*LaptopsPageLocators.By_display_9).click()
+        elif value ==  "10":
+            self.driver.find_element(*LaptopsPageLocators.By_display_10).click()
         report_event_and_log(self.driver, "Set display option to " + str(value))
 
     def set_os(self, value):
-        match value:
-            case "Chrome OS":
-                self.driver.find_element(*LaptopsPageLocators.By_os_0).click()
-            case "Windows 10":
-                self.driver.find_element(*LaptopsPageLocators.By_os_1).click()
-            case "Windows 7 Professional 64":
-                self.driver.find_element(*LaptopsPageLocators.By_os_2).click()
-            case "Windows 8.1":
-                self.driver.find_element(*LaptopsPageLocators.By_os_3).click()
+        if value ==  "Chrome OS":
+            self.driver.find_element(*LaptopsPageLocators.By_os_0).click()
+        elif value ==  "Windows 10":
+            self.driver.find_element(*LaptopsPageLocators.By_os_1).click()
+        elif value ==  "Windows 7 Professional 64":
+            self.driver.find_element(*LaptopsPageLocators.By_os_2).click()
+        elif value ==  "Windows 8.1":
+            self.driver.find_element(*LaptopsPageLocators.By_os_3).click()
         report_event_and_log(self.driver, "Set operating system option to " + str(value))
 
     def set_processor(self, value):
-        match value:
-            case "0":
-                self.driver.find_element(*LaptopsPageLocators.By_processor_0).click()
-            case "1":
-                self.driver.find_element(*LaptopsPageLocators.By_processor_1).click()
-            case "2":
-                self.driver.find_element(*LaptopsPageLocators.By_processor_2).click()
-            case "3":
-                self.driver.find_element(*LaptopsPageLocators.By_processor_3).click()
-            case "4":
-                self.driver.find_element(*LaptopsPageLocators.By_processor_4).click()
-            case "5":
-                self.driver.find_element(*LaptopsPageLocators.By_processor_5).click()
-            case "6":
-                self.driver.find_element(*LaptopsPageLocators.By_processor_6).click()
-            case "7":
-                self.driver.find_element(*LaptopsPageLocators.By_processor_7).click()
-            case "8":
-                self.driver.find_element(*LaptopsPageLocators.By_processor_8).click()
-            case "9":
-                self.driver.find_element(*LaptopsPageLocators.By_processor_9).click()
+        if value ==  "0":
+            self.driver.find_element(*LaptopsPageLocators.By_processor_0).click()
+        elif value ==  "1":
+            self.driver.find_element(*LaptopsPageLocators.By_processor_1).click()
+        elif value ==  "2":
+            self.driver.find_element(*LaptopsPageLocators.By_processor_2).click()
+        elif value ==  "3":
+            self.driver.find_element(*LaptopsPageLocators.By_processor_3).click()
+        elif value ==  "4":
+            self.driver.find_element(*LaptopsPageLocators.By_processor_4).click()
+        elif value ==  "5":
+            self.driver.find_element(*LaptopsPageLocators.By_processor_5).click()
+        elif value ==  "6":
+            self.driver.find_element(*LaptopsPageLocators.By_processor_6).click()
+        elif value ==  "7":
+            self.driver.find_element(*LaptopsPageLocators.By_processor_7).click()
+        elif value ==  "8":
+            self.driver.find_element(*LaptopsPageLocators.By_processor_8).click()
+        elif value ==  "9":
+            self.driver.find_element(*LaptopsPageLocators.By_processor_9).click()
         report_event_and_log(self.driver, "Set processor option to " + str(value))
 
     def set_weight(self, value):
-        match value:
-            case "2.3 lb":
-                self.driver.find_element(*LaptopsPageLocators.By_weight_0).click()
-            case "2.6 lb":
-                self.driver.find_element(*LaptopsPageLocators.By_weight_1).click()
-            case "3.17 lb":
-                self.driver.find_element(*LaptopsPageLocators.By_weight_2).click()
-            case "3.2 lb": 
-                self.driver.find_element(*LaptopsPageLocators.By_weight_3).click()
-            case "3.21 lb":
-                self.driver.find_element(*LaptopsPageLocators.By_weight_4).click()
-            case "3.4 lb":
-                self.driver.find_element(*LaptopsPageLocators.By_weight_5).click()
-            case "4 lb":
-                self.driver.find_element(*LaptopsPageLocators.By_weight_6).click()
-            case "4.96 lb":
-                self.driver.find_element(*LaptopsPageLocators.By_weight_7).click()
-            case "5.51 lb":
-                self.driver.find_element(*LaptopsPageLocators.By_weight_8).click()
-            case "7.25 lb":
-                self.driver.find_element(*LaptopsPageLocators.By_weight_9).click()
-            case "7.42 lb":
-                self.driver.find_element(*LaptopsPageLocators.By_weight_10).click()
+        if value ==  "2.3 lb":
+            self.driver.find_element(*LaptopsPageLocators.By_weight_0).click()
+        elif value ==  "2.6 lb":
+            self.driver.find_element(*LaptopsPageLocators.By_weight_1).click()
+        elif value ==  "3.17 lb":
+            self.driver.find_element(*LaptopsPageLocators.By_weight_2).click()
+        elif value ==  "3.2 lb": 
+            self.driver.find_element(*LaptopsPageLocators.By_weight_3).click()
+        elif value ==  "3.21 lb":
+            self.driver.find_element(*LaptopsPageLocators.By_weight_4).click()
+        elif value ==  "3.4 lb":
+            self.driver.find_element(*LaptopsPageLocators.By_weight_5).click()
+        elif value ==  "4 lb":
+            self.driver.find_element(*LaptopsPageLocators.By_weight_6).click()
+        elif value ==  "4.96 lb":
+            self.driver.find_element(*LaptopsPageLocators.By_weight_7).click()
+        elif value ==  "5.51 lb":
+            self.driver.find_element(*LaptopsPageLocators.By_weight_8).click()
+        elif value ==  "7.25 lb":
+            self.driver.find_element(*LaptopsPageLocators.By_weight_9).click()
+        elif value ==  "7.42 lb":
+            self.driver.find_element(*LaptopsPageLocators.By_weight_10).click()
         report_event_and_log(self.driver, "Set weight option to " + str(value))
 
     def set_color(self, value):
-        match value:
-            case "BLACK":
-                self.driver.find_element(*LaptopsPageLocators.By_color_BLACK).click()
-            case "BLUE":
-                self.driver.find_element(*LaptopsPageLocators.By_color_BLUE).click()
-            case "GRAY":
-                self.driver.find_element(*LaptopsPageLocators.By_color_GRAY).click()
-            case "PURPLE":
-                self.driver.find_element(*LaptopsPageLocators.By_color_PURPLE).click()
-            case "RED":
-                self.driver.find_element(*LaptopsPageLocators.By_color_RED).click()
-            case "TURQUOISE":
-                self.driver.find_element(*LaptopsPageLocators.By_color_TURQUOISE).click()
-            case "WHITE":
-                self.driver.find_element(*LaptopsPageLocators.By_color_WHITE).click()
-            case "YELLOW":
-                self.driver.find_element(*LaptopsPageLocators.By_color_YELLOW).click()
+        if value ==  "BLACK":
+            self.driver.find_element(*LaptopsPageLocators.By_color_BLACK).click()
+        elif value ==  "BLUE":
+            self.driver.find_element(*LaptopsPageLocators.By_color_BLUE).click()
+        elif value ==  "GRAY":
+            self.driver.find_element(*LaptopsPageLocators.By_color_GRAY).click()
+        elif value ==  "PURPLE":
+            self.driver.find_element(*LaptopsPageLocators.By_color_PURPLE).click()
+        elif value ==  "RED":
+            self.driver.find_element(*LaptopsPageLocators.By_color_RED).click()
+        elif value ==  "TURQUOISE":
+            self.driver.find_element(*LaptopsPageLocators.By_color_TURQUOISE).click()
+        elif value ==  "WHITE":
+            self.driver.find_element(*LaptopsPageLocators.By_color_WHITE).click()
+        elif value ==  "YELLOW":
+            self.driver.find_element(*LaptopsPageLocators.By_color_YELLOW).click()
         report_event_and_log(self.driver, "Set weight option to " + str(value))
 
 class TabletsPage(StorePage):
@@ -521,31 +510,28 @@ class TabletsPage(StorePage):
         report_event_and_log(self.driver, "Loaded Tablets Page")
 
     def set_display(self, value):
-        match value:
-            case "0":
-                self.driver.find_element(*TabletsPageLocators.By_display_0).click()
-            case "1":
-                self.driver.find_element(*TabletsPageLocators.By_display_1).click()
-            case "2":
-                self.driver.find_element(*TabletsPageLocators.By_display_2).click()
+        if value ==  "0":
+            self.driver.find_element(*TabletsPageLocators.By_display_0).click()
+        elif value ==  "1":
+            self.driver.find_element(*TabletsPageLocators.By_display_1).click()
+        elif value ==  "2":
+            self.driver.find_element(*TabletsPageLocators.By_display_2).click()
         report_event_and_log(self.driver, "Set display option to " + str(value))
 
     def set_processor(self, value):
-        match value:
-            case "0":
-                self.driver.find_element(*TabletsPageLocators.By_processor_0).click()
-            case "1":
-                self.driver.find_element(*TabletsPageLocators.By_processor_1).click()
-            case "2":
-                self.driver.find_element(*TabletsPageLocators.By_processor_2).click()
+        if value ==  "0":
+            self.driver.find_element(*TabletsPageLocators.By_processor_0).click()
+        elif value ==  "1":
+            self.driver.find_element(*TabletsPageLocators.By_processor_1).click()
+        elif value ==  "2":
+            self.driver.find_element(*TabletsPageLocators.By_processor_2).click()
         report_event_and_log(self.driver, "Set processor option to " + str(value))
 
     def set_color(self, value):
-        match value:
-            case "BLACK":
-                self.driver.find_element(*TabletsPageLocators.By_color_BLACK).click()
-            case "GRAY":
-                self.driver.find_element(*TabletsPageLocators.By_color_GRAY).click()
+        if value ==  "BLACK":
+            self.driver.find_element(*TabletsPageLocators.By_color_BLACK).click()
+        elif value ==  "GRAY":
+            self.driver.find_element(*TabletsPageLocators.By_color_GRAY).click()
         report_event_and_log(self.driver, "Set color option to " + str(value))
     
 class MicePage(StorePage):
@@ -559,33 +545,31 @@ class MicePage(StorePage):
         report_event_and_log(self.driver, "Loaded Mice Page")
 
     def set_scroller(self, value):
-        match value:
-            case "0":
-                self.driver.find_element(*MicePageLocators.By_scroller_0).click()
-            case "1":
-                self.driver.find_element(*MicePageLocators.By_scroller_1).click()
-            case "2":
-                self.driver.find_element(*MicePageLocators.By_scroller_2).click()
-            case "3":
-                self.driver.find_element(*MicePageLocators.By_scroller_3).click()
-            case "4":
-                self.driver.find_element(*MicePageLocators.By_scroller_4).click()
+        if value ==  "0":
+            self.driver.find_element(*MicePageLocators.By_scroller_0).click()
+        elif value ==  "1":
+            self.driver.find_element(*MicePageLocators.By_scroller_1).click()
+        elif value ==  "2":
+            self.driver.find_element(*MicePageLocators.By_scroller_2).click()
+        elif value ==  "3":
+            self.driver.find_element(*MicePageLocators.By_scroller_3).click()
+        elif value ==  "4":
+            self.driver.find_element(*MicePageLocators.By_scroller_4).click()
         report_event_and_log(self.driver, "Set scroller option to " + str(value))
 
     def set_color(self, value):
-        match value:
-            case "BLACK":
-                self.driver.find_element(*MicePageLocators.By_color_BLACK).click()
-            case "BLUE":
-                self.driver.find_element(*MicePageLocators.By_color_BLUE).click()
-            case "GRAY":
-                self.driver.find_element(*MicePageLocators.By_color_GRAY).click()
-            case "PURPLE":
-                self.driver.find_element(*MicePageLocators.By_color_PURPLE).click()
-            case "RED":
-                self.driver.find_element(*MicePageLocators.By_color_RED).click()
-            case "WHITE":
-                self.driver.find_element(*MicePageLocators.By_color_WHITE).click()
+        if value ==  "BLACK":
+            self.driver.find_element(*MicePageLocators.By_color_BLACK).click()
+        elif value ==  "BLUE":
+            self.driver.find_element(*MicePageLocators.By_color_BLUE).click()
+        elif value ==  "GRAY":
+            self.driver.find_element(*MicePageLocators.By_color_GRAY).click()
+        elif value ==  "PURPLE":
+            self.driver.find_element(*MicePageLocators.By_color_PURPLE).click()
+        elif value ==  "RED":
+            self.driver.find_element(*MicePageLocators.By_color_RED).click()
+        elif value ==  "WHITE":
+            self.driver.find_element(*MicePageLocators.By_color_WHITE).click()
         report_event_and_log(self.driver, "Set color option to " + str(value))
 
 class HeadphonesPage(StorePage):
@@ -601,53 +585,49 @@ class HeadphonesPage(StorePage):
         report_event_and_log(self.driver, "Loaded Headphones Page")
 
     def set_compat(self, value):
-        match value:
-            case "0":
-                self.driver.find_element(*HeadphonesPageLocators.By_compat_0).click()
-            case "1":
-                self.driver.find_element(*HeadphonesPageLocators.By_compat_1).click()
-            case "2":
-                self.driver.find_element(*HeadphonesPageLocators.By_compat_2).click()
+        if value ==  "0":
+            self.driver.find_element(*HeadphonesPageLocators.By_compat_0).click()
+        elif value ==  "1":
+            self.driver.find_element(*HeadphonesPageLocators.By_compat_1).click()
+        elif value ==  "2":
+            self.driver.find_element(*HeadphonesPageLocators.By_compat_2).click()
         report_event_and_log(self.driver, "Set compatability option to " + str(value))
 
     def set_connector(self, value):
-        match value:
-            case "0":
-                self.driver.find_element(*HeadphonesPageLocators.By_connector_0).click()
-            case "1":
-                self.driver.find_element(*HeadphonesPageLocators.By_connector_1).click()
+        if value ==  "0":
+            self.driver.find_element(*HeadphonesPageLocators.By_connector_0).click()
+        elif value ==  "1":
+            self.driver.find_element(*HeadphonesPageLocators.By_connector_1).click()
         report_event_and_log(self.driver, "Set connector option to " + str(value))
 
     def set_weight(self, value):
-        match value:
-            case "0.03 lb":
-                self.driver.find_element(*HeadphonesPageLocators.By_weight_0).click()
-            case "0.07 lb":
-                self.driver.find_element(*HeadphonesPageLocators.By_weight_1).click()
-            case "0.15 lb":
-                self.driver.find_element(*HeadphonesPageLocators.By_weight_2).click()
-            case "0.57 lb":
-                self.driver.find_element(*HeadphonesPageLocators.By_weight_3).click()
+        if value ==  "0.03 lb":
+            self.driver.find_element(*HeadphonesPageLocators.By_weight_0).click()
+        elif value ==  "0.07 lb":
+            self.driver.find_element(*HeadphonesPageLocators.By_weight_1).click()
+        elif value ==  "0.15 lb":
+            self.driver.find_element(*HeadphonesPageLocators.By_weight_2).click()
+        elif value ==  "0.57 lb":
+            self.driver.find_element(*HeadphonesPageLocators.By_weight_3).click()
         report_event_and_log(self.driver, "Set weight option to " + str(value))
 
     def set_color(self, value):
-        match value:
-            case "BLACK":
-                self.driver.find_element(*LaptopsPageLocators.By_color_BLACK).click()
-            case "BLUE":
-                self.driver.find_element(*LaptopsPageLocators.By_color_BLUE).click()
-            case "GRAY":
-                self.driver.find_element(*LaptopsPageLocators.By_color_GRAY).click()
-            case "PURPLE":
-                self.driver.find_element(*LaptopsPageLocators.By_color_PURPLE).click()
-            case "RED":
-                self.driver.find_element(*LaptopsPageLocators.By_color_RED).click()
-            case "TURQUOISE":
-                self.driver.find_element(*LaptopsPageLocators.By_color_TURQUOISE).click()
-            case "WHITE":
-                self.driver.find_element(*LaptopsPageLocators.By_color_WHITE).click()
-            case "YELLOW":
-                self.driver.find_element(*LaptopsPageLocators.By_color_YELLOW).click()
+        if value ==  "BLACK":
+            self.driver.find_element(*LaptopsPageLocators.By_color_BLACK).click()
+        elif value ==  "BLUE":
+            self.driver.find_element(*LaptopsPageLocators.By_color_BLUE).click()
+        elif value ==  "GRAY":
+            self.driver.find_element(*LaptopsPageLocators.By_color_GRAY).click()
+        elif value ==  "PURPLE":
+            self.driver.find_element(*LaptopsPageLocators.By_color_PURPLE).click()
+        elif value ==  "RED":
+            self.driver.find_element(*LaptopsPageLocators.By_color_RED).click()
+        elif value ==  "TURQUOISE":
+            self.driver.find_element(*LaptopsPageLocators.By_color_TURQUOISE).click()
+        elif value ==  "WHITE":
+            self.driver.find_element(*LaptopsPageLocators.By_color_WHITE).click()
+        elif value ==  "YELLOW":
+            self.driver.find_element(*LaptopsPageLocators.By_color_YELLOW).click()
         report_event_and_log(self.driver, "Set color option to " + str(value))
 
 class ItemPage(BasePage):
@@ -747,11 +727,10 @@ class OrderPaymentPage_2(BasePage):
         self.driver.find_element(*OrderPaymentPageLocators.By_creditcard_paynow).click()
 
     def choose_payment(self, value):
-        match value:
-            case "SAFEPAY":
-                self.safepay_checkout()
-            case "MASTERCREDIT":
-                self.mastercredit_checkout()
+        if value ==  "SAFEPAY":
+            self.safepay_checkout()
+        elif value ==  "MASTERCREDIT":
+            self.mastercredit_checkout()
 
 class OrderConfirmationPage(BasePage):
     def __init__(self, driver):
