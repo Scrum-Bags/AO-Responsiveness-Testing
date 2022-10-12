@@ -30,11 +30,8 @@ class AO_Browse_Store(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.chrome_options = Options()
-        #cls.chrome_options.add_experimental_option('excludeSwitches', ['enable-logging'])
         cls.chrome_options.headless = True
-        #cls.chrome_options.binary_location = "/usr/bin/google-chrome-stable"
         cls.driver = webdriver.Chrome(options=cls.chrome_options)
-        #cls.driver = webdriver.Chrome(options=cls.chrome_options, executable_path='/usr/bin/chromedriver')
         cls.driver.loggingID = "AO_Browse_Store"
 
     @classmethod
@@ -46,7 +43,6 @@ class AO_Browse_Store(unittest.TestCase):
         log_wrapper(self.driver, "Waiting for home page to load")
         self.driver.reporter = self.reporter
         self.driver.set_window_size(1920, 1012)
-        #BasePage.wait_for_element(self, HomePageLocators.By_speakers_link, 30)
 
     def tearDown(self):
         self.driver.reporter = None
@@ -84,7 +80,7 @@ class AO_Browse_Store(unittest.TestCase):
 
         page.click_speakers()
         page = SpeakersPage(driver)
-        objExcel = excelReader("D:\Documents\ScrumbagsRepos\AO-Responsiveness-Testing\Tom\AOBrowseStore.xlsx", 0)
+        objExcel = excelReader("./AOBrowseStore.xlsx", 0)
         rowNum = 1 #for keeping track of datarow for reporting
 
         for dataRow in objExcel:
@@ -161,7 +157,7 @@ class AO_Browse_Store(unittest.TestCase):
         page.check_responsive()
         page.click_laptops()
         page = LaptopsPage(driver)
-        objExcel = excelReader("D:\Documents\ScrumbagsRepos\AO-Responsiveness-Testing\Tom\AOBrowseStore.xlsx", 1)
+        objExcel = excelReader("./AOBrowseStore.xlsx", 1)
         rowNum = 1 #for keeping track of datarow for reporting
         for dataRow in objExcel:
             rowNum += 1
@@ -240,7 +236,7 @@ class AO_Browse_Store(unittest.TestCase):
         page.check_responsive()
         page.click_tablets()
         page = TabletsPage(driver)
-        objExcel = excelReader("D:\Documents\ScrumbagsRepos\AO-Responsiveness-Testing\Tom\AOBrowseStore.xlsx", 2)
+        objExcel = excelReader("./AOBrowseStore.xlsx", 2)
         rowNum = 1 #for keeping track of datarow for reporting
         for dataRow in objExcel:
             rowNum += 1
@@ -309,7 +305,7 @@ class AO_Browse_Store(unittest.TestCase):
         page.check_responsive()
         page.click_mice()
         page = MicePage(driver)
-        objExcel = excelReader("D:\Documents\ScrumbagsRepos\AO-Responsiveness-Testing\Tom\AOBrowseStore.xlsx", 3)
+        objExcel = excelReader("./AOBrowseStore.xlsx", 3)
         rowNum = 1 #for keeping track of datarow for reporting
         for dataRow in objExcel:
             rowNum += 1
@@ -375,7 +371,7 @@ class AO_Browse_Store(unittest.TestCase):
         page.check_responsive()
         page.click_headphones()
         page = HeadphonesPage(driver)
-        objExcel = excelReader("D:\Documents\ScrumbagsRepos\AO-Responsiveness-Testing\Tom\AOBrowseStore.xlsx", 4)
+        objExcel = excelReader("./AOBrowseStore.xlsx", 4)
         rowNum = 1 #for keeping track of datarow for reporting
 
         for dataRow in objExcel:
@@ -453,7 +449,7 @@ class AO_Browse_Store(unittest.TestCase):
         page.check_responsive()
         page.click_speakers()
         page = SpeakersPage(driver)
-        objExcel = excelReader("D:\Documents\ScrumbagsRepos\AO-Responsiveness-Testing\Tom\AOBrowseStore.xlsx", 5)
+        objExcel = excelReader("./AOBrowseStore.xlsx", 5)
         rowNum = 1 #for keeping track of datarow for reporting
         expected_items = 0
 
@@ -541,7 +537,7 @@ class AO_Browse_Store(unittest.TestCase):
 
         page.click_laptops()
         page = LaptopsPage(driver)
-        objExcel = excelReader("D:\Documents\ScrumbagsRepos\AO-Responsiveness-Testing\Tom\AOBrowseStore.xlsx", 6)
+        objExcel = excelReader("./AOBrowseStore.xlsx", 6)
         rowNum = 1 #for keeping track of datarow for reporting
         expected_items = 0
         for dataRow in objExcel:
@@ -630,7 +626,7 @@ class AO_Browse_Store(unittest.TestCase):
 
         page.click_tablets()
         page = TabletsPage(driver)
-        objExcel = excelReader("D:\Documents\ScrumbagsRepos\AO-Responsiveness-Testing\Tom\AOBrowseStore.xlsx", 7)
+        objExcel = excelReader("./AOBrowseStore.xlsx", 7)
         rowNum = 1 #for keeping track of datarow for reporting
         expected_items = 0
         for dataRow in objExcel:
@@ -705,7 +701,7 @@ class AO_Browse_Store(unittest.TestCase):
 
         page.click_mice()
         page = MicePage(driver)
-        objExcel = excelReader("D:\Documents\ScrumbagsRepos\AO-Responsiveness-Testing\Tom\AOBrowseStore.xlsx", 8)
+        objExcel = excelReader("./AOBrowseStore.xlsx", 8)
         rowNum = 1 #for keeping track of datarow for reporting
         expected_items = 0
         for dataRow in objExcel:
@@ -774,7 +770,7 @@ class AO_Browse_Store(unittest.TestCase):
 
         page.click_headphones()
         page = HeadphonesPage(driver)
-        objExcel = excelReader("D:\Documents\ScrumbagsRepos\AO-Responsiveness-Testing\Tom\AOBrowseStore.xlsx", 9)
+        objExcel = excelReader("./AOBrowseStore.xlsx", 9)
         rowNum = 1 #for keeping track of datarow for reporting
         expected_items = 0
         for dataRow in objExcel:
@@ -854,7 +850,7 @@ class AO_Browse_Store(unittest.TestCase):
 
         page.check_responsive()
            
-        objExcel = excelReader("D:\Documents\ScrumbagsRepos\AO-Responsiveness-Testing\Tom\AOBrowseStore.xlsx", 10)
+        objExcel = excelReader("./AOBrowseStore.xlsx", 10)
         rowNum = 1 #for keeping track of datarow for reporting
         for dataRow in objExcel:
             rowNum += 1
