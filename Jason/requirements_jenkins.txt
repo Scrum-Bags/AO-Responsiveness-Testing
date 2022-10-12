@@ -9,7 +9,6 @@ mysql-connector==2.2.9
 openpyxl==3.0.10
 outcome==1.2.0
 pycparser==2.21
-pypiwin32
 PySocks==1.7.1
 selenium==4.4.3
 sniffio==1.2.0
