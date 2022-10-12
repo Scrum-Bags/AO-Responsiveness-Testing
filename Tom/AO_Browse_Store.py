@@ -29,10 +29,11 @@ class AO_Browse_Store(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.edge_options = Options()
-        cls.edge_options.add_experimental_option('excludeSwitches', ['enable-logging'])
-        cls.edge_options.headless = True
-        cls.driver = webdriver.Edge(options=cls.edge_options)
+        cls.chrome_options = Options()
+        cls.chrome_options.add_experimental_option('excludeSwitches', ['enable-logging'])
+        cls.chrome_options.headless = True
+        cls.chrome_options.binary_location = "/usr/bin/chromedriver"
+        cls.driver = webdriver.Chrome(options=cls.chrome_options)
         cls.driver.loggingID = "AO_Browse_Store"
 
     @classmethod
