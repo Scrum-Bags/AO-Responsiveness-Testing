@@ -9,7 +9,9 @@ mysql-connector==2.2.9
 openpyxl==3.0.10
 outcome==1.2.0
 pycparser==2.21
+pypiwin32==223
 PySocks==1.7.1
+pywin32==304
 selenium==4.4.3
 sniffio==1.2.0
 sortedcontainers==2.4.0
@@ -17,4 +19,3 @@ trio==0.21.0
 trio-websocket==0.9.2
 urllib3==1.26.12
 wsproto==1.2.0
-pywin32==304
