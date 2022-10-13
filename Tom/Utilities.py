@@ -6,7 +6,6 @@ import mysql.connector
 from mysql.connector import Error
 import random, string, time, inspect
 import pathlib
-from Outlook import Outlook_App
 from openpyxl import load_workbook
 
 def report_event_and_log(driver, message: str):
@@ -53,37 +52,6 @@ def check_for_responsive(driver):
     else:
         driver.responsive = False
         log_wrapper(driver, "Didn't detect responsive")
-
-def check_outlook_confirmation(driver, timeout=60):
-    timer = 0
-    obj = Outlook_App()
-    while obj.search_by_subject("Welcome", 6) == -1 and timer < timeout:
-        timer += 1
-        time.sleep(1)
-        log_wrapper(driver, 
-            "Waiting for Outlook confirmation " + str(timer) + "/" + str(timeout) + "s"
-        )
-
-    if obj.search_by_subject("Welcome", 6) == -1:
-        driver.reporter[driver.testID].reportStep(
-            "Check if confirmation email was received",
-            "Confirmation email was received",
-            "Confirmation email wasn't received after " + str(timeout) + " seconds",
-            False
-        )
-        log_wrapper(driver, "Confirmation email wasn't received after " + str(timeout) + " seconds")
-
-    else:
-        driver.reporter[driver.testID].reportStep(
-            "Check if confirmation email was received",
-            "Confirmation email was received",
-            "Confirmation email was received after " + str(timer) + " seconds",
-            True
-        )
-        obj.delete_emails_in_folder(6)
-        log_wrapper(driver, "Confirmation email was received after " + str(timer) + " seconds")
-
-
 
 
 #SQL Utilites

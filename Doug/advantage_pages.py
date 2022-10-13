@@ -11,47 +11,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 from page_elements.advantage_online_elements import *
 from runittest.reporting_unittest import SingletonWebDriver
+from printlogger.printlogger import displayPrint
 
-
-# class Page:
-#     """Base page class to handle basic object inclusion."""
-
-#     def __init__(
-#         self,
-#         idDict: dict,
-#         extraDict: Union[dict, None] = None
-#     ):
-#         self.elements = {}
-#         tempDict = idDict
-#         if extraDict is not None:
-#             tempDict.update(extraDict)
-#         self.driverObj = SingletonWebDriver()
-#         # print(f"Getting wait key from idDict: {idDict}")
-#         waitObjectID = idDict[list(idDict.keys())[0]]
-#         # print(f"Have key: {waitObjectID}")
-#         # print("Waiting for page to load")
-#         WebDriverWait(
-#             self.driverObj,
-#             10
-#         ).until(
-#             EC.presence_of_element_located((waitObjectID.values()))
-#         )
-#         # print("Page has loaded!")
-#         self.addElements(tempDict)
-
-#     def addElements(self, idDict: dict):
-#         # print("Adding Elements")
-#         for name, args in idDict.items():
-#             # temp_element = None
-#             try:
-#                 # print(f"trying to find: {name}: {args}")
-#                 # temp_element = self.driverObj.find_element(**args)
-#                 self.elements[name] = self.driverObj.find_element(**args)
-#                 # setattr(self, name, temp_element)
-#             except NoSuchElementException as e:
-#                 # print(f"error!: element not found: {e}")
-#                 continue
-#         # print("Elements Added")
 
 class Page:
     """Base page class to handle basic object inclusion."""
@@ -114,10 +75,9 @@ class AdvantagePage(Page):
             baseDict.update(loggedInCommonElementIDs)
         else:
             baseDict.update(loggedOutCommonElementIDs)
-        super().__init__(
-            idDict=baseDict,
-            extraDict=extraDict
-        )
+        super().__init__(idDict=baseDict)
+        if extraDict is not None:
+            self.addElements(extraDict)
         WebDriverWait(
             self.driverObj,
             10
@@ -146,6 +106,7 @@ class AdvantagePage(Page):
                     loggedOutCommonElementIDs["new_account"].values()
                 )
             )
+            sleep(1.0)
             self.elements["new_account"].click()
             WebDriverWait(
                 self.driverObj,
@@ -193,13 +154,36 @@ class AdvantagePage(Page):
             )
             summaryElement = self.elements["menu_items_container"].find_elements(By.TAG_NAME, "label")[0]
             summaryElement.click()
+            self.waitForElements(
+                accountSummaryElementIDs,
+                10
+            )
+    
+    def logIn(
+        self, 
+        username: str,
+        password: str
+    ):
+        if not self.loggedIn:
             WebDriverWait(
                 self.driverObj,
                 10
             ).until(
-                EC.visibility_of_element_located(
-                    accountSummaryElementIDs["details_box"].values()
+                EC.element_to_be_clickable(
+                    commonElementIDs["user_icon"].values()
                 )
+            )
+            sleep(1.0)
+            self.elements["user_icon"].click()
+            sleep(1.0)
+            self.elements['login_username'].clear()
+            self.elements['login_username'].send_keys(username)
+            self.elements['login_password'].clear()
+            self.elements['login_password'].send_keys(password)
+            self.elements['login_button'].click()
+            self.waitForElements(
+                loggedInCommonElementIDs,
+                10
             )
     
     def logOut(self):
@@ -212,6 +196,7 @@ class AdvantagePage(Page):
                     loggedInCommonElementIDs["user_menu"].values()
                 )
             )
+            sleep(1.0)
             self.elements["user_menu"].click()
             WebDriverWait(
                 self.driverObj,
@@ -262,30 +247,11 @@ class MainPage(AdvantagePage):
         loggedIn: bool,
     ):
         super().__init__(
-            loggedIn=loggedIn, 
-            extraDict=mainPageWaitIDs
+            loggedIn=loggedIn
         )
-        WebDriverWait(
-            self.driverObj,
+        self.waitForElements(
+            mainPageWaitIDs,
             10
-        ).until(
-            EC.all_of(
-                EC.visibility_of_element_located(
-                    mainPageWaitIDs["headphones_image"].values()
-                ),
-                EC.visibility_of_element_located(
-                    mainPageWaitIDs["laptops_image"].values()
-                ),
-                EC.visibility_of_element_located(
-                    mainPageWaitIDs["mice_image"].values()
-                ),
-                EC.visibility_of_element_located(
-                    mainPageWaitIDs["speakers_image"].values()
-                ),
-                EC.visibility_of_element_located(
-                    mainPageWaitIDs["tablets_image"].values()
-                )
-            )
         )
         WebDriverWait(
             self.driverObj,
@@ -679,38 +645,29 @@ class AccountSummaryPage(AdvantagePage):
             extraDict=accountSummaryElementIDs
         )
         self.fieldKeys = list(self.elements.keys())
-    
-    def validateUserInfo(
-        self,
-        **kwargs
-    ):
-        summaryBlock = self.driverObj.find_elements(**accountSummaryElementIDs["details_box"])[0]
+        summaryBlock = self.driverObj.find_elements(
+            **accountSummaryElementIDs["details_box"]
+        )[0]
         dataItems = summaryBlock.find_elements(by=By.CLASS_NAME, value="ng-binding")
+        self.dataFields = {}
         for item in dataItems:
-            innerText = item.get_attribute("innerText").strip()
             match item.get_dom_attribute("data-ng-hide"):
                 case "accountDetails.homeAddress == ''":
-                    compareStr = kwargs["addressStreet"]
+                    self.dataFields["addressStreet"] = item
                 case "accountDetails.cityName == ''":
-                    compareStr = kwargs["addressCity"]
+                    self.dataFields["addressCity"] = item
                 case "accountDetails.countryName == ''":
-                    compareStr = kwargs["addressCountry"] 
+                    self.dataFields["addressCountry"] = item
                 case "accountDetails.stateProvince == ''":
-                    compareStr = kwargs["addressRegion"]
+                    self.dataFields["addressRegion"] = item
                 case "accountDetails.zipcode == ''":
-                    compareStr = kwargs["addressPostalCode"]
+                    self.dataFields["addressPostalCode"] = item
                 case None:
-                    isPhoneNumber = rematch(r'^[0-9\-]{10,20}$', innerText) is not None
-                    # print(f"isPhoneNumber: {isPhoneNumber}")
+                    isPhoneNumber = rematch(r'^[0-9\-]{10,20}$', item.get_attribute('innerText')) is not None
                     if isPhoneNumber:
-                        compareStr = kwargs["phoneNumber"]
+                        self.dataFields["phoneNumber"] = item
                     else:
-                        compareStr = " ".join([kwargs["firstName"], kwargs["lastName"]])
-            # print(f"compareStr: '{compareStr}' innerText: '{innerText}'")
-            if compareStr != innerText:
-                # print(f"{'phoneNumber' if isPhoneNumber else 'fullName'} doesn't match!\n")
-                return False
-        return True
+                        self.dataFields["fullName"] = item
 
     def goToProfileEditPage(self):
         self.elements['account_details_link'].click()
@@ -724,10 +681,10 @@ class UserInfoEditPage(AdvantagePage):
     
     def __init__(
         self,
-        loggedIn=True,
-        extraDict=accountInfoEditPageElementIDs
+        loggedIn=True
     ):
         super().__init__(loggedIn=True)
+        self.addElements(accountInfoEditPageElementIDs)
 
     def getEmail(self) -> str:
         return self.elements['email'].get_attribute('value')
@@ -759,7 +716,7 @@ class UserInfoEditPage(AdvantagePage):
 
     def getAddressCountry(self) -> str:
         tempSelect = Select(self.elements['address_country'])
-        return tempSelect.first_selected_option
+        return tempSelect.first_selected_option.get_attribute('innerText')
 
     def setAddressCountry(self, value: str):
         self.elements['address_country'].clear()
