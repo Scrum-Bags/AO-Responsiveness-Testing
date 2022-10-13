@@ -3,9 +3,9 @@ import openpyxl
 from sys import path
 import os
 userStr = "C:\\Users\\Owner"  #os.environ['USERPROFILE']
-userStr = userStr.replace('\\', '/')
-path.append(f"{userStr}/OWNER/OneDrive/Documents/UFTOne/tests/selenium/Test")
-from Kimberly import TestSuiteReporter
+# userStr = userStr.replace('\\', '/')
+# path.append(f"{userStr}/OWNER/OneDrive/Documents/UFTOne/tests/selenium/Test")
+import TestSuiteReporter
 from datetime import datetime
 from selenium import webdriver
 from selenium.webdriver import ActionChains

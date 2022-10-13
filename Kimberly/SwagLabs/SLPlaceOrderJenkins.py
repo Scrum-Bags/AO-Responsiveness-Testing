@@ -3,9 +3,10 @@ import openpyxl
 import random
 from sys import path
 userStr = "C:\\Users\\Owner"
-userStr = userStr.replace('\\', '/')
-path.append(f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/")
-from Kimberly import TestSuiteReporter
+# userStr = userStr.replace('\\', '/')
+# path.append(f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/")
+import TestSuiteReporter
+#from Kimberly import TestSuiteReporter
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
