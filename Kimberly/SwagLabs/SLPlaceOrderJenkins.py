@@ -268,7 +268,8 @@ class TestCases(unittest.TestCase):
         imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCN}/img{mytime()}", imageEmbed=False)
         print(f"Logged out")
 
-    def test_004_place_order(self):
+    #Commented
+    def atest_004_place_order(self):
         reporter = TestSuiteReporter.TestSuiteReporter("SwagLabs", f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/Reports", "Kimberly Modeste")
         wb = openpyxl.load_workbook(f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/TestCasesExcel.xlsx")
         wsBrowseStore = wb["SLPlaceOrder"]      
@@ -398,7 +399,8 @@ class TestCases(unittest.TestCase):
         dataString=f"Browser set to: {val}", screenshotCallback=browser.find_element(by=By.TAG_NAME, value='body').screenshot, 
         imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCN}/img{mytime()}", imageEmbed=False)
       
-    def test_005_place_order(self):
+    #Commented
+    def atest_005_place_order(self):
         reporter = TestSuiteReporter.TestSuiteReporter("SwagLabs", f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/Reports", "Kimberly Modeste")
         wb = openpyxl.load_workbook(f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/TestCasesExcel.xlsx")
         wsBrowseStore = wb["SLPlaceOrder"]      
