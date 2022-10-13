@@ -191,8 +191,10 @@
 # print("Hello")
 
 
-import os
-path = os.environ['USERPROFILE']
-path = path.replace('\\', '/')
-print(path)
+# import os
+# path = os.environ['USERPROFILE']
+# path = path.replace('\\', '/')
+# print(path)
+
+
 
