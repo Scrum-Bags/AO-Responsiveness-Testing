@@ -16,7 +16,7 @@ class TestCases(unittest.TestCase):
   
     #Commented
     def atest_001_place_order_pos(self):
-        wb = openpyxl.load_workbook(f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/TestCasesExcel.xlsx")
+        wb = openpyxl.load_workbook("TestCasesExcel.xlsx")
         wsBrowseStore = wb["SLPlaceOrder"]      
       
         browser = webdriver.Chrome()
@@ -69,7 +69,7 @@ class TestCases(unittest.TestCase):
 
     #Commented
     def atest_002_place_order_blank(self):
-        wb = openpyxl.load_workbook(f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/TestCasesExcel.xlsx")
+        wb = openpyxl.load_workbook("TestCasesExcel.xlsx")
         wsBrowseStore = wb["SLPlaceOrder"]      
       
         browser = webdriver.Chrome()
@@ -118,7 +118,7 @@ class TestCases(unittest.TestCase):
 
         
     def test_003_place_order(self):
-        wb = openpyxl.load_workbook(f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/TestCasesExcel.xlsx")
+        wb = openpyxl.load_workbook("TestCasesExcel.xlsx")
         wsBrowseStore = wb["SLPlaceOrder"]      
       
         options = Options()
@@ -191,7 +191,7 @@ class TestCases(unittest.TestCase):
 
     #Commented
     def atest_004_place_order(self):
-        wb = openpyxl.load_workbook(f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/TestCasesExcel.xlsx")
+        wb = openpyxl.load_workbook("TestCasesExcel.xlsx")
         wsBrowseStore = wb["SLPlaceOrder"]      
 
         browser = webdriver.Chrome()
@@ -274,7 +274,7 @@ class TestCases(unittest.TestCase):
     
     #Commented
     def atest_005_place_order(self):
-        wb = openpyxl.load_workbook(f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/TestCasesExcel.xlsx")
+        wb = openpyxl.load_workbook("TestCasesExcel.xlsx")
         wsBrowseStore = wb["SLPlaceOrder"]      
 
         browser = webdriver.Chrome()
