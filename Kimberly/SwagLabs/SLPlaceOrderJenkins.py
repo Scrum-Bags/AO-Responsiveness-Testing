@@ -8,7 +8,7 @@ import TestSuiteReporter
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
-from SLCommonFuctions import loginHeadless, login, mytime, rand
+from SLCommonFunctionsJenkins import loginHeadless, login, mytime, rand
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.select import Select
