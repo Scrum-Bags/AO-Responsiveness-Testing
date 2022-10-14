@@ -1,6 +1,6 @@
 from selenium import webdriver
+from selenium.webdriver import FirefoxOptions
 from selenium.webdriver.common.by import By
-#from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.common.action_chains import ActionChains
 import time, random, unittest, logging
@@ -25,8 +25,8 @@ class AO_Account_Order_History(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.options = Options()
-        cls.options.headless = True
+        cls.options = FirefoxOptions()
+        cls.options.add_argument("--headless")
         cls.driver = webdriver.Firefox(options=cls.options)
         cls.driver.loggingID = "AO_Account_Order_History"
 
