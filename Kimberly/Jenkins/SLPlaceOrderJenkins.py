@@ -2,7 +2,7 @@ import unittest
 import openpyxl
 import random
 userStr = ".."
-from ..TestSuiteReporter import TestSuiteReporter
+import TestSuiteReporter
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
