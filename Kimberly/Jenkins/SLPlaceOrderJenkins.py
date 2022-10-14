@@ -174,9 +174,9 @@ class TestCases(unittest.TestCase):
         wb = openpyxl.load_workbook(f"../TestCasesExcel.xlsx")
         wsBrowseStore = wb["SLPlaceOrder"]      
       
-        options = Options()
-        options.headless = True
-        browser = webdriver.Chrome(options=options)
+        option = Options()
+        option.headless = True
+        browser = webdriver.Chrome(options=option)
         browser.get('https://www.saucedemo.com/')
         print(f"Browser Opened: {browser.title}")
         
