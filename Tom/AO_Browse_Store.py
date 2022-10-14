@@ -30,9 +30,9 @@ class AO_Browse_Store(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.chrome_options = Options()
-        cls.chrome_options.headless = True
-        cls.driver = webdriver.Firefox(options=cls.chrome_options)
+        cls.options = Options()
+        cls.options.headless = True
+        cls.driver = webdriver.Firefox(options=cls.options)
         cls.driver.loggingID = "AO_Browse_Store"
 
     @classmethod
