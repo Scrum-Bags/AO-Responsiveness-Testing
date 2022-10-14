@@ -1,5 +1,6 @@
 Scripts/
 Include/
 Lib/
+.scannerwork/
 *.cfg
 ~$*
