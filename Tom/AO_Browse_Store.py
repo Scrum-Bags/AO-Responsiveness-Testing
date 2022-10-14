@@ -1,6 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By 
-from selenium.webdriver.chrome.options import Options
+#from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.common.action_chains import ActionChains
 import time, random, unittest, logging
 
@@ -31,7 +32,7 @@ class AO_Browse_Store(unittest.TestCase):
     def setUpClass(cls):
         cls.chrome_options = Options()
         cls.chrome_options.headless = True
-        cls.driver = webdriver.Chrome(options=cls.chrome_options)
+        cls.driver = webdriver.Firefox(options=cls.chrome_options)
         cls.driver.loggingID = "AO_Browse_Store"
 
     @classmethod
