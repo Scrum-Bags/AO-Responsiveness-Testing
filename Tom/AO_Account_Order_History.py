@@ -26,7 +26,7 @@ class AO_Account_Order_History(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.options = Options()
-        cls.options.add_argument("-headless")
+        cls.options.add_argument("--headless")
         cls.driver = webdriver.Firefox(options=cls.options)
         cls.driver = webdriver.Firefox()
         cls.driver.loggingID = "AO_Account_Order_History"
