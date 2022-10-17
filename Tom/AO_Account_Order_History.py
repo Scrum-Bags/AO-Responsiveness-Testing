@@ -1,5 +1,6 @@
 from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
+#from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
 import time, random, unittest, logging
@@ -11,7 +12,8 @@ from Utilities import *
 class AO_Account_Order_History(unittest.TestCase):
     def __init__(self, *args, **kwargs):
         super(AO_Account_Order_History, self).__init__(*args, **kwargs)
-        self.timestr = time.strftime("%Y-%m-%d--%I_%M_%S%p")
+        """
+        self.timestr = "Tom_" + time.strftime("%Y-%m-%d--%I_%M_%S%p")
         self.reporter = TestSuiteReporter(self.timestr, "./", "Tom")
         logging.basicConfig(level=logging.INFO,
                             handlers=[
@@ -21,20 +23,35 @@ class AO_Account_Order_History(unittest.TestCase):
                             format= '[%(asctime)s] %(levelname)s %(message)s',
                             datefmt='%H:%M:%S'
         )
+        """
 
     @classmethod
     def setUpClass(cls):
+        cls.timestr = "Tom_" + time.strftime("%Y-%m-%d--%I_%M_%S%p")
+        cls.reporter = TestSuiteReporter(cls.timestr, "./", "Tom")
+        logging.basicConfig(level=logging.INFO,
+                            handlers=[
+                                logging.FileHandler("AO_Account_Order_History" + cls.timestr + ".log"),
+                                logging.StreamHandler()
+                            ],
+                            format= '[%(asctime)s] %(levelname)s %(message)s',
+                            datefmt='%H:%M:%S'
+        )
+
         cls.options = Options()
         cls.options.headless = True
-        cls.driver = webdriver.Chrome(options=cls.options)
+        #cls.driver = webdriver.Chrome(options=cls.options)
+        cls.driver = webdriver.Firefox(options=cls.options)
         cls.driver.loggingID = "AO_Account_Order_History"
 
     @classmethod
     def tearDownClass(cls):
         cls.driver.quit()
+        upload_file(cls.timestr + ".html", "scrumbags-reports")
 
     def setUp(self):
         self.driver.get("https://www.advantageonlineshopping.com/#/")
+        #self.driver.reporter = self.reporter
         self.driver.reporter = self.reporter
         self.driver.set_window_size(1920, 1012)
         log_wrapper(self.driver, "Waiting for home page to load")

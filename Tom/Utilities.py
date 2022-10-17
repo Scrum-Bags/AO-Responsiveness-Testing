@@ -8,6 +8,41 @@ import random, string, time, inspect
 import pathlib
 from openpyxl import load_workbook
 
+import logging
+import boto3
+from botocore.exceptions import ClientError
+import os
+
+
+def upload_file(file_name, bucket, object_name=None):
+    """Upload a file to an S3 bucket
+
+    :param file_name: File to upload
+    :param bucket: Bucket to upload to
+    :param object_name: S3 object name. If not specified then file_name is used
+    :return: True if file was uploaded, else False
+    """
+
+    # If S3 object_name was not specified, use file_name
+    if object_name is None:
+        object_name = os.path.basename(file_name)
+
+    # Upload the file
+    s3_client = boto3.client('s3')
+    try:
+        response = s3_client.upload_file(file_name, bucket, object_name)
+    except ClientError as e:
+        logging.error(e)
+        return False
+    return True
+
+if __name__ == '__main__':
+    #usage_demo()
+    #main()
+    #hello_s3()
+    print(upload_file("2022-10-12--04_50_10PM.html", "scrumbags-reports"))
+    pass
+
 def report_event_and_log(driver, message: str):
     driver.reporter[driver.testID].reportEvent(message, False, "")
     func = inspect.currentframe().f_back.f_code
