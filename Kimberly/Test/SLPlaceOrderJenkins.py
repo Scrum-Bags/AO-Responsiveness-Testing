@@ -5,6 +5,7 @@ userStr = ".."
 import TestSuiteReporter
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from SLCommonFunctionsJenkins import loginHeadless, mytime, rand
 from selenium.webdriver.support.ui import WebDriverWait
@@ -287,7 +288,7 @@ class TestCases(unittest.TestCase):
       
         option = Options()
         option.headless = True
-        browser = webdriver.Firefox(options=option)
+        browser = webdriver.Chrome(options=option)
         browser.get('https://www.saucedemo.com/')
         print(f"Browser Opened: {browser.title}")
         
