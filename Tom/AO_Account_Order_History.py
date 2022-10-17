@@ -1,6 +1,6 @@
 from selenium import webdriver
-#from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.firefox.options import Options
+from selenium.webdriver.chrome.options import Options
+#from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
 import time, random, unittest, logging
@@ -40,8 +40,8 @@ class AO_Account_Order_History(unittest.TestCase):
 
         cls.options = Options()
         cls.options.headless = True
-        #cls.driver = webdriver.Chrome(options=cls.options)
-        cls.driver = webdriver.Firefox(options=cls.options)
+        cls.driver = webdriver.Chrome(options=cls.options)
+        #cls.driver = webdriver.Firefox(options=cls.options)
         cls.driver.loggingID = "AO_Account_Order_History"
 
     @classmethod
