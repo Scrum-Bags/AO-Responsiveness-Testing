@@ -4,7 +4,6 @@ import random
 userStr = ".."
 import TestSuiteReporter
 from selenium import webdriver
-from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from SLCommonFunctionsJenkins import loginHeadless, mytime, rand
@@ -14,14 +13,15 @@ from selenium.webdriver.support import expected_conditions
 
 class TestCases(unittest.TestCase):
   
-    def atest_001_place_order(self):
+    def test_001_place_order(self):
+        print(f"#########################################")
         reporter = TestSuiteReporter.TestSuiteReporter("SwagLabsJenkins", f"{userStr}/Reports", "Kimberly Modeste")
         wb = openpyxl.load_workbook(f"../TestCasesExcel.xlsx")
         wsBrowseStore = wb["SLPlaceOrder"]      
       
         option = Options()
         option.headless = True
-        browser = webdriver.Firefox(options=option)
+        browser = webdriver.Chrome(options=option)
         browser.get('https://www.saucedemo.com/')
         print(f"Browser Opened: {browser.title}")
         
@@ -172,15 +172,17 @@ class TestCases(unittest.TestCase):
         screenshotCallback=browser.find_element(by=By.TAG_NAME, value='body').screenshot, 
         imagePath=f"{userStr}/.screenshots/{TCN}/img{mytime()}", imageEmbed=False)
         print(f"Logged out")
+        print(f"#########################################")
 
-    def atest_002_place_order(self):
+    def test_002_place_order(self):
+        print(f"#########################################")
         reporter = TestSuiteReporter.TestSuiteReporter("SwagLabsJenkins", f"{userStr}/Reports", "Kimberly Modeste")
         wb = openpyxl.load_workbook(f"../TestCasesExcel.xlsx")
         wsBrowseStore = wb["SLPlaceOrder"]      
       
         option = Options()
         option.headless = True
-        browser = webdriver.Firefox(options=option)
+        browser = webdriver.Chrome(options=option)
         browser.get('https://www.saucedemo.com/')
         print(f"Browser Opened: {browser.title}")
         
@@ -280,8 +282,10 @@ class TestCases(unittest.TestCase):
         screenshotCallback=browser.find_element(by=By.TAG_NAME, value='body').screenshot, 
         imagePath=f"{userStr}/.screenshots/{TCN}/img{mytime()}", imageEmbed=False)
         print(f"Logged out")
+        print(f"#########################################")
 
     def test_003_place_order(self):
+        print(f"#########################################")
         reporter = TestSuiteReporter.TestSuiteReporter("SwagLabsJenkins", f"{userStr}/Reports", "Kimberly Modeste")
         wb = openpyxl.load_workbook(f"../TestCasesExcel.xlsx")
         wsBrowseStore = wb["SLPlaceOrder"]      
@@ -388,8 +392,10 @@ class TestCases(unittest.TestCase):
         screenshotCallback=browser.find_element(by=By.TAG_NAME, value='body').screenshot, 
         imagePath=f"{userStr}/.screenshots/{TCN}/img{mytime()}", imageEmbed=False)
         print(f"Logged out")
+        print(f"#########################################")
 
     def test_004_login_logout(self):
+        print(f"#########################################")
         reporter = TestSuiteReporter.TestSuiteReporter("SwagLabsJenkins", f"{userStr}/Reports", "Kimberly Modeste")
         wb = openpyxl.load_workbook(f"../TestCasesExcel.xlsx")  
       
@@ -419,6 +425,7 @@ class TestCases(unittest.TestCase):
         screenshotCallback=browser.find_element(by=By.TAG_NAME, value='body').screenshot, 
         imagePath=f"{userStr}/.screenshots/{TCN}/img{mytime()}", imageEmbed=False)
         print(f"Logged out")
+        print(f"#########################################")
 
   
 
