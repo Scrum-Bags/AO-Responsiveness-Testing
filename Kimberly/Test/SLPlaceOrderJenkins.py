@@ -13,7 +13,7 @@ from selenium.webdriver.support import expected_conditions
 
 class TestCases(unittest.TestCase):
   
-    def test_001_place_order(self):
+    def atest_001_place_order(self):
         reporter = TestSuiteReporter.TestSuiteReporter("SwagLabsJenkins", f"{userStr}/Reports", "Kimberly Modeste")
         wb = openpyxl.load_workbook(f"../TestCasesExcel.xlsx")
         wsBrowseStore = wb["SLPlaceOrder"]      
@@ -172,7 +172,7 @@ class TestCases(unittest.TestCase):
         imagePath=f"{userStr}/.screenshots/{TCN}/img{mytime()}", imageEmbed=False)
         print(f"Logged out")
 
-    def test_002_place_order(self):
+    def atest_002_place_order(self):
         reporter = TestSuiteReporter.TestSuiteReporter("SwagLabsJenkins", f"{userStr}/Reports", "Kimberly Modeste")
         wb = openpyxl.load_workbook(f"../TestCasesExcel.xlsx")
         wsBrowseStore = wb["SLPlaceOrder"]      
@@ -280,7 +280,7 @@ class TestCases(unittest.TestCase):
         imagePath=f"{userStr}/.screenshots/{TCN}/img{mytime()}", imageEmbed=False)
         print(f"Logged out")
 
-    def test_003_place_order(self):
+    def atest_003_place_order(self):
         reporter = TestSuiteReporter.TestSuiteReporter("SwagLabsJenkins", f"{userStr}/Reports", "Kimberly Modeste")
         wb = openpyxl.load_workbook(f"../TestCasesExcel.xlsx")
         wsBrowseStore = wb["SLPlaceOrder"]      
@@ -376,6 +376,37 @@ class TestCases(unittest.TestCase):
         browser.find_element(By.ID, "back-to-products").click()
 
         print(f"Finished checkout")
+        # Logout
+        browser.find_element(by=By.ID, value="react-burger-menu-btn").click()
+        buttonList = browser.find_element(by=By.CLASS_NAME, value="bm-item-list").find_elements(by=By.TAG_NAME, value="a")
+        WebDriverWait(browser, 60).until(expected_conditions.element_to_be_clickable(buttonList[2]))
+        buttonList[2].click()
+
+        reporter[TCN].reportStep(stepDescription="User should click the hamburger and logout", 
+        expectedBehavior="Pass", actualBehavior="Pass", testStatus=True, dataString="", 
+        screenshotCallback=browser.find_element(by=By.TAG_NAME, value='body').screenshot, 
+        imagePath=f"{userStr}/.screenshots/{TCN}/img{mytime()}", imageEmbed=False)
+        print(f"Logged out")
+
+    def test_004_login_logout(self):
+        reporter = TestSuiteReporter.TestSuiteReporter("SwagLabsJenkins", f"{userStr}/Reports", "Kimberly Modeste")
+        wb = openpyxl.load_workbook(f"../TestCasesExcel.xlsx")  
+      
+        option = Options()
+        option.headless = True
+        browser = webdriver.Firefox(options=option)
+        browser.get('https://www.saucedemo.com/')
+        print(f"Browser Opened: {browser.title}")
+        
+        TCN = "SwagLabsHeadlessWebSize"
+        r = 2
+        reporter.addTestCase(TCN, "TC003", "User will be loging in and out of the SwagLabs Website")
+
+        print(f"Starting to Login...")
+        if browser.find_element(by=By.CLASS_NAME, value="login-box"):
+            loginHeadless(browser, reporter,TCN)
+        print(f"Login completed")
+
         # Logout
         browser.find_element(by=By.ID, value="react-burger-menu-btn").click()
         buttonList = browser.find_element(by=By.CLASS_NAME, value="bm-item-list").find_elements(by=By.TAG_NAME, value="a")
