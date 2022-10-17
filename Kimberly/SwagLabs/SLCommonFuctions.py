@@ -8,11 +8,7 @@ path.append(f"{userStr}/OWNER/OneDrive/Documents/UFTOne/tests/selenium/Test")
 from Kimberly import TestSuiteReporter
 from datetime import datetime
 from selenium import webdriver
-from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.select import Select
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions
 
 
 
@@ -49,7 +45,7 @@ def login(
     reporter[TCRN].reportStep(stepDescription="User should be logged in by one of the permitted username and passwword to login", 
     expectedBehavior="Pass", actualBehavior=ActualBehavior, testStatus=TestStatus, dataString=f"Username: {username}; Password: {password}", 
     screenshotCallback=browser.find_element(by=By.TAG_NAME, value='body').screenshot, 
-    imagePath=f"{userStr}/OWNER/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{mytime()}", imageEmbed=False)
+    imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{mytime()}", imageEmbed=False)
 
 def loginHeadless(
     browser: webdriver, 
@@ -87,7 +83,7 @@ def loginHeadless(
     reporter[TCRN].reportStep(stepDescription="User should be logged in by one of the permitted username and passwword to login", 
     expectedBehavior="Pass", actualBehavior=ActualBehavior, testStatus=TestStatus, dataString=f"Username: {username}; Password: {password}", 
     screenshotCallback=browser.find_element(by=By.TAG_NAME, value='body').screenshot, 
-    imagePath=f"{userStr}/OWNER/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{mytime()}", imageEmbed=False)
+    imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{mytime()}", imageEmbed=False)
 
 
 

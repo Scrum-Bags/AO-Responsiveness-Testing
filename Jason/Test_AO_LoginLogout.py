@@ -11,7 +11,7 @@ import time
 import random
 import string
 import openpyxl
-import win32com.client as win32
+#import win32com.client as win32
 
 #https://stackoverflow.com/questions/17353213/init-for-unittest-testcase
 
@@ -27,13 +27,13 @@ class Test_OrderHistory(unittest.TestCase):
         self.reporter = HTML_Reporting.TestSuiteReporter(self.timestr, "D:\\TestingResources\\AdvantageOnline\\TestResults\\", "Jason")
         self.screenshotPath = "D:\\TestingResources\\AdvantageOnline\\TestResults\\.screenshots\\"
         self.path = "D:\\TestingResources\\AdvantageOnline\\DataSheets\\InputData.xlsm"
-        self.xl = win32.Dispatch("Excel.Application")
-        #self.xl.Interactive = False
-        #self.xl.Visible = False
-        xlbook = self.xl.Workbooks.Open(self.path)
-        self.xl.Application.Run("InputData.xlsm!Module1.ResetLastCell()")
-        xlbook.Save()
-        self.xl.Application.Quit()
+##        self.xl = win32.Dispatch("Excel.Application")
+##        #self.xl.Interactive = False
+##        #self.xl.Visible = False
+##        xlbook = self.xl.Workbooks.Open(self.path)
+##        self.xl.Application.Run("InputData.xlsm!Module1.ResetLastCell()")
+##        xlbook.Save()
+##        self.xl.Application.Quit()
 
     def setUp(self):
         options = Options()

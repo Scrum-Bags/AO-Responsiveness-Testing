@@ -25,6 +25,11 @@ def to_input(item, str):
     item.clear()
     item.send_keys(str)
 
+# def Status(a, b):
+#     if a == b:
+#         return True
+#     return False
+
 def login(
     browser: webdriver,
     reporter:  TestSuiteReporter, 
@@ -71,12 +76,11 @@ def login(
     
     if expected_conditions.presence_of_element_located((By.XPATH, "//a[@title='Information']")):
         ActualBehavior = "Pass"
-        TestStatus = True
     else:
         ActualBehavior = "Fail"
-        TestStatus = False
-    
 
+    
+    TestStatus = ActualBehavior == wslogin.cell(row = r, column = 3).value
     reporter[TCRN].reportStep(stepDescription=wslogin.cell(row = r+1, column = 3).value, expectedBehavior=wslogin.cell(row = r, column = 3).value, 
     actualBehavior=ActualBehavior, testStatus=TestStatus, dataString="", screenshotCallback=browser.find_element(by=By.ID, value='page').screenshot,
    imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCRN}/img{time()}", imageEmbed=False)
