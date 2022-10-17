@@ -12,8 +12,8 @@ from Utilities import *
 class AO_Account_Order_History(unittest.TestCase):
     def __init__(self, *args, **kwargs):
         super(AO_Account_Order_History, self).__init__(*args, **kwargs)
-        self.timestr = "Tom_" + time.strftime("%Y-%m-%d--%I_%M_%S%p")
-        self.reporter = TestSuiteReporter(self.timestr, "./", "Tom")
+        #self.timestr = "Tom_" + time.strftime("%Y-%m-%d--%I_%M_%S%p")
+        #self.reporter = TestSuiteReporter(self.timestr, "./", "Tom")
         logging.basicConfig(level=logging.INFO,
                             handlers=[
                                 logging.FileHandler("AO_Account_Order_History" + self.timestr + ".log"),
@@ -25,6 +25,9 @@ class AO_Account_Order_History(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
+        cls.timestr = "Tom_" + time.strftime("%Y-%m-%d--%I_%M_%S%p")
+        cls.reporter = TestSuiteReporter(cls.timestr, "./", "Tom")
+
         cls.options = Options()
         cls.options.headless = True
         #cls.driver = webdriver.Chrome(options=cls.options)
