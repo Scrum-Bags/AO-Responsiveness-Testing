@@ -46,7 +46,7 @@ class TestCases(unittest.TestCase):
         print(f"Logged out")
         print(f"#########################################")
 
-    def atest_002_place_order(self):
+    def test_002_place_order(self):
         print(f"#########################################")
         reporter = TestSuiteReporter.TestSuiteReporter("SwagLabsJenkins", f"{userStr}/Reports", "Kimberly Modeste")
         wb = openpyxl.load_workbook(f"../TestCasesExcel.xlsx")
