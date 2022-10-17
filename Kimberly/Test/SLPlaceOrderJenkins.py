@@ -280,7 +280,7 @@ class TestCases(unittest.TestCase):
         imagePath=f"{userStr}/.screenshots/{TCN}/img{mytime()}", imageEmbed=False)
         print(f"Logged out")
 
-    def atest_003_place_order(self):
+    def test_003_place_order(self):
         reporter = TestSuiteReporter.TestSuiteReporter("SwagLabsJenkins", f"{userStr}/Reports", "Kimberly Modeste")
         wb = openpyxl.load_workbook(f"../TestCasesExcel.xlsx")
         wsBrowseStore = wb["SLPlaceOrder"]      
