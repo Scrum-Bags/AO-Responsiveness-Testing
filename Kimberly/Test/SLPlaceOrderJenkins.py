@@ -13,7 +13,7 @@ from selenium.webdriver.support import expected_conditions
 
 class TestCases(unittest.TestCase):
   
-    def test_001_place_order(self):
+    def atest_001_place_order(self):
         print(f"#########################################")
         reporter = TestSuiteReporter.TestSuiteReporter("SwagLabsJenkins", f"{userStr}/Reports", "Kimberly Modeste")
         wb = openpyxl.load_workbook(f"../TestCasesExcel.xlsx")
@@ -174,7 +174,7 @@ class TestCases(unittest.TestCase):
         print(f"Logged out")
         print(f"#########################################")
 
-    def test_002_place_order(self):
+    def atest_002_place_order(self):
         print(f"#########################################")
         reporter = TestSuiteReporter.TestSuiteReporter("SwagLabsJenkins", f"{userStr}/Reports", "Kimberly Modeste")
         wb = openpyxl.load_workbook(f"../TestCasesExcel.xlsx")
