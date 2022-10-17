@@ -13,7 +13,7 @@ class AO_Account_Order_History(unittest.TestCase):
     def __init__(cls, self, *args, **kwargs):
         super(AO_Account_Order_History, self).__init__(*args, **kwargs)
         cls.timestr = "Tom_" + time.strftime("%Y-%m-%d--%I_%M_%S%p")
-        self.reporter = TestSuiteReporter(self.timestr, "./", "Tom")
+        self.reporter = TestSuiteReporter(cls.timestr, "./", "Tom")
         logging.basicConfig(level=logging.INFO,
                             handlers=[
                                 logging.FileHandler("AO_Account_Order_History" + cls.timestr + ".log"),
