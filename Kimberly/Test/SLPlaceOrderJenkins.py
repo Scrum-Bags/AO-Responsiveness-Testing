@@ -10,7 +10,7 @@ from SLCommonFunctionsJenkins import loginHeadless, mytime, rand
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions
 
-#Commented
+
 class TestCases(unittest.TestCase):
     
     def test_001_login_logout(self):
@@ -34,6 +34,7 @@ class TestCases(unittest.TestCase):
         print(f"Login completed")
 
         # Logout
+        WebDriverWait(browser, 5).until(expected_conditions.element_to_be_clickable(browser.find_element(by=By.ID, value="react-burger-menu-btn")))
         browser.find_element(by=By.ID, value="react-burger-menu-btn").click()
         buttonList = browser.find_element(by=By.CLASS_NAME, value="bm-item-list").find_elements(by=By.TAG_NAME, value="a")
         WebDriverWait(browser, 60).until(expected_conditions.element_to_be_clickable(buttonList[2]))
