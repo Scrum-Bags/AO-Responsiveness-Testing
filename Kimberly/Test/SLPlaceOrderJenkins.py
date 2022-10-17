@@ -10,7 +10,7 @@ from SLCommonFunctionsJenkins import loginHeadless, mytime, rand
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions
 
-#Comment
+
 class TestCases(unittest.TestCase):
     
     def test_001_login_logout(self):
@@ -47,7 +47,7 @@ class TestCases(unittest.TestCase):
         print(f"Logged out")
         print(f"#########################################")
 
-    def atest_002_place_order(self):
+    def test_002_place_order(self):
         print(f"#########################################")
         reporter = TestSuiteReporter.TestSuiteReporter("SwagLabsJenkins", f"{userStr}/Reports", "Kimberly Modeste")
         wb = openpyxl.load_workbook(f"../TestCasesExcel.xlsx")
@@ -144,7 +144,7 @@ class TestCases(unittest.TestCase):
         browser.find_element(By.ID, "back-to-products").click()
 
         print(f"Finished checkout")
-        # Logout
+        WebDriverWait(browser, 5).until(expected_conditions.element_to_be_clickable(browser.find_element(by=By.ID, value="react-burger-menu-btn")))
         browser.find_element(by=By.ID, value="react-burger-menu-btn").click()
         buttonList = browser.find_element(by=By.CLASS_NAME, value="bm-item-list").find_elements(by=By.TAG_NAME, value="a")
         WebDriverWait(browser, 60).until(expected_conditions.element_to_be_clickable(buttonList[2]))
@@ -299,7 +299,7 @@ class TestCases(unittest.TestCase):
         browser.find_element(By.ID, "back-to-products").click()
 
         print(f"Finished checkout")
-        # Logout
+        WebDriverWait(browser, 5).until(expected_conditions.element_to_be_clickable(browser.find_element(by=By.ID, value="react-burger-menu-btn")))
         browser.find_element(by=By.ID, value="react-burger-menu-btn").click()
         buttonList = browser.find_element(by=By.CLASS_NAME, value="bm-item-list").find_elements(by=By.TAG_NAME, value="a")
         WebDriverWait(browser, 60).until(expected_conditions.element_to_be_clickable(buttonList[2]))
@@ -417,7 +417,7 @@ class TestCases(unittest.TestCase):
         browser.find_element(By.ID, "back-to-products").click()
 
         print(f"Finished checkout")
-        # Logout
+        WebDriverWait(browser, 5).until(expected_conditions.element_to_be_clickable(browser.find_element(by=By.ID, value="react-burger-menu-btn")))
         browser.find_element(by=By.ID, value="react-burger-menu-btn").click()
         buttonList = browser.find_element(by=By.CLASS_NAME, value="bm-item-list").find_elements(by=By.TAG_NAME, value="a")
         WebDriverWait(browser, 60).until(expected_conditions.element_to_be_clickable(buttonList[2]))
