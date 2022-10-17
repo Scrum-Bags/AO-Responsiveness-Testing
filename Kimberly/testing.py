@@ -196,5 +196,9 @@
 # path = path.replace('\\', '/')
 # print(path)
 
+foo = []
+bar = ["James", "Came", "Don", "Phil"]
 
-
+for i in range(5):
+    foo.append(i)
+print(f"{str(bar)[1:-2]}")

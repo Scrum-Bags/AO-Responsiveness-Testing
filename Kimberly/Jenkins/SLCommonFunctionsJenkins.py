@@ -14,8 +14,8 @@ def mytime():
 
 def rand ():
     random.seed()
-    w = random.randint(700, 4069)
-    h = random.randint(700, 2160)
+    w = random.randint(300, 4069)
+    h = random.randint(600, 2160)
     return {w, h}
 
 def login(
