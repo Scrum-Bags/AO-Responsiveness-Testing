@@ -10,7 +10,7 @@ from SLCommonFunctionsJenkins import loginHeadless, mytime, rand
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions
 
-# Comment
+# Commented
 class TestCases(unittest.TestCase):
     
     def test_001_login_logout(self):
