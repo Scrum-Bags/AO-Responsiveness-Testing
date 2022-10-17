@@ -10,7 +10,7 @@ from SLCommonFunctionsJenkins import loginHeadless, mytime, rand
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions
 
-# Commented
+
 class TestCases(unittest.TestCase):
     
     def test_001_login_logout(self):
@@ -26,7 +26,7 @@ class TestCases(unittest.TestCase):
         
         TCN = "SwagLabsHeadlessWebSize"
         r = 2
-        reporter.addTestCase(TCN, "TC003", "User will be loging in and out of the SwagLabs Website")
+        reporter.addTestCase(TCN, "TC001", "User will be loging in and out of the SwagLabs Website")
 
         print(f"Starting to Login...")
         if browser.find_element(by=By.CLASS_NAME, value="login-box"):
@@ -46,7 +46,7 @@ class TestCases(unittest.TestCase):
         print(f"Logged out")
         print(f"#########################################")
 
-    def test_002_place_order(self):
+    def atest_002_place_order(self):
         print(f"#########################################")
         reporter = TestSuiteReporter.TestSuiteReporter("SwagLabsJenkins", f"{userStr}/Reports", "Kimberly Modeste")
         wb = openpyxl.load_workbook(f"../TestCasesExcel.xlsx")

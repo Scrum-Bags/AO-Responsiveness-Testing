@@ -399,7 +399,7 @@ class TestCases(unittest.TestCase):
     #     dataString=f"Browser set to: {val}", screenshotCallback=browser.find_element(by=By.TAG_NAME, value='body').screenshot, 
     #     imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCN}/img{mytime()}", imageEmbed=False)
       
-    def test_005_place_order(self):
+    def atest_005_place_order(self):
         reporter = TestSuiteReporter.TestSuiteReporter("SwagLabs", f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/Reports", "Kimberly Modeste")
         wb = openpyxl.load_workbook(f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/TestCasesExcel.xlsx")
         wsBrowseStore = wb["SLPlaceOrder"]      
@@ -488,5 +488,39 @@ class TestCases(unittest.TestCase):
         screenshotCallback=browser.find_element(by=By.TAG_NAME, value='body').screenshot, 
         imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCN}/img{mytime()}", imageEmbed=False)
 
+    def test_006_login_logout(self):
+        print(f"#########################################")
+        reporter = TestSuiteReporter.TestSuiteReporter("SwagLabs", f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/Reports", "Kimberly Modeste")
+        wb = openpyxl.load_workbook(f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/TestCasesExcel.xlsx")
+        wsBrowseStore = wb["SLPlaceOrder"]      
+
+        option = Options()
+        option.headless = True
+        browser = webdriver.Chrome(options=option)
+        browser.get('https://www.saucedemo.com/')
+        print(f"Browser Opened: {browser.title}")
+        
+        TCN = "SwagLabsHeadlessWebSize"
+        r = 2
+        reporter.addTestCase(TCN, "TC001", "User will be loging in and out of the SwagLabs Website")
+
+        print(f"Starting to Login...")
+        if browser.find_element(by=By.CLASS_NAME, value="login-box"):
+            loginHeadless(browser, reporter,TCN)
+        print(f"Login completed")
+
+        # Logout
+        browser.find_element(by=By.ID, value="react-burger-menu-btn").click()
+        buttonList = browser.find_element(by=By.CLASS_NAME, value="bm-item-list").find_elements(by=By.TAG_NAME, value="a")
+        WebDriverWait(browser, 60).until(expected_conditions.element_to_be_clickable(buttonList[2]))
+        buttonList[2].click()
+
+        reporter[TCN].reportStep(stepDescription="User should click the hamburger and logout", 
+        expectedBehavior="Pass", actualBehavior="Pass", testStatus=True, dataString="", 
+        screenshotCallback=browser.find_element(by=By.TAG_NAME, value='body').screenshot, 
+        imagePath=f"{userStr}/OneDrive/Documents/UFTOne/tests/selenium/Test/Kimberly/.screenshots/{TCN}/img{mytime()}", imageEmbed=False)
+
+        print(f"Logged out")
+        print(f"#########################################")
 
 unittest.main()
