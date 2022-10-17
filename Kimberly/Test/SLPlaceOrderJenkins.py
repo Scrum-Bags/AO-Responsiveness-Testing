@@ -395,7 +395,7 @@ class TestCases(unittest.TestCase):
       
         option = Options()
         option.headless = True
-        browser = webdriver.Firefox(options=option)
+        browser = webdriver.Chrome(options=option)
         browser.get('https://www.saucedemo.com/')
         print(f"Browser Opened: {browser.title}")
         
