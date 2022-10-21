@@ -19,8 +19,8 @@ class TestCases(unittest.TestCase):
     def test_001_login_logout(self):
         print(f"#########################################")
         imageFolders = []
-        imageFolders.append("SwagLabs")
-        reporter = TestSuiteReporter.TestSuiteReporter("SwagLabs", f"{userStr}/Reports", "Kimberly Modeste")
+        imageFolders.append("SwagLabsJenkins")
+        reporter = TestSuiteReporter.TestSuiteReporter("SwagLabsJenkins", f"{userStr}/Reports", "Kimberly Modeste")
         wb = openpyxl.load_workbook(f"../TestCasesExcel.xlsx")  
       
         option = Options()
@@ -52,16 +52,16 @@ class TestCases(unittest.TestCase):
         print(f"Logged out")
         print(f"#########################################")
 
-        del reporter
-        zipObj = zipfile.ZipFile("SwagLabs.zip", 'w')
-        zipObj.write("SwagLabs.html")
+        # del reporter
+        zipObj = zipfile.ZipFile("SwagLabsJenkins.zip", 'w')
+        zipObj.write("SwagLabsJenkins.html")
         for folder in imageFolders:
             for image in os.listdir("./.screenshots/"+folder+"/"):
                 zipObj.write("./.screenshots/"+folder+"/"+image)
         zipObj.close()
-        upload_file("SwagLabs.zip","scrumbags-reports")
+        upload_file("SwagLabsJenkins.zip","scrumbags-reports")
 
-    def atest_002_place_order(self):
+    def test_002_place_order(self):
         print(f"#########################################")
         reporter = TestSuiteReporter.TestSuiteReporter("SwagLabsJenkins", f"{userStr}/Reports", "Kimberly Modeste")
         wb = openpyxl.load_workbook(f"../TestCasesExcel.xlsx")
