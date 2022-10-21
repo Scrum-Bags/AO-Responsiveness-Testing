@@ -52,9 +52,9 @@ class TestCases(unittest.TestCase):
         print(f"Logged out")
         print(f"#########################################")
 
-        # del reporter
+        del reporter
         zipObj = zipfile.ZipFile("SwagLabsJenkins.zip", 'w')
-        zipObj.write("./Kimberly/Reports/SwagLabsJenkins.html")
+        zipObj.write("./Reports/SwagLabsJenkins.html")
         for folder in imageFolders:
             for image in os.listdir("./.screenshots/"+folder+"/"):
                 zipObj.write("./.screenshots/"+folder+"/"+image)
