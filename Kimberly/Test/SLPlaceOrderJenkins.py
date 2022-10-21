@@ -1,6 +1,9 @@
 import unittest
 import openpyxl
 import random
+import os
+import zipfile
+from S3_Tool import upload_file
 userStr = ".."
 import TestSuiteReporter
 from selenium import webdriver
@@ -15,6 +18,8 @@ class TestCases(unittest.TestCase):
     
     def test_001_login_logout(self):
         print(f"#########################################")
+        imageFolders = []
+        imageFolders.append("SwagLabsJenkins")
         reporter = TestSuiteReporter.TestSuiteReporter("SwagLabsJenkins", f"{userStr}/Reports", "Kimberly Modeste")
         wb = openpyxl.load_workbook(f"../TestCasesExcel.xlsx")  
       
@@ -46,6 +51,15 @@ class TestCases(unittest.TestCase):
         imagePath=f"{userStr}/.screenshots/{TCN}/img{mytime()}", imageEmbed=False)
         print(f"Logged out")
         print(f"#########################################")
+
+        del reporter
+        zipObj = zipfile.ZipFile("SwagLabsJenkins.zip", 'w')
+        zipObj.write("SwagLabsJenkins.html")
+        for folder in imageFolders:
+            for image in os.listdir("./.screenshots/"+folder+"/"):
+                zipObj.write("./.screenshots/"+folder+"/"+image)
+        zipObj.close()
+        upload_file("SwagLabsJenkins.zip","scrumbags-reports")
 
     def test_002_place_order(self):
         print(f"#########################################")
