@@ -212,8 +212,8 @@ for i in range(len(s)):
     x = s.pop()
     if arr.count(x) < 5:
         print(x)
+print('Hi')
 
 # for i in range(len(arr)):
 #     if arr.count(arr[i]) == 1:
 #         print(arr[i])
-
