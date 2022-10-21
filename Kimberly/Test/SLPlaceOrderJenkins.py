@@ -55,10 +55,10 @@ class TestCases(unittest.TestCase):
 
         del reporter
         zipObj = zipfile.ZipFile("SwagLabsJenkins.zip", 'w')
-        zipObj.write("../Reports/SwagLabsJenkins.html")
+        zipObj.write(userStr+"/Reports/SwagLabsJenkins.html")
         for folder in imageFolders:
-            for image in os.listdir("./.screenshots/"+folder+"/"):
-                zipObj.write("./.screenshots/"+folder+"/"+image)
+            for image in os.listdir(userStr+"/.screenshots/"+folder+"/"):
+                zipObj.write(userStr+"/.screenshots/"+folder+"/"+image)
         zipObj.close()
         upload_file("SwagLabsJenkins.zip","scrumbags-reports")
 
