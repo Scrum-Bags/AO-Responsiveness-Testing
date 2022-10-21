@@ -19,7 +19,6 @@ class TestCases(unittest.TestCase):
     def test_001_login_logout(self):
         print(f"#########################################")
         imageFolders = []
-        imageFolders.append("SwagLabsHeadlessWebSize")
         reporter = TestSuiteReporter.TestSuiteReporter("SwagLabsJenkins", f"{userStr}/Reports", "Kimberly Modeste")
        
         wb = openpyxl.load_workbook(f"../TestCasesExcel.xlsx")  
@@ -31,6 +30,7 @@ class TestCases(unittest.TestCase):
         print(f"Browser Opened: {browser.title}")
         
         TCN = "SwagLabsHeadlessWebSize"
+        imageFolders.append(TCN)
         r = 2
         reporter.addTestCase(TCN, "TC001", "User will be loging in and out of the SwagLabs Website")
 
