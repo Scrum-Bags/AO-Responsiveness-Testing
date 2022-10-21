@@ -54,7 +54,7 @@ class TestCases(unittest.TestCase):
 
         # del reporter
         zipObj = zipfile.ZipFile("SwagLabsJenkins.zip", 'w')
-        zipObj.write("./Reports/SwagLabsJenkins.html")
+        zipObj.write("./Kimberly/Reports/SwagLabsJenkins.html")
         for folder in imageFolders:
             for image in os.listdir("./.screenshots/"+folder+"/"):
                 zipObj.write("./.screenshots/"+folder+"/"+image)
