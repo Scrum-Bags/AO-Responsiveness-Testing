@@ -19,7 +19,7 @@ class TestCases(unittest.TestCase):
     def test_001_login_logout(self):
         print(f"#########################################")
         imageFolders = []
-        imageFolders.append("SwagLabsJenkins")
+        imageFolders.append("SwagLabsHeadlessWebSize")
         reporter = TestSuiteReporter.TestSuiteReporter("SwagLabsJenkins", f"{userStr}/Reports", "Kimberly Modeste")
        
         wb = openpyxl.load_workbook(f"../TestCasesExcel.xlsx")  
@@ -57,8 +57,8 @@ class TestCases(unittest.TestCase):
         zipObj = zipfile.ZipFile("SwagLabsJenkins.zip", 'w')
         zipObj.write(userStr+"/Reports/SwagLabsJenkins.html")
         for folder in imageFolders:
-            for image in os.listdir("./.screenshots/"+folder+"/"):
-                zipObj.write("./.screenshots/"+folder+"/"+image)
+            for image in os.listdir(userStr+"/.screenshots/"+folder+"/"):
+                zipObj.write(userStr+"/.screenshots/"+folder+"/"+image)
         zipObj.close()
         upload_file("SwagLabsJenkins.zip","scrumbags-reports")
 
