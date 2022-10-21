@@ -3,6 +3,7 @@ import openpyxl
 import random
 import os
 import zipfile
+import time
 from S3_Tool import upload_file
 userStr = ".."
 import TestSuiteReporter
@@ -15,13 +16,21 @@ from selenium.webdriver.support import expected_conditions
 
 
 class TestCases(unittest.TestCase):
-    
+    def __init__(self, *args, **kwargs):
+        super(TestCases, self).__init__(*args, **kwargs)
+
+    def setUpClass(cls):
+        cls.imageFolders = []
+        cls.timestr = time.strftime("%Y-%m-%d--%I_%M_%S%p")
+        cls.reporter = TestSuiteReporter.TestSuiteReporter(cls.timestr, "./", "Kimberly")
+        cls.screenshotPath = ""
+        cls.path = "TestCasesExcel.xlsx"
+
     def test_001_login_logout(self):
         print(f"#########################################")
         imageFolders = []
         imageFolders.append("SwagLabsJenkins")
         reporter = TestSuiteReporter.TestSuiteReporter("SwagLabsJenkins", f"{userStr}/Reports", "Kimberly Modeste")
-       
         wb = openpyxl.load_workbook(f"../TestCasesExcel.xlsx")  
       
         option = Options()
@@ -55,7 +64,7 @@ class TestCases(unittest.TestCase):
 
         del reporter
         zipObj = zipfile.ZipFile("SwagLabsJenkins.zip", 'w')
-        zipObj.write("../Reports/SwagLabsJenkins.html")
+        zipObj.write("./Kimberly/Reports/SwagLabsJenkins.html")
         for folder in imageFolders:
             for image in os.listdir("./.screenshots/"+folder+"/"):
                 zipObj.write("./.screenshots/"+folder+"/"+image)
