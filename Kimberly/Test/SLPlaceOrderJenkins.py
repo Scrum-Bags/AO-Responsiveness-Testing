@@ -61,7 +61,8 @@ class TestCases(unittest.TestCase):
         zipObj.close()
         upload_file("SwagLabsJenkins.zip","scrumbags-reports")
 
-    def test_002_place_order(self):
+    #Commented
+    def atest_002_place_order(self):
         print(f"#########################################")
         reporter = TestSuiteReporter.TestSuiteReporter("SwagLabsJenkins", f"{userStr}/Reports", "Kimberly Modeste")
         wb = openpyxl.load_workbook(f"../TestCasesExcel.xlsx")
