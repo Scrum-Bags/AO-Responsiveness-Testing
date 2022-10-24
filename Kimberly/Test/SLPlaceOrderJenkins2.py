@@ -16,7 +16,7 @@ from selenium.webdriver.support import expected_conditions
 
 class TestCases(unittest.TestCase):
     
-    @classmethod
+    # @classmethod
     def __init__(self, *args, **kwargs):
         super(TestCases, self).__init__(*args, **kwargs)
         self.timestr = "SwagLabsHeadless"+mytime()
@@ -80,4 +80,4 @@ class TestCases(unittest.TestCase):
             
 
 
-# unittest.main()
+unittest.main()
