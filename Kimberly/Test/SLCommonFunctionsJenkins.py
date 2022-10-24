@@ -1,4 +1,5 @@
 import random
+import string
 userStr = ".."
 import TestSuiteReporter
 from datetime import datetime
