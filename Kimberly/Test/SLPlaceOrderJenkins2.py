@@ -79,6 +79,7 @@ class TestCases(unittest.TestCase):
         print(f"Browser Opened: {browser.title}")
         
         TCN = "SwagLabsHeadlessWebSize"
+        self.imageFolders.append(TCN)
         r = 2
         self.reporter.addTestCase(TCN, "TC002", "User will be purchasing from the SwagLabs website in headless mode randomly changing the size of the screen")
 
@@ -151,8 +152,8 @@ class TestCases(unittest.TestCase):
 
         
         browser.find_element(By.ID, "continue").click()
-        self.reporter[TCN].reportStep(stepDescription=wsBrowseStore.cell(row = r, column = 5).value, expectedBehavior=wsBrowseStore.cell(row = r+1, column = 5).value, 
-        actualBehavior=ActualBehavior, testStatus=ActualBehavior==wsBrowseStore.cell(row = r+1, column = 5).value, dataString="", 
+        self.reporter[TCN].reportStep(stepDescription=wsBrowseStore.cell(row = r+1, column = 5).value, expectedBehavior=wsBrowseStore.cell(row = r, column = 5).value, 
+        actualBehavior=(ActualBehavior==wsBrowseStore.cell(row = r, column = 5).value), testStatus=True, dataString="", 
         screenshotCallback=browser.find_element(by=By.TAG_NAME, value='body').screenshot, 
         imagePath=''+'img'+mytime(), imageEmbed=False)
         print(f"Clicked Continue")
