@@ -12,6 +12,7 @@ imageFolders = []
 imageFolders.append("SwagLabsHeadlessWebSize")
 
 for folder in imageFolders:
+    print(folder)
     for image in os.listdir("../.screenshots/"+folder+"/"):
         print(image)
-    print(folder)
+

@@ -20,10 +20,6 @@ class TestCases(unittest.TestCase):
     # @classmethod
     def __init__(self, *args, **kwargs):
         super(TestCases, self).__init__(*args, **kwargs)
-        # self.timestr = "SwagLabsHeadless"+mytime()
-        # self.reporter = TestSuiteReporter.TestSuiteReporter(self.timestr, "../Reports", "Kimberly Modeste")
-        # self.screenshotPath = "../.screenshots/"
-        # self.path = "../TestCasesExcel.xlsx"
 
     @classmethod
     def setUpClass(cls):
@@ -32,10 +28,6 @@ class TestCases(unittest.TestCase):
         cls.reporter = TestSuiteReporter.TestSuiteReporter(cls.timestr, "../Reports/", "Kimberly Modeste")
         cls.screenshotPath = "../.screenshots/"
         cls.path = "../TestCasesExcel.xlsx"
-        # cls.timestr = time.strftime("%Y-%m-%d--%I_%M_%S%p")
-        # cls.reporter = HTML_Reporting.TestSuiteReporter(cls.timestr, "./", "Jason")
-        # cls.screenshotPath = ""
-        # cls.path = "InputData.xlsm"
 
 
     def test_001_login_logout(self):
@@ -69,7 +61,7 @@ class TestCases(unittest.TestCase):
         self.reporter[TCN].reportStep(stepDescription="User should click the hamburger and logout", 
         expectedBehavior="Pass", actualBehavior="Pass", testStatus=True, dataString="", 
         screenshotCallback=browser.find_element(by=By.TAG_NAME, value='body').screenshot, 
-        imagePath=self.screenshotPath+'img/'+mytime(), imageEmbed=False)
+        imagePath=self.screenshotPath+TCN+'/img/'+mytime(), imageEmbed=False)
         print(f"Logged out")
         print(f"#########################################")
         browser.close()
@@ -89,22 +81,4 @@ class TestCases(unittest.TestCase):
         upload_file(cls.timestr+".zip","scrumbags-reports")
 
 
-    # def tearDown(self):
-    #     self.browser.close()
-
-    # @classmethod
-    # def tearDownClass(self):
-    #     # del self.reporter
-    #     zipObj = zipfile.ZipFile(self.timestr+".zip", 'w')
-    #     zipObj.write("../Reports/"+self.timestr + ".html")
-    #     for folder in self.imageFolders:
-    #         for image in os.listdir("../.screenshots/"+folder+"/"):
-    #             zipObj.write("../.screenshots/"+folder+"/"+image)
-    #     zipObj.close()
-    #     upload_file(self.timestr+".zip","scrumbags-reports")
-            
-
-if __name__ == "__main__":
-    unittest.main(warnings='ignore')
-
-# unittest.main()
+unittest.main()
