@@ -16,6 +16,7 @@ from selenium.webdriver.support import expected_conditions
 
 class TestCases(unittest.TestCase):
     
+    @classmethod
     def __init__(self, *args, **kwargs):
         super(TestCases, self).__init__(*args, **kwargs)
         self.timestr = "SwagLabsHeadless"+mytime()
@@ -23,6 +24,7 @@ class TestCases(unittest.TestCase):
         self.screenshotPath = "../.screenshots/"
         self.path = "../TestCasesExcel.xlsx"
 
+    @classmethod
     def setUp(self):
         self.imageFolders = []
         options = Options()
@@ -67,7 +69,7 @@ class TestCases(unittest.TestCase):
 
     @classmethod
     def tearDownClass(self):
-        # del self.reporter
+        del self.reporter
         zipObj = zipfile.ZipFile(self.timestr+".zip", 'w')
         zipObj.write("../Reports/"+self.timestr + ".html")
         for folder in self.imageFolders:
