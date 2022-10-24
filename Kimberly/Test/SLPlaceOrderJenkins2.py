@@ -64,8 +64,8 @@ class TestCases(unittest.TestCase):
         print(f"#########################################")
 
 
-    def tearDown(self):
-        self.browser.close()
+    # def tearDown(self):
+    #     self.browser.close()
 
     @classmethod
     def tearDownClass(self):
