@@ -25,7 +25,7 @@ class TestCases(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.imageFolders = []
-        cls.timestr = "SwagLabs"+mytime()
+        cls.timestr = "SwagLabsJenkins"+mytime()
         cls.reporter = TestSuiteReporter.TestSuiteReporter(cls.timestr, "./", "Kimberly Modeste")
         cls.screenshotPath = "../.screenshots/"
         cls.path = "../TestCasesExcel.xlsx"
@@ -67,7 +67,7 @@ class TestCases(unittest.TestCase):
         print(f"#########################################")
         browser.close()
      
-    def atest_002_place_order(self):
+    def test_002_place_order(self):
         print(f"#########################################")
         wb = openpyxl.load_workbook(f"../TestCasesExcel.xlsx")
         wsBrowseStore = wb["SLPlaceOrder"]      
