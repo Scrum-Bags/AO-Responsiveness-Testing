@@ -106,5 +106,7 @@ class TestCases(unittest.TestCase):
     #     upload_file(self.timestr+".zip","scrumbags-reports")
             
 
+if __name__ == "__main__":
+    unittest.main(warnings='ignore')
 
 # unittest.main()
