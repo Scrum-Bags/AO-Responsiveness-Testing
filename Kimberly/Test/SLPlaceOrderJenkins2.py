@@ -1,3 +1,4 @@
+from time import sleep
 import unittest
 import openpyxl
 import random
@@ -53,7 +54,8 @@ class TestCases(unittest.TestCase):
         WebDriverWait(self.browser, 5).until(expected_conditions.element_to_be_clickable(self.browser.find_element(by=By.ID, value="react-burger-menu-btn")))
         self.browser.find_element(by=By.ID, value="react-burger-menu-btn").click()
         buttonList = self.browser.find_element(by=By.CLASS_NAME, value="bm-item-list").find_elements(by=By.TAG_NAME, value="a")
-        WebDriverWait(self.browser, 60).until(expected_conditions.element_to_be_clickable(buttonList[2]))
+        # WebDriverWait(self.browser, 60).until(expected_conditions.element_to_be_clickable(buttonList[2]))
+        sleep(5)
         buttonList[2].click()
 
         self.reporter[TCN].reportStep(stepDescription="User should click the hamburger and logout", 
@@ -69,7 +71,7 @@ class TestCases(unittest.TestCase):
 
     @classmethod
     def tearDownClass(self):
-        del self.reporter
+        # del self.reporter
         zipObj = zipfile.ZipFile(self.timestr+".zip", 'w')
         zipObj.write("../Reports/"+self.timestr + ".html")
         for folder in self.imageFolders:
