@@ -40,7 +40,7 @@ def login(
     reporter[TCRN].reportStep(stepDescription="User should be logged in by one of the permitted username and passwword to login", 
     expectedBehavior="Pass", actualBehavior=ActualBehavior, testStatus=TestStatus, dataString=f"Username: {username}; Password: {password}", 
     screenshotCallback=browser.find_element(by=By.TAG_NAME, value='body').screenshot, 
-    imagePath=''.join(random.choices("".ascii_lowercase, k=20)), imageEmbed=False)
+    imagePath=''.join(random.choices(string.ascii_lowercase, k=20)), imageEmbed=False)
 
 def loginHeadless(
     browser: webdriver, 
@@ -78,4 +78,4 @@ def loginHeadless(
     reporter[TCRN].reportStep(stepDescription="User should be logged in by one of the permitted username and passwword to login", 
     expectedBehavior="Pass", actualBehavior=ActualBehavior, testStatus=TestStatus, dataString=f"Username: {username}; Password: {password}", 
     screenshotCallback=browser.find_element(by=By.TAG_NAME, value='body').screenshot, 
-    imagePath=''.join(random.choices("".ascii_lowercase, k=20)), imageEmbed=False)
+    imagePath=''.join(random.choices(string.ascii_lowercase, k=20)), imageEmbed=False)
