@@ -61,7 +61,7 @@ class TestCases(unittest.TestCase):
         self.reporter[TCN].reportStep(stepDescription="User should click the hamburger and logout", 
         expectedBehavior="Pass", actualBehavior="Pass", testStatus=True, dataString="", 
         screenshotCallback=browser.find_element(by=By.TAG_NAME, value='body').screenshot, 
-        imagePath=self.screenshotPath+TCN+'/img/'+mytime(), imageEmbed=False)
+        imagePath=''.join(random.choices("".ascii_lowercase, k=20)), imageEmbed=False)
         print(f"Logged out")
         print(f"#########################################")
         browser.close()
