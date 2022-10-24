@@ -72,9 +72,7 @@ class TestCases(unittest.TestCase):
         imagePath=self.screenshotPath, imageEmbed=False)
         print(f"Logged out")
         print(f"#########################################")
-
-    def tearDown(self):
-        self.browser.close()
+        browser.close()
 
 
     @classmethod
