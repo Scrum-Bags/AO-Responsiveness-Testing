@@ -54,7 +54,7 @@ class TestCases(unittest.TestCase):
         WebDriverWait(self.browser, 60).until(expected_conditions.element_to_be_clickable(buttonList[2]))
         buttonList[2].click()
 
-        self.reporter[TCN].reportEvent(stepDescription="User should click the hamburger and logout", 
+        self.reporter[TCN].reportStep(stepDescription="User should click the hamburger and logout", 
         expectedBehavior="Pass", actualBehavior="Pass", testStatus=True, dataString="", 
         screenshotCallback=self.browser.find_element(by=By.TAG_NAME, value='body').screenshot, 
         imagePath=self.screenshotPath)
@@ -63,11 +63,11 @@ class TestCases(unittest.TestCase):
 
 
     def tearDown(self):
-        self.driver.close()
+        self.browser.close()
 
     @classmethod
     def tearDownClass(self):
-        del self.reporter
+        # del self.reporter
         zipObj = zipfile.ZipFile(self.timestr+".zip", 'w')
         zipObj.write("../Reports/"+self.timestr + ".html")
         for folder in self.imageFolders:
