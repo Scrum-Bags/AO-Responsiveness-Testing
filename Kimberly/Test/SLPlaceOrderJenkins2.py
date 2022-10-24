@@ -77,7 +77,7 @@ class TestCases(unittest.TestCase):
             print(folder)
             for image in os.listdir("./.screenshots/"+folder+"/"):
                 print(image)
-                zipObj.write("../.screenshots/"+folder+"/"+image)
+                zipObj.write("./.screenshots/"+folder+"/"+image)
         zipObj.close()
         upload_file(cls.timestr+".zip","scrumbags-reports")
 
