@@ -80,7 +80,9 @@ class TestCases(unittest.TestCase):
         zipObj = zipfile.ZipFile(cls.timestr+".zip", 'w')
         zipObj.write("../Reports/"+cls.timestr + ".html")
         for folder in cls.imageFolders:
+            print(folder)
             for image in os.listdir("../.screenshots/"+folder+"/"):
+                print(image)
                 zipObj.write("../.screenshots/"+folder+"/"+image)
         zipObj.close()
         upload_file(cls.timestr+".zip","scrumbags-reports")
