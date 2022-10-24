@@ -73,6 +73,9 @@ class TestCases(unittest.TestCase):
         print(f"Logged out")
         print(f"#########################################")
 
+    def tearDown(self):
+        self.browser.close()
+
 
     @classmethod
     def tearDownClass(cls):
@@ -104,4 +107,4 @@ class TestCases(unittest.TestCase):
             
 
 
-unittest.main()
+# unittest.main()
