@@ -75,7 +75,7 @@ class TestCases(unittest.TestCase):
         zipObj.write("../Reports/"+cls.timestr + ".html")
         for folder in cls.imageFolders:
             print(folder)
-            for image in os.listdir("../.screenshots/"+folder+"/"):
+            for image in os.listdir("./.screenshots/"+folder+"/"):
                 print(image)
                 zipObj.write("../.screenshots/"+folder+"/"+image)
         zipObj.close()
