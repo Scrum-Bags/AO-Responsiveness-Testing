@@ -42,7 +42,7 @@ class TestCases(unittest.TestCase):
         browser.get('https://www.saucedemo.com/')
         print(f"Browser Opened: {browser.title}")
         
-        TCN = "SwagLabsHeadlessLoginout"
+        TCN = "SwagLabsHeadlessLoginout_".join(random.choices(string.ascii_lowercase, k=20))
         self.imageFolders.append(TCN)
         r = 2
         self.reporter.addTestCase(TCN, "TC001", "User will be loging in and out of the SwagLabs Website")
@@ -78,7 +78,7 @@ class TestCases(unittest.TestCase):
         browser.get('https://www.saucedemo.com/')
         print(f"Browser Opened: {browser.title}")
         
-        TCN = "SwagLabsHeadlessWebSize"
+        TCN = "SwagLabsHeadlessWebSize".join(random.choices(string.ascii_lowercase, k=20))
         self.imageFolders.append(TCN)
         r = 2
         self.reporter.addTestCase(TCN, "TC002", "User will be purchasing from the SwagLabs website in headless mode randomly changing the size of the screen")
