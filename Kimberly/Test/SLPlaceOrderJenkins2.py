@@ -72,11 +72,9 @@ class TestCases(unittest.TestCase):
     def tearDownClass(cls):
         del cls.reporter
         zipObj = zipfile.ZipFile(cls.timestr+".zip", 'w')
-        zipObj.write("../Reports/"+cls.timestr + ".html")
+        zipObj.write(cls.timestr + ".html")
         for folder in cls.imageFolders:
-            print(folder)
             for image in os.listdir("./.screenshots/"+folder+"/"):
-                print(image)
                 zipObj.write("./.screenshots/"+folder+"/"+image)
         zipObj.close()
         upload_file(cls.timestr+".zip","scrumbags-reports")
