@@ -29,7 +29,7 @@ class TestCases(unittest.TestCase):
     def setUpClass(cls):
         cls.imageFolders = []
         cls.timestr = "SwagLabsHeadless"+mytime()
-        cls.reporter = TestSuiteReporter.TestSuiteReporter(cls.timestr, "../Reports", "Kimberly Modeste")
+        cls.reporter = TestSuiteReporter.TestSuiteReporter(cls.timestr, "../Reports/", "Kimberly Modeste")
         cls.screenshotPath = "../.screenshots/"
         cls.path = "../TestCasesExcel.xlsx"
         # cls.timestr = time.strftime("%Y-%m-%d--%I_%M_%S%p")
