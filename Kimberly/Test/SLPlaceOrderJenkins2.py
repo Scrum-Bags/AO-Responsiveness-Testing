@@ -6,7 +6,6 @@ import random
 import os
 import zipfile
 from S3_Tool import upload_file
-userStr = ".."
 import TestSuiteReporter
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
