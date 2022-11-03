@@ -37,8 +37,6 @@ class AO_Login():
         print("***Logging into Advantage Online***")
         driver = self.driver
 
-        #print("5555555555555555555555555555555555555555555555555555555555555555555")
-        #print(self.MobileCheck())
         mobile = self.MobileCheck()
 
         #determine if mobile dropdown is present
@@ -97,9 +95,7 @@ class AO_Login():
             WebDriverWait(driver, 60).until(EC.element_to_be_clickable((AO_Login_Objects.By_user_menu)))
         else:
             WebDriverWait(driver, 60).until(EC.element_to_be_clickable((AO_Login_Objects.By_mobile_dropdown)))
-            #driver.find_element(*AO_Login_Objects.By_mobile_dropdown).click()
-            #WebDriverWait(driver, 10).until(EC.text_to_be_present_in_element((AO_Login_Objects.By_user_menu_m_indicator), username))
-        #time.sleep(1)
+
         if len(driver.find_elements(*AO_Login_Objects.By_user_menu))>0:
             reporter.reportStep("Press submit and login","User dashboard should appear","Login successful",True,"", driver.find_element(By.TAG_NAME, "body").screenshot, ssPath + ''.join(random.choices(string.ascii_lowercase, k=20)))
             print("Login successful")
@@ -117,17 +113,12 @@ class AO_Login():
     def AO_login_remember_test(self, reporter, ssPath, username, password):
         driver = self.driver
 
-##        while len(self.driver.find_elements(*AO_Login_Objects.By_login_menu))==0:
-##            #loop until load
-##            pass
+
         WebDriverWait(driver, 60).until(EC.element_to_be_clickable((AO_Login_Objects.By_login_menu)))
 
         driver.find_element(*AO_Login_Objects.By_login_menu).click()
 
 
-##        while len(self.driver.find_elements(*AO_Login_Objects.By_login_field))==0:
-##            #loop until load
-##            pass
         WebDriverWait(driver, 60).until(EC.element_to_be_clickable((AO_Login_Objects.By_login_field)))
         
         self.username_field = self.driver.find_element(*AO_Login_Objects.By_login_field)
@@ -153,11 +144,8 @@ class AO_Login():
         if rememberObj.is_selected() == False:
             rememberObj.click()
 
-        #THIS SLEEP WORKS, REPLACE WITH A WEBDRIVERWAIT SOMEHOW
         elem2.send_keys(Keys.RETURN)
-        #WebDriverWait(driver, 60).until(EC.element_to_be_clickable((AO_Login_Objects.By_user_menu)))
         WebDriverWait(driver, 60).until(EC.invisibility_of_element((AO_Login_Objects.By_login_field)))
-        #time.sleep(8)
         
         if len(driver.find_elements(*AO_Login_Objects.By_user_menu))>0:
             reporter.reportStep("Press submit and login","User dashboard should appear","Login successful",True,"", driver.find_element(*AO_Login_Objects.By_user_menu).screenshot, ssPath + ''.join(random.choices(string.ascii_lowercase, k=20)))
@@ -167,9 +155,6 @@ class AO_Login():
         self.username=username
         self.password=password
 
-##        #refresh the page
-##        driver.get("https://www.advantageonlineshopping.com/#/")
-##        time.sleep(3)
         self.Launch_Login_Page()
 
         
@@ -182,14 +167,7 @@ class AO_Login():
         else:
             reporter.reportStep("Refresh page after logging in","User dashboard should appear","Remember user unsuccessful",False,"", driver.find_element(*AO_Login_Objects.By_user_menu).screenshot, ssPath + ''.join(random.choices(string.ascii_lowercase, k=20)))
 
-        #refresh the page
-        #driver.get("https://www.advantageonlineshopping.com/#/")
-        #time.sleep(5)
-        
-        #check that username, password, and remember_me are still there
-##        while len(driver.find_elements(*AO_Login_Objects.By_login_menu))==0:
-##            #loop until load
-##            pass
+
         try:
             WebDriverWait(self.driver, 15).until(EC.visibility_of_element_located((AO_Login_Objects.By_load_screen)))
             WebDriverWait(self.driver, 60).until(EC.invisibility_of_element_located((AO_Login_Objects.By_load_screen)))
@@ -197,13 +175,7 @@ class AO_Login():
             pass
         WebDriverWait(driver, 60).until(EC.element_to_be_clickable((AO_Login_Objects.By_login_menu)))
         driver.find_element(*AO_Login_Objects.By_login_menu).click()
-        #driver.find_element(*AO_Login_Objects.By_login_menu).click()
-##        while len(driver.find_elements(*AO_Login_Objects.By_login_field))==0:
-##            #loop until load
-##            pass
-##        #hard wait for screenshots
-##        time.sleep(10)
-        #print("waiting for it to appear")
+
         WebDriverWait(self.driver, 60).until(EC.visibility_of_element_located((AO_Login_Objects.By_login_field)))
 
         
@@ -225,15 +197,15 @@ class AO_Login():
             reporter.reportStep("Get value of 'remember me' button","The 'remember me' button is still checked","'Remember me' is false",False,"", driver.find_element(*AO_Login_Objects.By_remember_user).screenshot, ssPath + ''.join(random.choices(string.ascii_lowercase, k=20)))
         #log back in with remember me disabled to reset state for future tests
         elem2.send_keys(Keys.RETURN)
-##        time.sleep(3)
+
         WebDriverWait(driver, 60).until(EC.element_to_be_clickable((AO_Login_Objects.By_user_menu)))
         self.AO_logout(reporter, ssPath)
-        #driver.find_element(*AO_Login_Objects.By_close_login_menu).click()
+
 
     def AO_logout(self, reporter, ssPath):
         print("***Logging out of Advantage Online***")
         driver = self.driver
-        #driver.get("http://automationpractice.com/index.php?controller=authentication&back=my-account")
+
 
         mobile = self.MobileCheck()
 
@@ -273,15 +245,9 @@ class AO_Login():
             password = ""
         
         #check that menu exists
-##        while len(self.driver.find_elements(*AO_Login_Objects.By_login_menu))==0:
-##            #loop until load
-##            pass
         WebDriverWait(driver, 60).until(EC.element_to_be_clickable((AO_Login_Objects.By_login_menu)))
         driver.find_element(*AO_Login_Objects.By_login_menu).click()
         #check that login field exists
-##        while len(self.driver.find_elements(*AO_Login_Objects.By_login_field))==0:
-##            #loop until load
-##            pass
         WebDriverWait(driver, 60).until(EC.element_to_be_clickable((AO_Login_Objects.By_login_field)))
         #enter username and password
         self.username_field = self.driver.find_element(*AO_Login_Objects.By_login_field)
